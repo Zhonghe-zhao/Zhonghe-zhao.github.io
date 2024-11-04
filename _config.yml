@@ -102,6 +102,6 @@ theme: butterfly
 ## Docs: https://hexo.io/docs/one-command-deployment
 deploy:
   type: git
-  repo: https://github.com/Whuichenggong/Whuichenggong.github.io.git
+  repo: git@github.com:Whuichenggong/Whuichenggong.github.io.git
 
   branch: master
