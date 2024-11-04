@@ -1,38 +1,30 @@
 ---
-title: Hello World
+title: 北京之旅
 ---
-Welcome to [Hexo](https://hexo.io/)! This is your very first post. Check [documentation](https://hexo.io/docs/) for more info. If you get any problems when using Hexo, you can find the answer in [troubleshooting](https://hexo.io/docs/troubleshooting.html) or you can ask me on [GitHub](https://github.com/hexojs/hexo/issues).
 
-## Quick Start
+## 开源社
+在偶然一次发现中 开源社举办了第九届中国开源年会，我很是激动，心中迅速萌发了去北京参加的冲动并和小伙伴赵冰
+决定这周五来一次说走就走的旅行~~~
 
-### Create a new post
+## 到达北京
+在周六的早上到达会场 扫了入场的码 领到了活动给的一些礼品 7点多我俩就到达了会场，刚开始觉得平平无奇，后来直到大会开始，陆陆续续的大家都来到了会场，开源社的
+老哥，老姐们开始了自己的演讲，我发现这真的不是一个普通大会，很多人报着开源的理念 一直维持着开源社，让开源社越来越大
+虽然是第一次参加，但是我对于这种氛围是非常的喜欢，各位有着自己想法的人都在开源社散发光辉，有为抗癌人士专门发布app的
+小胰宝等其他的产品，这令我深受触动，把科技真真正正的融合到了生活当中，使人们都能享受科技带来的便捷！大会中的每一个人的演讲都令我感到激动！但是对我印象的最深刻的就是**yihong0618**这个id，伊红老师的演讲令我眼前一亮心里一跳哈哈哈哈
+简直太爽啦！！！
+## yihong0618
+请大家自己去看伊洪老师的github，你真的能从中学到很多，在火车上我一直再看伊洪老师的github
+每一件事是写的那么的真诚，有很多我也感同身受，生活的迷茫原来真的不是自己才有，面临各种压力，各种抉择！做好自己。
+老师的仓库里也有非常多的实用的产品大家可以自己去看！！
 
-``` bash
-$ hexo new "My New Post"
-```
+[github] https://github.com/yihong0618
 
-More info: [Writing](https://hexo.io/docs/writing.html)
+在伊洪老师的演讲中，令我觉得钦佩的是，每一天的记录自己，我太喜欢这种感觉了，发布到github上，我也便想向这么做
+在4日赶回来我便从网上学习搭建博客，坚持记录每一天
 
-### Run server
+## 结语
+这次旅程，说走就走，哈哈哈，这才是大学生嘛，遇见了开源社的大家，我希望从今的每一天，慢慢的融入到开源社这个大家庭
 
-``` bash
-$ hexo server
-```
-
-More info: [Server](https://hexo.io/docs/server.html)
-
-### Generate static files
-
-``` bash
-$ hexo generate
-```
-
-More info: [Generating](https://hexo.io/docs/generating.html)
-
-### Deploy to remote sites
-
-``` bash
-$ hexo deploy
-```
-
-More info: [Deployment](https://hexo.io/docs/one-command-deployment.html)
+-感谢冰哥陪我这次旅行
+                                        
+                                                                        2024年11.4日
