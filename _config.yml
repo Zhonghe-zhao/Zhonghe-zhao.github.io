@@ -103,5 +103,4 @@ theme: butterfly
 deploy:
   type: git
   repo: git@github.com:Whuichenggong/Whuichenggong.github.io.git
-
   branch: master
