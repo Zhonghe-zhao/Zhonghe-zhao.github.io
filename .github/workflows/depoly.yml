@@ -3,7 +3,7 @@ name: Hexo Deploy
 on:
   push:
     branches:
-      - master  # 监听主分支的推送
+      - master  # 监听 master 分支的推送
 
 jobs:
   deploy:
@@ -22,9 +22,14 @@ jobs:
         run: |
           npm install
 
+      - name: Configure Git user
+        run: |
+          git config --global user.name "Whuichenggong"
+          git config --global user.email "3041322213@qq.com"
+
       - name: Generate and Deploy
         run: |
           npx hexo generate  # 使用 npx 来运行 hexo
           npx hexo deploy    # 使用 npx 来运行 hexo
         env:
-          HEXO_DEPLOY_PATH: 'master'  # 设置部署路径
+          HEXO_DEPLOY_PATH: 'master'  # 设置部署目标分支为 master
