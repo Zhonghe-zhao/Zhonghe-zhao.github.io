@@ -45,4 +45,4 @@ jobs:
         run: |
           npx hexo deploy  # 使用 npx 来进行 Hexo 部署
         env:
-          HEXO_DEPLOY_PATH: 'master'  # 设置部署路径
+          HEXO_DEPLOY_PATH: 'gh-pages'  # 设置部署路径
