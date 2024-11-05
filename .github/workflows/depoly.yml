@@ -20,16 +20,24 @@ jobs:
 
       - name: Install dependencies
         run: |
-          npm install
+          npm install  # 安装所有依赖项
+
+      - name: List project files
+        run: |
+          ls -alh  # 打印当前目录的文件结构
+          ls -alh themes/  # 确保 butterfly 主题存在
 
       - name: Configure Git user
         run: |
-          git config --global user.name "Whuichenggong"
-          git config --global user.email "3041322213@qq.com"
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "you@example.com"
 
-      - name: Generate and Deploy
+      - name: Generate static files with Hexo
         run: |
-          npx hexo generate  # 使用 npx 来运行 hexo
-          npx hexo deploy    # 使用 npx 来运行 hexo
+          npx hexo generate  # 使用 npx 来运行 Hexo生成静态文件
+
+      - name: Deploy with Hexo
+        run: |
+          npx hexo deploy  # 使用 npx 来进行 Hexo 部署
         env:
-          HEXO_DEPLOY_PATH: 'master'  # 设置部署目标分支为 master
+          HEXO_DEPLOY_PATH: 'master'  # 设置部署路径
