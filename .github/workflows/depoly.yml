@@ -1,0 +1,30 @@
+name: Hexo Deploy
+
+on:
+  push:
+    branches:
+      - main  # 监听主分支的推送
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+
+      - name: Install dependencies
+        run: |
+          npm install
+
+      - name: Generate and Deploy
+        run: |
+          hexo generate
+          hexo deploy
+        env:
+          HEXO_DEPLOY_PATH: 'gh-pages'  # 设置部署路径
+
