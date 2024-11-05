@@ -12,6 +12,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
+        with:
+          submodules: true  # 如果使用子模块，确保将其拉取
 
       - name: Setup Node.js
         uses: actions/setup-node@v2
@@ -25,16 +27,19 @@ jobs:
       - name: List project files
         run: |
           ls -alh  # 打印当前目录的文件结构
-          ls -alh themes/  # 确保 butterfly 主题存在
+          ls -alh themes/  # 确保 themes 目录存在并且包含 butterfly 主题
 
       - name: Configure Git user
         run: |
           git config --global user.name "GitHub Actions"
           git config --global user.email "you@example.com"
 
+      - name: Set HEXO_ROOT environment variable
+        run: echo "HEXO_ROOT=/github/workspace" >> $GITHUB_ENV  # 设置 Hexo 根目录
+
       - name: Generate static files with Hexo
         run: |
-          npx hexo generate  # 使用 npx 来运行 Hexo生成静态文件
+          npx hexo generate  # 使用 npx 来生成静态文件
 
       - name: Deploy with Hexo
         run: |
