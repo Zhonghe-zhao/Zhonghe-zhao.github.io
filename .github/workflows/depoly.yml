@@ -29,10 +29,18 @@ jobs:
           ls -alh  # 打印当前目录的文件结构
           ls -alh themes/  # 确保 themes 目录存在并且包含 butterfly 主题
 
+      - name: Set up SSH keys
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa  # 将私钥从 GitHub Secrets 中加载
+          chmod 600 ~/.ssh/id_rsa  # 确保私钥权限正确
+          ssh-keyscan github.com >> ~/.ssh/known_hosts  # 将 GitHub 的 SSH 公钥添加到 known_hosts
+
       - name: Configure Git user
         run: |
           git config --global user.name "GitHub Actions"
-          git config --global user.email "you@example.com"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git remote set-url origin git@github.com:${{ github.repository }}.git  # 设置 Git 远程仓库为 SSH URL
 
       - name: Set HEXO_ROOT environment variable
         run: echo "HEXO_ROOT=/github/workspace" >> $GITHUB_ENV  # 设置 Hexo 根目录
