@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search> 
+  
+  
+    
+    <entry>
+      <title>发布博客出现的问题</title>
+      <link href="/2024/11/06/github_actions/"/>
+      <url>/2024/11/06/github_actions/</url>
+      
+        <content type="html"><![CDATA[<p>每一次用push推送到githubpage都会出现构建部署错误 我问了一下ai原因 这才有点明白到底是为什么</p><h4 id="原因"><a href="#原因" class="headerlink" title="原因"></a>原因</h4><p>为什么会有这种差异？<br>GitHub Pages 和 本地环境的差异：</p><p>在本地执行 hexo d 时，你的本地环境会根据 package.json 中的依赖来安装所有的主题和插件，确保所有必要的资源都存在。<br>但是 GitHub Pages 仅仅依赖仓库中已经推送的文件（通常是 public&#x2F; 文件夹和 ._config.yml），它不会自动运行 npm、yarn 或 pnpm 来安装依赖。换句话说，GitHub Pages 并不会在部署过程中安装缺少的主题或插件。<br>依赖没有正确推送：</p><p>你在本地运行 hexo d 时，可能已经正确地安装了 butterfly 主题，并且该主题存在于本地的 _config.yml 中和 node_modules 文件夹中。<br>然而，在推送到 GitHub 上时，你没有将 node_modules 中的 butterfly 主题或相关配置文件推送到 GitHub 仓库。GitHub Pages 需要能够访问这些主题文件，而它不会在部署过程中下载和安装这些依赖。<br>GitHub Pages 配置问题：</p><p>如果你直接使用 GitHub Pages 作为部署平台，GitHub 并不会自动安装你的 Hexo 依赖，因此它不能像本地环境一样找到 butterfly 主题。<br>GitHub Pages 需要使用一个可以通过静态文件夹来部署的版本，而 Hexo 本地运行时通常会将主题内容放在 node_modules 中，这些内容并不会自动推送到 GitHub，除非你特别将它们包含在仓库中。</p><h4 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h4><p>使用github-actions<br>并且在google查找到的方法添加 .nojekyll文件 让github站点不适用jekyll</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">name: Hexo Deploy</span><br><span class="line"></span><br><span class="line">on:</span><br><span class="line">  push:</span><br><span class="line">    branches:</span><br><span class="line">      - main  # 监听主分支的推送</span><br><span class="line"></span><br><span class="line">jobs:</span><br><span class="line">  deploy:</span><br><span class="line">    runs-on: ubuntu-latest</span><br><span class="line">    steps:</span><br><span class="line">      - name: Checkout repository</span><br><span class="line">        uses: actions/checkout@v2</span><br><span class="line"></span><br><span class="line">      - name: Setup Node.js</span><br><span class="line">        uses: actions/setup-node@v2</span><br><span class="line">        with:</span><br><span class="line">          node-version: &#x27;16&#x27;</span><br><span class="line"></span><br><span class="line">      - name: Install dependencies</span><br><span class="line">        run: |</span><br><span class="line">          npm install</span><br><span class="line"></span><br><span class="line">      - name: Generate and Deploy</span><br><span class="line">        run: |</span><br><span class="line">          hexo generate</span><br><span class="line">          hexo deploy</span><br><span class="line">        env:</span><br><span class="line">          HEXO_DEPLOY_PATH: $&#123;&#123; secrets.HEXO_DEPLOY_PATH &#125;&#125;  # 设置部署路径</span><br></pre></td></tr></table></figure><p>多看源码 基础真的很重要 多看官方文档能解决很多问题</p>]]></content>
+      
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>github参与开源应该做什么</title>
+      <link href="/2024/11/05/github/"/>
+      <url>/2024/11/05/github/</url>
+      
+        <content type="html"><![CDATA[<h1 id="第一次参与开源项目应该做些什么"><a href="#第一次参与开源项目应该做些什么" class="headerlink" title="第一次参与开源项目应该做些什么"></a>第一次参与开源项目应该做些什么</h1><p>借鉴Moment老哥文档</p><p><a href="https://juejin.cn/post/7354233858063925267">https://juejin.cn/post/7354233858063925267</a></p><h4 id="第一步fork"><a href="#第一步fork" class="headerlink" title="第一步fork"></a>第一步fork</h4><p>fork到自己的仓库下 且选择fork所有分支 这样就可以有修改项目的权限<br>通过Pull Request方式 commits合到上游项目</p><h4 id="第二步克隆项目"><a href="#第二步克隆项目" class="headerlink" title="第二步克隆项目"></a>第二步克隆项目</h4><p>git clone …</p><h4 id="第三步更新本地分支代码"><a href="#第三步更新本地分支代码" class="headerlink" title="第三步更新本地分支代码"></a>第三步更新本地分支代码</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">git remote add upstream &lt;原始仓库的URL&gt;</span><br><span class="line">git fetch upstream</span><br><span class="line">git checkout main</span><br><span class="line">git rebase upstream/main</span><br></pre></td></tr></table></figure><h5 id="根据ai理解-上述git指令"><a href="#根据ai理解-上述git指令" class="headerlink" title="根据ai理解 上述git指令"></a>根据ai理解 上述git指令</h5><p>git remote add upstream &lt;原始仓库的URL&gt;<br>这条命令是将原始仓库添加为远程仓库，通常在你 fork 了一个 GitHub 仓库后，会创建一个 origin 指向你自己的远程仓库，但原始仓库（即你 fork 的那个仓库）并没有设置</p><hr><p>命令解释：</p><p>git remote add：</p><h2 id="用于添加一个新的远程仓库。upstream：这是你为原始仓库起的别名。通常我们使用-upstream-来表示原始仓库，而-origin-则表示你-fork-后的仓库。：你需要替换成原始仓库的-URL，通常是类似-https-github-com-owner-repository-git-这样的形式。举个例子：-假设你从-GitHub-上-fork-了一个叫做-awesome-project-的仓库，原始仓库的-URL-是-https-github-com-original-owner-awesome-project-git，-你可以运行以下命令：git-remote-add-upstream-https-github-com-original-owner-awesome-project-git"><a href="#用于添加一个新的远程仓库。upstream：这是你为原始仓库起的别名。通常我们使用-upstream-来表示原始仓库，而-origin-则表示你-fork-后的仓库。：你需要替换成原始仓库的-URL，通常是类似-https-github-com-owner-repository-git-这样的形式。举个例子：-假设你从-GitHub-上-fork-了一个叫做-awesome-project-的仓库，原始仓库的-URL-是-https-github-com-original-owner-awesome-project-git，-你可以运行以下命令：git-remote-add-upstream-https-github-com-original-owner-awesome-project-git" class="headerlink" title="用于添加一个新的远程仓库。upstream：这是你为原始仓库起的别名。通常我们使用 upstream 来表示原始仓库，而 origin 则表示你 fork 后的仓库。&lt;原始仓库的URL&gt;：你需要替换成原始仓库的 URL，通常是类似 https://github.com/owner/repository.git 这样的形式。举个例子： 假设你从 GitHub 上 fork 了一个叫做 awesome-project 的仓库，原始仓库的 URL 是 https://github.com/original-owner/awesome-project.git， 你可以运行以下命令：git remote add upstream https://github.com/original-owner/awesome-project.git"></a>用于添加一个新的远程仓库。<br>upstream：这是你为原始仓库起的别名。通常我们使用 upstream 来表示原始仓库，而 origin 则表示你 fork 后的仓库。<br>&lt;原始仓库的URL&gt;：你需要替换成原始仓库的 URL，通常是类似 <del><a href="https://github.com/owner/repository.git">https://github.com/owner/repository.git</a></del> 这样的形式。<br>举个例子： 假设你从 GitHub 上 fork 了一个叫做 awesome-project 的仓库，原始仓库的 URL 是 <del><a href="https://github.com/original-owner/awesome-project.git%EF%BC%8C">https://github.com/original-owner/awesome-project.git，</a></del> 你可以运行以下命令：<br>git remote add upstream <del><a href="https://github.com/original-owner/awesome-project.git">https://github.com/original-owner/awesome-project.git</a></del></h2><p>git fetch upstream</p><h2 id="、这条命令是从原始仓库拉取最新的变化，但它并不会改变你当前的工作分支。它会将原始仓库的更新下载到你本地，但不自动合并到你的分支中。举个例子：-继续使用上面的例子，如果原始仓库-awesome-project-有了新的提交，你可以通过以下命令来获取这些更新：git-fetch-upstream这条命令会从-upstream（原始仓库）拉取最新的提交，但是你的当前分支的代码还不会发生变化。"><a href="#、这条命令是从原始仓库拉取最新的变化，但它并不会改变你当前的工作分支。它会将原始仓库的更新下载到你本地，但不自动合并到你的分支中。举个例子：-继续使用上面的例子，如果原始仓库-awesome-project-有了新的提交，你可以通过以下命令来获取这些更新：git-fetch-upstream这条命令会从-upstream（原始仓库）拉取最新的提交，但是你的当前分支的代码还不会发生变化。" class="headerlink" title="、这条命令是从原始仓库拉取最新的变化，但它并不会改变你当前的工作分支。它会将原始仓库的更新下载到你本地，但不自动合并到你的分支中。举个例子： 继续使用上面的例子，如果原始仓库 awesome-project 有了新的提交，你可以通过以下命令来获取这些更新：git fetch upstream这条命令会从 upstream（原始仓库）拉取最新的提交，但是你的当前分支的代码还不会发生变化。"></a>、这条命令是从原始仓库拉取最新的变化，但它并不会改变你当前的工作分支。它会将原始仓库的更新下载到你本地，但不自动合并到你的分支中。<br>举个例子： 继续使用上面的例子，如果原始仓库 awesome-project 有了新的提交，你可以通过以下命令来获取这些更新：<br>git fetch upstream<br>这条命令会从 upstream（原始仓库）拉取最新的提交，但是你的当前分支的代码还不会发生变化。</h2><p>git rebase upstream&#x2F;main</p><p>这条命令是将原始仓库（upstream）的 main 分支的最新提交应用到你本地的 main 分支上。<br>通过 rebase，你可以把你本地的提交历史 “重新基于” 原始仓库的更新，保持你的提交历史更加整洁。</p><p> <strong>总结：</strong> 这样，本地 main 分支就会包含原始仓库的最新更改，并且历史记录会保持整洁。如果有冲突，Git 会提示你解决冲突并继续 rebase。</p><p><strong>注意：</strong><br>—-在项目中不应该轻易的在main分支上做更改而是创建的分支 最好保证每个功能一个分支</p><p>创建分支在分支中编写代码</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git checkout -b feat-xxx</span><br><span class="line"></span><br></pre></td></tr></table></figure><h4 id="feat前缀"><a href="#feat前缀" class="headerlink" title="feat前缀"></a>feat前缀</h4><p>feat 前缀用于标记新增功能（feature）的提交。它表示该提交引入了一个新的特性或扩展了项目的功能。使用 feat 可以快速识别出项目功能的增长点。</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">feat: add user login functionality</span><br><span class="line"></span><br></pre></td></tr></table></figure><h4 id="fix前缀"><a href="#fix前缀" class="headerlink" title="fix前缀"></a>fix前缀</h4><p>fix 前缀用于标记修复 bug 的提交。它说明该提交解决了项目中的一个或多个已知问题。</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fix: correct minor typos in code</span><br></pre></td></tr></table></figure><p>等等指令在此省略 详细的等到具体运用中再做增加</p><h4 id="写入你想更改的地方"><a href="#写入你想更改的地方" class="headerlink" title="写入你想更改的地方"></a>写入你想更改的地方</h4><p>提交你的更改 </p><h4 id="开一个PR"><a href="#开一个PR" class="headerlink" title="开一个PR"></a>开一个PR</h4><p>在完成 push 操作后，我们打开 GitHub，可以看到一个黄色的提示框，告诉我们可以开一个 Pull Request 了</p><p>参考：</p><p><a href="https://link.juejin.cn/?target=https://github.com/xun082/create-neat/pull/83">https://link.juejin.cn/?target=https%3A%2F%2Fgithub.com%2Fxun082%2Fcreate-neat%2Fpull%2F83</a><br>一定要参与一次实践，才懂得如何去做。只有错过了，才能保证下一次的完美运行。</p><hr><p>—最后希望自己早入加入开源大家庭中，加油！ </p><ul><li><pre><code>                     2024 11.5日</code></pre></li></ul>]]></content>
+      
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>git使用总结</title>
+      <link href="/2024/11/04/git/"/>
+      <url>/2024/11/04/git/</url>
+      
+        <content type="html"><![CDATA[<h1 id="git"><a href="#git" class="headerlink" title="git"></a>git</h1><h2 id="1-git-clone-到本地2-git-checkout-b-xxx-切换至新分支xxx（相当于复制了remote的仓库到本地的xxx分支上3-修改或者添加本地代码（部署在硬盘的源文件上）4-git-diff-查看自己对代码做出的改变5-git-add-上传更新后的代码至暂存区6-git-commit-可以将暂存区里更新后的代码更新到本地git7-git-push-origin-xxx-将本地的xxxgit分支上传至github上的git"><a href="#1-git-clone-到本地2-git-checkout-b-xxx-切换至新分支xxx（相当于复制了remote的仓库到本地的xxx分支上3-修改或者添加本地代码（部署在硬盘的源文件上）4-git-diff-查看自己对代码做出的改变5-git-add-上传更新后的代码至暂存区6-git-commit-可以将暂存区里更新后的代码更新到本地git7-git-push-origin-xxx-将本地的xxxgit分支上传至github上的git" class="headerlink" title="1.git clone &#x2F;&#x2F; 到本地2.git checkout -b xxx 切换至新分支xxx（相当于复制了remote的仓库到本地的xxx分支上3.修改或者添加本地代码（部署在硬盘的源文件上）4.git diff 查看自己对代码做出的改变5.git add 上传更新后的代码至暂存区6.git commit 可以将暂存区里更新后的代码更新到本地git7.git push origin xxx 将本地的xxxgit分支上传至github上的git"></a>1.git clone &#x2F;&#x2F; 到本地<br>2.git checkout -b xxx 切换至新分支xxx<br>（相当于复制了remote的仓库到本地的xxx分支上<br>3.修改或者添加本地代码（部署在硬盘的源文件上）<br>4.git diff 查看自己对代码做出的改变<br>5.git add 上传更新后的代码至暂存区<br>6.git commit 可以将暂存区里更新后的代码更新到本地git<br>7.git push origin xxx 将本地的xxxgit分支上传至github上的git</h2><h2 id="（如果在写自己的代码过程中发现远端GitHub上代码出现改变）1-git-checkout-main-切换回main分支2-git-pull-origin-master-main-将远端修改过的代码再更新到本地3-git-checkout-xxx-回到xxx分支4-git-rebase-main-我在xxx分支上，先把main移过来，然后根据我的commit来修改成新的内容（中途可能会出现，rebase-conflict-—–》手动选择保留哪段代码）5-git-push-f-origin-xxx-把rebase后并且更新过的代码再push到远端github上（-f-—》强行）6-原项目主人采用pull-request-中的-squash-and-merge-合并所有不同的commit"><a href="#（如果在写自己的代码过程中发现远端GitHub上代码出现改变）1-git-checkout-main-切换回main分支2-git-pull-origin-master-main-将远端修改过的代码再更新到本地3-git-checkout-xxx-回到xxx分支4-git-rebase-main-我在xxx分支上，先把main移过来，然后根据我的commit来修改成新的内容（中途可能会出现，rebase-conflict-—–》手动选择保留哪段代码）5-git-push-f-origin-xxx-把rebase后并且更新过的代码再push到远端github上（-f-—》强行）6-原项目主人采用pull-request-中的-squash-and-merge-合并所有不同的commit" class="headerlink" title="（如果在写自己的代码过程中发现远端GitHub上代码出现改变）1.git checkout main 切换回main分支2.git pull origin master(main) 将远端修改过的代码再更新到本地3.git checkout xxx 回到xxx分支4.git rebase main 我在xxx分支上，先把main移过来，然后根据我的commit来修改成新的内容（中途可能会出现，rebase conflict —–》手动选择保留哪段代码）5.git push -f origin xxx 把rebase后并且更新过的代码再push到远端github上（-f —》强行）6.原项目主人采用pull request 中的 squash and merge 合并所有不同的commit"></a>（如果在写自己的代码过程中发现远端GitHub上代码出现改变）<br>1.git checkout main 切换回main分支<br>2.git pull origin master(main) 将远端修改过的代码再更新到本地<br>3.git checkout xxx 回到xxx分支<br>4.git rebase main 我在xxx分支上，先把main移过来，然后根据我的commit来修改成新的内容<br>（中途可能会出现，rebase conflict —–》手动选择保留哪段代码）<br>5.git push -f origin xxx 把rebase后并且更新过的代码再push到远端github上<br>（-f —》强行）<br>6.原项目主人采用pull request 中的 squash and merge 合并所有不同的commit</h2><p>远端完成更新后<br>1.git branch -d xxx 删除本地的git分支<br>2.git pull origin master 再把远端的最新代码拉至本地</p>]]></content>
+      
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>北京之旅</title>
+      <link href="/2024/11/04/hello-world/"/>
+      <url>/2024/11/04/hello-world/</url>
+      
+        <content type="html"><![CDATA[<h2 id="开源社"><a href="#开源社" class="headerlink" title="开源社"></a>开源社</h2><p>在偶然一次发现中 开源社举办了第九届中国开源年会，我很是激动，心中迅速萌发了去北京参加的冲动并和小伙伴赵冰<br>决定这周五来一次说走就走的旅行~~~</p><h2 id="到达北京"><a href="#到达北京" class="headerlink" title="到达北京"></a>到达北京</h2><p>在周六的早上到达会场 扫了入场的码 领到了活动给的一些礼品 7点多我俩就到达了会场，刚开始觉得平平无奇，后来直到大会开始，陆陆续续的大家都来到了会场，开源社的<br>老哥，老姐们开始了自己的演讲，我发现这真的不是一个普通大会，很多人报着开源的理念 一直维持着开源社，让开源社越来越大<br>虽然是第一次参加，但是我对于这种氛围是非常的喜欢，各位有着自己想法的人都在开源社散发光辉，有为抗癌人士专门发布app的<br>小胰宝等其他的产品，这令我深受触动，把科技真真正正的融合到了生活当中，使人们都能享受科技带来的便捷！大会中的每一个人的演讲都令我感到激动！但是对我印象的最深刻的就是<strong>yihong0618</strong>这个id，伊洪老师的演讲令我眼前一亮心里一跳哈哈哈哈<br>简直太爽啦！！！</p><h2 id="yihong0618"><a href="#yihong0618" class="headerlink" title="yihong0618"></a>yihong0618</h2><p>请大家自己去看伊洪老师的github，你真的能从中学到很多，在火车上我一直再看伊洪老师的github<br>每一件事是写的那么的真诚，有很多我也感同身受，生活的迷茫原来真的不是自己才有，面临各种压力，各种抉择！做好自己。<br>老师的仓库里也有非常多的实用的产品大家可以自己去看！！</p><p>[github] <a href="https://github.com/yihong0618">https://github.com/yihong0618</a></p><p>在伊洪老师的演讲中，令我觉得钦佩的是，每一天的记录自己，我太喜欢这种感觉了，发布到github上，我也便想向这么做<br>在4日赶回来我便从网上学习搭建博客，坚持记录每一天</p><h2 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h2><p>这次旅程，说走就走，哈哈哈，这才是大学生嘛，遇见了开源社的大家，我希望从今的每一天，慢慢的融入到开源社这个大家庭</p><p>-感谢冰哥陪我这次旅行</p><pre><code>                                                                    2024年11.4日</code></pre>]]></content>
+      
+      
+      
+    </entry>
+    
+    
+  
+  
+    
+    
+    <entry>
+      <title>音乐</title>
+      <link href="/Music/index.html"/>
+      <url>/Music/index.html</url>
+      
+        <content type="html"><![CDATA[]]></content>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>图库</title>
+      <link href="/Gallery/index.html"/>
+      <url>/Gallery/index.html</url>
+      
+        <content type="html"><![CDATA[]]></content>
+      
+    </entry>
+    
+    
+  
+</search>
