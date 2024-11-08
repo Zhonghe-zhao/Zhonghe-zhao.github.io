@@ -4,6 +4,32 @@
   
     
     <entry>
+      <title>字节课程学习总结</title>
+      <link href="/2024/11/08/Dance_Byte/"/>
+      <url>/2024/11/08/Dance_Byte/</url>
+      
+        <content type="html"><![CDATA[<h1 id="字节内部课程学习"><a href="#字节内部课程学习" class="headerlink" title="字节内部课程学习"></a>字节内部课程学习</h1><h3 id="一-走进RPC框架"><a href="#一-走进RPC框架" class="headerlink" title="一.走进RPC框架"></a>一.走进RPC框架</h3><h4 id="1-基本概念"><a href="#1-基本概念" class="headerlink" title="1.基本概念"></a>1.基本概念</h4><p>本地函数调用 压栈弹出</p><p>RPC调用  网上购物 {（付款操作）</p><p>远程调用 中间隔着网路  不能用函数指针了 是两个进程 机器id找到函数运行</p><p>解决问题 1. 函数映射</p><ol start="2"><li>数据转换成字节流 （客户端转换成字节流 传送给 服务端）</li><li>网络传输（高效稳定传输数据）</li></ol><p>}</p><p><img src="/study_photo/1.png" alt="示例图片"></p><p><strong>过程</strong>：User本地调用 打包参数 -》 RPC -》 对端-》解压-》调用真正业务逻辑 然后在返回 整个流程</p><p>IDL文件（接口描述文件）</p><p><img src="/study_photo/2.png" alt="image-20241107104049573"></p><p>Caller（调用段）和 生成代码 -》 encoder编码 -》字节流 -》打包传送给对端</p><p><strong>好处</strong></p><p><img src="/study_photo/3.png" alt="image-20241107104333574"></p><p><img src="/study_photo/4.png" alt="image-20241107111602308"></p><p><img src="/study_photo/5.png" alt="image-20241107111758336"></p><h4 id="2-编解码层："><a href="#2-编解码层：" class="headerlink" title="2.编解码层："></a>2.编解码层：</h4><p><img src="/study_photo/6.png" alt="image-20241107111909320"></p><p>编解码层：</p><p><img src="/study_photo/7.png" alt="image-20241107111950413"></p><p>二进制编码</p><p><img src="/study_photo/8.png" alt="image-20241107112146078"></p><p>左侧是IDL中写的统一的 -》字节流 有额外的内存开销 ：<strong>length tag</strong></p><p><img src="/study_photo/9.png" alt="image-20241107112624256"></p><h4 id="3-协议层："><a href="#3-协议层：" class="headerlink" title="3.协议层："></a>3.协议层：</h4><p><img src="C:\Users\30413\AppData\Roaming\Typora\typora-user-images\image-20241107112827203.png" alt="image-20241107112827203"></p><p><img src="C:\Users\30413\AppData\Roaming\Typora\typora-user-images\image-20241107112953295.png" alt="image-20241107112953295"></p><p><strong>多路复用</strong>：同一个链接内 可以有多个请求流通过</p><p>协议解析：</p><p><img src="C:\Users\30413\AppData\Roaming\Typora\typora-user-images\image-20241107113245207.png" alt="image-20241107113245207"></p><h4 id="4-网络通信层："><a href="#4-网络通信层：" class="headerlink" title="4.网络通信层："></a>4.网络通信层：</h4><p><img src="C:\Users\30413\AppData\Roaming\Typora\typora-user-images\image-20241107113347859.png" alt="image-20241107113347859"></p><p>SCOEKT API   （ip+端口）</p><p>一端关闭套接字    如果另一端如果尝试去读 可能就会返回（End Of File）也就是 EOF 在项目中我好像遇到过这个问题 用postman测试的时候返回了EOF错误和nil</p><p>网络库</p><p><img src="C:\Users\30413\AppData\Roaming\Typora\typora-user-images\image-20241107113810046.png" alt="image-20241107113810046"></p><h3 id="二-RPC关键指标分析与企业实践"><a href="#二-RPC关键指标分析与企业实践" class="headerlink" title="二.RPC关键指标分析与企业实践"></a>二.RPC关键指标分析与企业实践</h3><p>稳定性 易用性 扩展性 观测性 高性能</p><p>稳定性：</p><p><img src="C:\Users\30413\AppData\Roaming\Typora\typora-user-images\image-20241107114134948.png" alt="image-20241107114134948"></p><p><strong>过程：</strong>a调用b b调用c c如果响应慢 b就会一直等待 a也就超时了 a就会频繁调用b b堆积大量请求就会宕机</p><p>熔断起保护作用</p><p>稳定性：请求成功了率</p><p><img src="C:\Users\30413\AppData\Roaming\Typora\typora-user-images\image-20241107114404973.png" alt="image-20241107114404973"></p><p>1.均匀调用服务的每个节点</p><ol start="2"><li>重试几次</li></ol><p><img src="C:\Users\30413\AppData\Roaming\Typora\typora-user-images\image-20241107114611581.png" alt="image-20241107114611581"></p><p>备份请求： 左侧正常 1失败  2是重试请求  总时间 t1＋t2</p><p>​                    右侧 t3 tct99（这个值 在这个时间内应该可以返回值）如果在时间内没返回 就发送2请求 总时间就是 t4</p><h4 id="1-注册中间件"><a href="#1-注册中间件" class="headerlink" title="1.注册中间件"></a>1.注册中间件</h4><p><img src="C:\Users\30413\AppData\Roaming\Typora\typora-user-images\image-20241107114931005.png" alt="image-20241107114931005"></p><h4 id="2-易用性："><a href="#2-易用性：" class="headerlink" title="2.易用性："></a>2.易用性：</h4><p><img src="C:\Users\30413\AppData\Roaming\Typora\typora-user-images\image-20241107115019715.png" alt="image-20241107115019715"></p><p>自动生成代码工具 ： 减少重复性工作</p><h4 id="3-扩展性"><a href="#3-扩展性" class="headerlink" title="3.扩展性"></a>3.扩展性</h4><p><img src="C:\Users\30413\AppData\Roaming\Typora\typora-user-images\image-20241107115236618.png" alt="image-20241107115236618"></p><p>用户请求 经过中间件处理-》和远端交互 -》 也通过中间件处理-》服务器</p><h4 id="4-观测性："><a href="#4-观测性：" class="headerlink" title="4.观测性："></a>4.观测性：</h4><p><img src="C:\Users\30413\AppData\Roaming\Typora\typora-user-images\image-20241107115409542.png" alt="image-20241107115409542"></p><p>日志观察 监控面板qbs 链路跟踪（服务通过请求为什么超时了 耗费的时间是多少）</p><p>linux的top工具类似原理</p><h4 id="5-高性能："><a href="#5-高性能：" class="headerlink" title="5.高性能："></a>5.高性能：</h4><p><img src="C:\Users\30413\AppData\Roaming\Typora\typora-user-images\image-20241107115628087.png" alt="image-20241107115628087"></p><p>高吞吐：在单位时间内尽可能多的处理更多请求</p><p>低延迟： 一次请求发出去延迟尽可能地低（重要）</p><p>​</p><h4 id="6-本章总结："><a href="#6-本章总结：" class="headerlink" title="6.  本章总结："></a>6.  本章总结：</h4><p><img src="C:\Users\30413\AppData\Roaming\Typora\typora-user-images\image-20241107115938337.png" alt="image-20241107115938337"></p><p>字节实践：</p><p><img src="C:\Users\30413\AppData\Roaming\Typora\typora-user-images\image-20241107120230033.png" alt="image-20241107120230033"></p><p>组件 结构 远端交互层 网络库  代码生成工具 （最左侧）</p><p>为什么自研网络库？</p><p>gonet</p><p><img src="C:\Users\30413\AppData\Roaming\Typora\typora-user-images\image-20241107120515080.png" alt="image-20241107120515080"></p><p>Netpoll</p><p><img src="C:\Users\30413\AppData\Roaming\Typora\typora-user-images\image-20241107120603540.png" alt="image-20241107120603540"></p><p><img src="C:\Users\30413\AppData\Roaming\Typora\typora-user-images\image-20241107120656906.png" alt="image-20241107120656906"></p><p>交互方式pingpang（一发一回） 编解码 应用层协议</p><p>优化：</p><p><img src="C:\Users\30413\AppData\Roaming\Typora\typora-user-images\image-20241107120826363.png" alt="image-20241107120826363"></p><p><img src="C:\Users\30413\AppData\Roaming\Typora\typora-user-images\image-20241107120948515.png" alt="image-20241107120948515"></p><p>你应该想这些是怎么实现的？</p><p><img src="C:\Users\30413\AppData\Roaming\Typora\typora-user-images\image-20241107121448901.png" alt="image-20241107121448901"></p><p><img src="C:\Users\30413\AppData\Roaming\Typora\typora-user-images\image-20241107121741751.png" alt="image-20241107121741751"></p><h3 id="三-走进HTTP协议"><a href="#三-走进HTTP协议" class="headerlink" title="三.走进HTTP协议"></a>三.走进HTTP协议</h3><h4 id="1-再谈http协议"><a href="#1-再谈http协议" class="headerlink" title="1.再谈http协议"></a>1.再谈http协议</h4><p>HTTP 超文本传输协议</p><p><img src="C:\Users\30413\AppData\Roaming\Typora\typora-user-images\image-20241108133154991.png" alt="image-20241108133154991"></p><p>http协议将人话以计算机语言传输过去</p><p><img src="C:\Users\30413\AppData\Roaming\Typora\typora-user-images\image-20241108133257828.png" alt="image-20241108133257828"></p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">请求行</span><br><span class="line">：分隔 原数据</span><br><span class="line"></span><br><span class="line">包的字节数</span><br><span class="line">大空行</span><br><span class="line"></span><br><span class="line">我们想说的话</span><br><span class="line"></span><br><span class="line">下面是回复</span><br></pre></td></tr></table></figure><p>![image-20241108133725032](C:\Users\30413\AppData\Roaming\Typora\typora-user-images\image-20241108133725032.png</p><p><img src="C:\Users\30413\AppData\Roaming\Typora\typora-user-images\image-20241108133847415.png" alt="image-20241108133847415"></p><p>上述功能代码：</p><p><img src="C:\Users\30413\AppData\Roaming\Typora\typora-user-images\image-20241108134149368.png" alt="image-20241108134149368"></p><p>处理流程wwwwwwww333333：</p><p><img src="C:\Users\30413\AppData\Roaming\Typora\typora-user-images\image-20241108134229285.png" alt="image-20241108134229285"></p><p>H1的不足 H2也没完全解决    UDP解决对头阻塞</p><p><img src="C:\Users\30413\AppData\Roaming\Typora\typora-user-images\image-20241108134628306.png" alt="image-20241108134628306"></p>]]></content>
+      
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>美化博客</title>
+      <link href="/2024/11/08/lasting_beauty/"/>
+      <url>/2024/11/08/lasting_beauty/</url>
+      
+        <content type="html"><![CDATA[<p>使博客看起来更加美观，持续更新中！</p>]]></content>
+      
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>发布博客出现的问题</title>
       <link href="/2024/11/06/github_actions/"/>
       <url>/2024/11/06/github_actions/</url>
@@ -59,6 +85,39 @@
     
     
     <entry>
+      <title>图库</title>
+      <link href="/Gallery/index.html"/>
+      <url>/Gallery/index.html</url>
+      
+        <content type="html"><![CDATA[<div class="gallery-group-main"><figure class="gallery-group">  <img class="gallery-group-img no-lightbox" src='/Gallery/beijing.jpg' alt="Group Image Gallery">  <figcaption>  <div class="gallery-group-name">北京</div>  <p>中关村</p>  <a href='/Gallery/beijing.jpg'></a>  </figcaption>  </figure>  <figure class="gallery-group">  <img class="gallery-group-img no-lightbox" src='/Gallery/beijing2.jpg' alt="Group Image Gallery">  <figcaption>  <div class="gallery-group-name">北京</div>  <p>风景</p>  <a href='/Gallery/beijing2.jpg'></a>  </figcaption>  </figure>  <figure class="gallery-group">  <img class="gallery-group-img no-lightbox" src='/Gallery/beijing3.jpg' alt="Group Image Gallery">  <figcaption>  <div class="gallery-group-name">北京</div>  <p>风景</p>  <a href='/Gallery/beijing3.jpg'></a>  </figcaption>  </figure>  </div>]]></content>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>分类</title>
+      <link href="/categories/index.html"/>
+      <url>/categories/index.html</url>
+      
+        <content type="html"><![CDATA[]]></content>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>友情链接</title>
+      <link href="/link/index.html"/>
+      <url>/link/index.html</url>
+      
+        <content type="html"><![CDATA[]]></content>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>音乐</title>
       <link href="/Music/index.html"/>
       <url>/Music/index.html</url>
@@ -70,9 +129,9 @@
     
     
     <entry>
-      <title>图库</title>
-      <link href="/Gallery/index.html"/>
-      <url>/Gallery/index.html</url>
+      <title>标签</title>
+      <link href="/tags/index.html"/>
+      <url>/tags/index.html</url>
       
         <content type="html"><![CDATA[]]></content>
       
