@@ -1,0 +1,409 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>Go语言进阶 | 赵忠赫的个人博客</title><meta name="author" content="赵忠赫"><meta name="copyright" content="赵忠赫"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="字节青训营学习一.入门篇学习实战篇： 1.猜数字游戏运用 1234567891011121314151617181920212223242526”math&#x2F;rand“maxNum :&#x3D; 100调用 Intn（maxNum）&#x2F;&#x2F;注意这并不能使每一次都用都产生不同的值需要加 时间戳 才能每次产生不同的值应该是：maxNum :&#x3D; 100ran.Seed(time.Now().UnixNano())然后">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Go语言进阶">
+<meta property="og:url" content="https://whuichenggong.github.io/2024/11/11/Go_Advanced/index.html">
+<meta property="og:site_name" content="赵忠赫的个人博客">
+<meta property="og:description" content="字节青训营学习一.入门篇学习实战篇： 1.猜数字游戏运用 1234567891011121314151617181920212223242526”math&#x2F;rand“maxNum :&#x3D; 100调用 Intn（maxNum）&#x2F;&#x2F;注意这并不能使每一次都用都产生不同的值需要加 时间戳 才能每次产生不同的值应该是：maxNum :&#x3D; 100ran.Seed(time.Now().UnixNano())然后">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://whuichenggong.github.io/bizhi/2.png">
+<meta property="article:published_time" content="2024-11-11T11:47:00.753Z">
+<meta property="article:modified_time" content="2024-11-11T12:16:42.134Z">
+<meta property="article:author" content="赵忠赫">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://whuichenggong.github.io/bizhi/2.png"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://whuichenggong.github.io/2024/11/11/Go_Advanced/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><meta/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.css" media="print" onload="this.media='all'"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          const hour = new Date().getHours()
+          const isNight = hour <= 6 || hour >= 18
+          if (theme === undefined) isNight ? activateDarkMode() : activateLightMode()
+          else theme === 'light' ? activateLightMode() : activateDarkMode()
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"简"},
+  noticeOutdate: {"limitDay":365,"position":"top","messagePrev":"It has been","messageNext":"days since the last update, the content of the article may be outdated."},
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":230,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: true,
+    post: true
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: {"chs_to_cht":"已切换为繁体中文","cht_to_chs":"已切换为简体中文","day_to_night":"已切换为深色模式","night_to_day":"已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#1f1f1f","position":"top-right"},
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: true,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Go语言进阶',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2024-11-11 20:16:42',
+  isShuoshuo: false
+}</script><meta name="generator" content="Hexo 7.3.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><script>(()=>{
+  const $loadingBox = document.getElementById('loading-box')
+  const $body = document.body
+  const preloader = {
+    endLoading: () => {
+      $body.style.overflow = ''
+      $loadingBox.classList.add('loaded')
+    },
+    initLoading: () => {
+      $body.style.overflow = 'hidden'
+      $loadingBox.classList.remove('loaded')
+    }
+  }
+
+  preloader.initLoading()
+  window.addEventListener('load', preloader.endLoading)
+
+  if (false) {
+    btf.addGlobalFn('pjaxSend', preloader.initLoading, 'preloader_init')
+    btf.addGlobalFn('pjaxComplete', preloader.endLoading, 'preloader_end')
+  }
+})()</script><div id="web_bg" style="background: [object Object];"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/head.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">10</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">0</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/Music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></div><div class="menus_item"><a class="site-page" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片库</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/bizhi/2.png);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><img class="site-icon" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/head.jpg" alt="Logo"><span class="site-name">赵忠赫的个人博客</span></a><a class="nav-page-title" href="/"><span class="site-name">Go语言进阶</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/Music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></div><div class="menus_item"><a class="site-page" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片库</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">Go语言进阶</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2024-11-11T11:47:00.753Z" title="发表于 2024-11-11 19:47:00">2024-11-11</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2024-11-11T12:16:42.134Z" title="更新于 2024-11-11 20:16:42">2024-11-11</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">总字数:</span><span class="word-count">819</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>2分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="字节青训营学习"><a href="#字节青训营学习" class="headerlink" title="字节青训营学习"></a>字节青训营学习</h1><h3 id="一-入门篇学习"><a href="#一-入门篇学习" class="headerlink" title="一.入门篇学习"></a>一.入门篇学习</h3><p>实战篇：</p>
+<h4 id="1-猜数字游戏"><a href="#1-猜数字游戏" class="headerlink" title="1.猜数字游戏"></a>1.猜数字游戏</h4><p>运用</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">”math/rand“</span><br><span class="line"></span><br><span class="line">maxNum := 100</span><br><span class="line">调用 Intn（maxNum）</span><br><span class="line">//注意这并不能使每一次都用都产生不同的值</span><br><span class="line"></span><br><span class="line">需要加 时间戳 才能每次产生不同的值</span><br><span class="line">应该是：</span><br><span class="line">maxNum := 100</span><br><span class="line">ran.Seed(time.Now().UnixNano())</span><br><span class="line">然后调用</span><br><span class="line"> ran.Intn（maxNum）</span><br><span class="line"> </span><br><span class="line"> 用 &quot;bufio&quot;</span><br><span class="line"> 这个特别的包以后可以用到</span><br><span class="line"> </span><br><span class="line"> 这里读取一行输入用的是</span><br><span class="line"> reader := bufo.NewReader(os.Stdin)//调用这个可以更加灵活</span><br><span class="line"> input， err := reader.ReadString(&#x27;\n&#x27;)</span><br><span class="line"> if err != nil&#123;...&#125;</span><br><span class="line"> </span><br><span class="line"> input = strings.TrimSuffix(intput,&quot;\n&quot;)//去掉换行符</span><br><span class="line"> </span><br><span class="line"> guess,err := strconv.Atoi(input)//转换成数字</span><br><span class="line"> </span><br><span class="line"> 菜值逻辑 </span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="2-在线词典介绍"><a href="#2-在线词典介绍" class="headerlink" title="2.在线词典介绍"></a>2.在线词典介绍</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">go run simpledict/v4/main.go hello</span><br><span class="line">//意思是查询hello这个功能</span><br><span class="line">//会输出以下内容</span><br><span class="line">hello UK:[&#x27;he&#x27;lau]US:[ha&#x27;lo]</span><br><span class="line">int.喂；哈罗</span><br><span class="line">n.引人注意的呼声</span><br><span class="line">V.向人呼（喂</span><br><span class="line"></span><br><span class="line">调用第三方api</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<p>生成请求</p>
+<p><a target="_blank" rel="noopener" href="https://curlconverter.com/">https://curlconverter.com/</a></p>
+<p>写入curl 自动生成代码</p>
+<p>示例：</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/study_photo/39.png" alt="image-20241104201754858"></p>
+<p>会输出一些列bilibili的东西</p>
+<p>json序列化</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/study_photo/40.png" alt="image-20241104202957339"></p>
+<p>衍生出以下</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/study_photo/41.png" alt="image-20241104203014855"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">结构体</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">request ：= DicRequest&#123;Trans Type：&quot;en2zh&quot;,Source:&quot;good&quot;&#125;</span><br><span class="line">buf, err := json.Marshal(request)//序列化request 变成byte数组</span><br><span class="line">if~~~</span><br><span class="line">var data = bytes.NewReader(buf) //因为buf返回的是bytes数组所以我们应该 bytes.NewReader</span><br></pre></td></tr></table></figure>
+
+
+
+<p>解析response 进行反序列化</p>
+<p>json转golang 结构体</p>
+<p><a target="_blank" rel="noopener" href="https://oktools.net/json2go">https://oktools.net/json2go</a></p>
+<p>反序列化</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">err = json.Unmarshal(bodytext,&amp;dictResponse)//传入结构体</span><br><span class="line"></span><br><span class="line">fmt.Println(&quot;%#v&quot;,dicResponse)</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h3 id="Go进阶"><a href="#Go进阶" class="headerlink" title="Go进阶"></a>Go进阶</h3><h4 id="1-并发编程"><a href="#1-并发编程" class="headerlink" title="1.并发编程"></a>1.并发编程</h4><p>并发：多线程在一个核运行 时间碎片</p>
+<p>并行： 多核</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/study_photo/42.png" alt="image-20241109132249854"></p>
+<p>并行是并发的手段</p>
+<h4 id="2-协程"><a href="#2-协程" class="headerlink" title="2.协程"></a>2.协程</h4><p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/study_photo/43.png" alt="image-20241109132406297"></p>
+<p>协程：轻量级线程 线程本身重量级 Goroutine：可以实现上万个携程</p>
+<p>例子:协程</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/study_photo/44.png" alt="image-20241109132554426"></p>
+<p>go关键字开启协程</p>
+<p>通过通信来共享内存</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/study_photo/45.png" alt="image-20241109132746410"></p>
+<p>channel</p>
+<p>make创建channel</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/study_photo/46.png" alt="image-20241109132925436"></p>
+<p>有缓冲：</p>
+<p>无缓冲：进行通信时（两个goroutine同步）也称同步通道</p>
+<p>示例：</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/study_photo/47.png" alt="image-20241109133236164"></p>
+<p>先make创建通道 把数字放入第一个通道里</p>
+<p>然后b把src做平方运算</p>
+<p>并发安全 Lock</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/study_photo/48.png" alt="image-20241109134052647"></p>
+<p>Lock（）临界区</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/study_photo/49.png" alt="image-20241109134621688"></p>
+<h4 id="3-依赖管理"><a href="#3-依赖管理" class="headerlink" title="3.依赖管理"></a>3.依赖管理</h4><p>1.GOPATH</p>
+<p>bin pkg src（项目源码）</p>
+<p>无法实现package 的多版本控制</p>
+<p>2.vendor存放依赖副本 也有弊端</p>
+<p>3.go module 管理 解决了问题</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/study_photo/51.png" alt="image-20241109135629389"></p>
+<p>indirect关键词</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/study_photo/52.png" alt="image-20241109140344112"></p>
+<p>b（选择最低兼容版本）</p>
+<h4 id="4-依赖分发"><a href="#4-依赖分发" class="headerlink" title="4.依赖分发"></a>4.依赖分发</h4><p>Github         SVN               …</p>
+<p>​          Developer</p>
+<p>无法保证构建稳定性</p>
+<p>无法保证依赖可用性</p>
+<p>增加第三方压力</p>
+<p>Go proxy （）缓存内容版本 从proxy拉取依赖 减少第三方压力</p>
+<p>Proxy1 -》 proxy2 -》 Direct  依次进行</p>
+<h4 id="5-工具-go-get"><a href="#5-工具-go-get" class="headerlink" title="5.工具 go get"></a>5.工具 go get</h4><p>go mod       <strong>init tidy download</strong></p>
+<h4 id="6-测试"><a href="#6-测试" class="headerlink" title="6.测试"></a>6.测试</h4><p>事故：</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/study_photo/59.png" alt="image-20241111092419264"></p>
+<p>测试的重要性：避免事故的最后一道屏障</p>
+<p>单元测试 mock测试   回归测试 集成测试</p>
+<h5 id="1-单元测试"><a href="#1-单元测试" class="headerlink" title="1.单元测试"></a>1.单元测试</h5><p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/study_photo/60.png" alt="image-20241111092633595"></p>
+<p>保证代码整体覆盖率</p>
+<p>提升效率</p>
+<h5 id="2-规则"><a href="#2-规则" class="headerlink" title="2. 规则"></a>2. 规则</h5><p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/study_photo/61.png" alt="image-20241111092852792"></p>
+<h5 id="3例子："><a href="#3例子：" class="headerlink" title="3例子："></a>3例子：</h5><p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/study_photo/62.png" alt="image-20241111093035601"></p>
+<p>go test 【flags】 【packages】</p>
+<h5 id="4-assert"><a href="#4-assert" class="headerlink" title="4.assert"></a>4.assert</h5><p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/study_photo/63.png" alt="image-20241111093202556"></p>
+<h5 id="5-覆盖率"><a href="#5-覆盖率" class="headerlink" title="5.覆盖率"></a>5.覆盖率</h5><p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/study_photo/64.png" alt="image-20241111093237237"></p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/study_photo/65.png" alt="image-20241111093252039"></p>
+<p>提升覆盖率</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/study_photo/66.png" alt="image-20241111093436343"></p>
+<p>对各个分支测试 使函数代码都经过完备的测试 提升覆盖率 减少事故</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/study_photo/67.png" alt="image-20241111093526971"></p>
+<h5 id="6-依赖"><a href="#6-依赖" class="headerlink" title="6.依赖"></a>6.依赖</h5><p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/study_photo/68.png" alt="image-20241111093723869"></p>
+<h5 id="7-文件处理"><a href="#7-文件处理" class="headerlink" title="7.文件处理"></a>7.文件处理</h5><p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/study_photo/69.png" alt="image-20241111093855592"></p>
+<p>一旦文件被别人篡改 在特定场景下就无法运行！</p>
+<h5 id="8-Mock"><a href="#8-Mock" class="headerlink" title="8.Mock"></a>8.Mock</h5><p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/study_photo/70.png" alt="image-20241111094015817"></p>
+<p>replacement 打桩函数</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/study_photo/71.png" alt="image-20241111094459861"></p>
+<p>通过mock 不对 文件有强依&#x2F;study_photo&#x2F;70.png</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/study_photo/72.png" alt="image-20241111094758462"></p>
+<p>优化：</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/study_photo/73.png" alt="image-20241111094944759"></p>
+<p>fastrand</p>
+<h4 id="10-项目实践"><a href="#10-项目实践" class="headerlink" title="10.项目实践"></a>10.项目实践</h4><p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/study_photo/75.png" alt="image-20241111095222107"></p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/study_photo/76.png" alt="image-20241111095416063"></p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/study_photo/77.png" alt="image-20241111095526585"></p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/study_photo/78.png" alt="image-20241111100016448"></p>
+<p>话题id -》 获取所有post</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/study_photo/79.png" alt="image-20241111100134049"></p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/study_photo/80.png" alt="image-20241111100208797"></p>
+<p>初始化话题内存索引</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/study_photo/81.png" alt="image-20241111100306256"></p>
+<hr>
+<p>逻辑层：</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/study_photo/82.png" alt="image-20241111100415573"></p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/study_photo/83.png" alt="image-20241111121526603"></p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/study_photo/83.png" alt="image-20241111121719613"></p>
+<p>并行处理</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/study_photo/84.png" alt="image-20241111121901723"></p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/study_photo/85.png" alt="image-20241111122045428"></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://Whuichenggong.github.io">赵忠赫</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://whuichenggong.github.io/2024/11/11/Go_Advanced/">https://whuichenggong.github.io/2024/11/11/Go_Advanced/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://Whuichenggong.github.io" target="_blank">赵忠赫的个人博客</a>！</span></div></div><div class="tag_share"><div class="post-share"><div class="social-share" data-image="/bizhi/2.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related full-width" href="/2024/11/09/Simple_bank/" title="后端项目学习"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/bizhi/3.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">后端项目学习</div></div><div class="info-2"><div class="info-item-1">重新开启simplebank学习！！！一.创建数据库表https://dbdiagram.io 可视化数据库工具 1.创建账户表1234567Table accounts as A &#123; //A作为account的别名  id bigserisal [pk]  //pk作为主键 自增的id列  owner varchar  balance bigint  currency varchar   created_at timestamp [default: `now()`] //自动获取时间&#125;  2.创建条目表&#x2F;&#x2F;记录账户余额的变化 123456Table entries &#123;  id bigint [pk] //  account_id bigint [ref : &gt; A.id] //外键 账户和条目之间是1对多关系    amount bigint [not null note:`可以是负或者正`] //正负取决于取出还是存入 note是添加注释  created_at timestamp [default: `now()`]...</div></div></div></a></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/head.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">赵忠赫</div><div class="author-info-description"></div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">10</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">0</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Whuichenggong"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/Whuichenggong" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:zhaozhonghe40@gmail.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">让时间的痕迹留下更多！</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AD%97%E8%8A%82%E9%9D%92%E8%AE%AD%E8%90%A5%E5%AD%A6%E4%B9%A0"><span class="toc-number">1.</span> <span class="toc-text">字节青训营学习</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%80-%E5%85%A5%E9%97%A8%E7%AF%87%E5%AD%A6%E4%B9%A0"><span class="toc-number">1.0.1.</span> <span class="toc-text">一.入门篇学习</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E7%8C%9C%E6%95%B0%E5%AD%97%E6%B8%B8%E6%88%8F"><span class="toc-number">1.0.1.1.</span> <span class="toc-text">1.猜数字游戏</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E5%9C%A8%E7%BA%BF%E8%AF%8D%E5%85%B8%E4%BB%8B%E7%BB%8D"><span class="toc-number">1.0.1.2.</span> <span class="toc-text">2.在线词典介绍</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Go%E8%BF%9B%E9%98%B6"><span class="toc-number">1.0.2.</span> <span class="toc-text">Go进阶</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B"><span class="toc-number">1.0.2.1.</span> <span class="toc-text">1.并发编程</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E5%8D%8F%E7%A8%8B"><span class="toc-number">1.0.2.2.</span> <span class="toc-text">2.协程</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-%E4%BE%9D%E8%B5%96%E7%AE%A1%E7%90%86"><span class="toc-number">1.0.2.3.</span> <span class="toc-text">3.依赖管理</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-%E4%BE%9D%E8%B5%96%E5%88%86%E5%8F%91"><span class="toc-number">1.0.2.4.</span> <span class="toc-text">4.依赖分发</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-%E5%B7%A5%E5%85%B7-go-get"><span class="toc-number">1.0.2.5.</span> <span class="toc-text">5.工具 go get</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#6-%E6%B5%8B%E8%AF%95"><span class="toc-number">1.0.2.6.</span> <span class="toc-text">6.测试</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95"><span class="toc-number">1.0.2.6.1.</span> <span class="toc-text">1.单元测试</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-%E8%A7%84%E5%88%99"><span class="toc-number">1.0.2.6.2.</span> <span class="toc-text">2. 规则</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3%E4%BE%8B%E5%AD%90%EF%BC%9A"><span class="toc-number">1.0.2.6.3.</span> <span class="toc-text">3例子：</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#4-assert"><span class="toc-number">1.0.2.6.4.</span> <span class="toc-text">4.assert</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#5-%E8%A6%86%E7%9B%96%E7%8E%87"><span class="toc-number">1.0.2.6.5.</span> <span class="toc-text">5.覆盖率</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#6-%E4%BE%9D%E8%B5%96"><span class="toc-number">1.0.2.6.6.</span> <span class="toc-text">6.依赖</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#7-%E6%96%87%E4%BB%B6%E5%A4%84%E7%90%86"><span class="toc-number">1.0.2.6.7.</span> <span class="toc-text">7.文件处理</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#8-Mock"><span class="toc-number">1.0.2.6.8.</span> <span class="toc-text">8.Mock</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#10-%E9%A1%B9%E7%9B%AE%E5%AE%9E%E8%B7%B5"><span class="toc-number">1.0.2.7.</span> <span class="toc-text">10.项目实践</span></a></li></ol></li></ol></li></ol></li></ol></div></div></div></div></main><footer id="footer" style="background-image: url(/bizhi/2.png);"><div id="footer-wrap"><div class="copyright">&copy;2024 By 赵忠赫</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="chat-btn" type="button" title="聊天"><i class="fas fa-message"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.js"></script><script>(() => {
+  const panguFn = () => {
+    if (typeof pangu === 'object') pangu.autoSpacingPage()
+    else {
+      btf.getScript('https://cdn.jsdelivr.net/npm/pangu/dist/browser/pangu.min.js')
+        .then(() => {
+          pangu.autoSpacingPage()
+        })
+    }
+  }
+
+  const panguInit = () => {
+    if (false){
+      GLOBAL_CONFIG_SITE.isPost && panguFn()
+    } else {
+      panguFn()
+    }
+  }
+
+  btf.addGlobalFn('pjaxComplete', panguInit, 'pangu')
+  document.addEventListener('DOMContentLoaded', panguInit)
+})()</script><div class="js-pjax"><script>(() => {
+  const runMermaid = ele => {
+    window.loadMermaid = true
+    const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+
+    ele.forEach((item, index) => {
+      const mermaidSrc = item.firstElementChild
+      const mermaidThemeConfig = `%%{init:{ 'theme':'${theme}'}}%%\n`
+      const mermaidID = `mermaid-${index}`
+      const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+
+      const renderFn = mermaid.render(mermaidID, mermaidDefinition)
+      const renderMermaid = svg => {
+        mermaidSrc.insertAdjacentHTML('afterend', svg)
+      }
+
+      // mermaid v9 and v10 compatibility
+      typeof renderFn === 'string' ? renderMermaid(renderFn) : renderFn.then(({ svg }) => renderMermaid(svg))
+    })
+  }
+
+  const codeToMermaid = () => {
+    const codeMermaidEle = document.querySelectorAll('pre > code.mermaid')
+    if (codeMermaidEle.length === 0) return
+
+    codeMermaidEle.forEach(ele => {
+      const preEle = document.createElement('pre')
+      preEle.className = 'mermaid-src'
+      preEle.hidden = true
+      preEle.textContent = ele.textContent
+      const newEle = document.createElement('div')
+      newEle.className = 'mermaid-wrap'
+      newEle.appendChild(preEle)
+      ele.parentNode.replaceWith(newEle)
+    })
+  }
+
+  const loadMermaid = () => {
+    if (true) codeToMermaid()
+    const $mermaid = document.querySelectorAll('#article-container .mermaid-wrap')
+    if ($mermaid.length === 0) return
+
+    const runMermaidFn = () => runMermaid($mermaid)
+    btf.addGlobalFn('themeChange', runMermaidFn, 'mermaid')
+    window.loadMermaid ? runMermaidFn() : btf.getScript('https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js').then(runMermaidFn)
+  }
+
+  btf.addGlobalFn('encrypt', loadMermaid, 'mermaid')
+  window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+})()</script></div><canvas class="fireworks" mobile="false"></canvas><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/fireworks.min.js"></script><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-nest.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script>(() => {
+  const isChatBtn = true
+  const isChatHideShow = false
+
+  if (isChatBtn) {
+    const close = () => {
+      Chatra('minimizeWidget')
+      Chatra('hide')
+    }
+
+    const open = () => {
+      Chatra('openChat', true)
+      Chatra('show')
+    }
+
+    window.ChatraSetup = { startHidden: true }
+  
+    window.chatBtnFn = () => {
+      document.getElementById('chatra').classList.contains('chatra--expanded') ? close() : open()
+    }
+  } else if (isChatHideShow) {
+    window.chatBtn = {
+      hide: () => Chatra('hide'),
+      show: () => Chatra('show')
+    }
+  }
+
+  (function(d, w, c) {
+    w.ChatraID = ''
+    var s = d.createElement('script')
+    w[c] = w[c] || function() {
+      (w[c].q = w[c].q || []).push(arguments)
+    }
+    s.async = true
+    s.src = 'https://call.chatra.io/chatra.js'
+    if (d.head) d.head.appendChild(s)
+  })(document, window, 'Chatra')
+})()</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
