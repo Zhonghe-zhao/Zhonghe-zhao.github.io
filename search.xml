@@ -4,6 +4,19 @@
   
     
     <entry>
+      <title>计算机网络黑皮书持续学习中~</title>
+      <link href="/2024/11/14/computer_network/"/>
+      <url>/2024/11/14/computer_network/</url>
+      
+        <content type="html"><![CDATA[<h2 id="记录一下自己在黑皮书中的学习记录下有用的部分"><a href="#记录一下自己在黑皮书中的学习记录下有用的部分" class="headerlink" title="记录一下自己在黑皮书中的学习记录下有用的部分"></a>记录一下自己在黑皮书中的学习记录下有用的部分</h2><h2 id="应用层"><a href="#应用层" class="headerlink" title="应用层"></a>应用层</h2><h3 id="2-1应用层协议原理："><a href="#2-1应用层协议原理：" class="headerlink" title="2.1应用层协议原理："></a>2.1应用层协议原理：</h3><p>Web应用程序中两个互相通讯的不同程序：</p><ol><li>运行在用户主机上浏览器程序</li><li>运行在Web服务器主机上</li></ol><p>网络上的核心设备并不在应用层起作用， 这将应用软件限制在了端系统，这促进了大量网络应用程序的迅速研发与部署</p><h4 id="2-1-1网络应用程序体系结构"><a href="#2-1-1网络应用程序体系结构" class="headerlink" title="2.1.1网络应用程序体系结构"></a>2.1.1网络应用程序体系结构</h4><p>应用层的体系结构 明显 不同于网络的体系结构（网络的体系结构是固定的，提供了特定的服务集合）</p><p>应用层体系结构（大体两个）：</p><ol><li>客户-服务器体系结构</li><li>p2p体系结构</li></ol><h5 id="1-客户-服务器体系结构："><a href="#1-客户-服务器体系结构：" class="headerlink" title="1.客户-服务器体系结构："></a>1.客户-服务器体系结构：</h5><p>有一个总打开的主机被称为：服务器（它服务于许多其他称为客户的主机请求）</p><p>例子：</p><p>Web应用服务器：（Web服务器服务于浏览器（运行在客户机）的请求）</p><p>在这个体系结构中 客户之间并不直接通信 而是 客户通过向该服务器的ip地址发送分组 用来取得联系</p><p>著名的Web应用：</p><p>Web FTP Telent 电子邮箱</p><p>在这个体系中 如果只有一台服务器 在某些情况（大量的所有请i去）会导致服务器变得不堪重负，因此-配备大量主机的 <strong>数据中心</strong></p><p>流行的因特网服务：</p><p>搜索引擎（Google，bing，百度）等 应用了一个或多个数据中心（1个数据中心 可以有数十万台服务器）</p><h5 id="2-p2p体系结构"><a href="#2-p2p体系结构" class="headerlink" title="2. p2p体系结构"></a>2. p2p体系结构</h5><p>主机对之间使用直接通信（对等方），引人入胜的特性（自扩展性），</p><p>面临挑战： 高度非集中式，面临安全性，性能和可靠性等挑战</p><p>应用：</p><p>文件共享，对等方协助下载器（迅雷）因特网电话和视频会议 </p><p>有的应用具有两种的混合体系： 服务器被用来跟踪用户的ip地址 但 用户到用户的报文在用户到主机之间 直接发送</p><h4 id="2-1-2进程通信"><a href="#2-1-2进程通信" class="headerlink" title="2.1.2进程通信"></a>2.1.2进程通信</h4><p>运行在多个端系统上的程序如何互相通信，进行通信实际上是<strong>进程</strong>而不是程序<br><strong>进程</strong>可以被认为是运行在端系统的一个程序。 多个进程运行在相同的端系统时<strong>使用进程间通信机制互相通信（通信规则由  _端系统上的操作系统制定_）</strong></p><h2 id="关注的是-运行在不同端系统上的进程间的通信"><a href="#关注的是-运行在不同端系统上的进程间的通信" class="headerlink" title="关注的是 运行在不同端系统上的进程间的通信"></a>关注的是 运行在不同端系统上的进程间的通信</h2><p>在不同的端系统上的进程 通过 跨越进程通过网络互相发送<strong>报文</strong></p><p>发送进程 生成并 向网络中 发送报文 -》接收进程接收报文并通过回送报文响应</p><h5 id="1-客户和服务器进程"><a href="#1-客户和服务器进程" class="headerlink" title="1.客户和服务器进程"></a>1.客户和服务器进程</h5><p>网络应用程序由 成对的进程组成 进程之间 通过网路互相发送报文 </p><p>例子：</p><p>客户浏览器进程 与 Web服务器进程交换报文 在p2p中： 文件从一个对等方中的进程 传输到 另一个对等放进程 其中一个进程被表示为<strong>客户</strong> 另一个进程被标记为<strong>服务器</strong></p><h5 id="2-进程与计算机网络之间的接口（api）"><a href="#2-进程与计算机网络之间的接口（api）" class="headerlink" title="2.进程与计算机网络之间的接口（api）"></a>2.进程与计算机网络之间的接口（api）</h5><p>进程 通过一个称为<strong>套接字（socket）</strong> 的软件接口 向网络发送报文和从网络接收报文</p><p><strong>套接字</strong>： 是同一台主机被<strong>应用层与传输层之间</strong>的接口 套接字被称为 应用进程 和 网络之间的（api）</p><p>我们可以控制套接字在应用端的一切 但是 对运输层几乎没有控制权 仅限于：选择运输层协议 也能设定几个运输层协议（最大缓存，最大报文长度）</p><h5 id="3-进程寻址"><a href="#3-进程寻址" class="headerlink" title="3.进程寻址"></a>3.进程寻址</h5><p>主机由<strong>ip地址</strong>标识， ip地址： 是32比特的量它能够标识该主机 </p><p><strong>端口号</strong>： 众所周知的端口号列表： <a href="http://www.iana.org/">http://www.iana.org</a></p><p><img src="/img_5.png" alt="img_5.png"></p><h4 id="2-1-3-可供应用程序使用的运输服务"><a href="#2-1-3-可供应用程序使用的运输服务" class="headerlink" title="2.1.3 可供应用程序使用的运输服务"></a>2.1.3 可供应用程序使用的运输服务</h4><p>运输层协议负责从接收进程的套接字得到该报文 开发应用时还要选择根基情况 选择合适的协议 选择服务</p><p>服务： 可靠数据传输 吞吐量 定时 安全性</p>]]></content>
+      
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>一些找工作或实习的渠道</title>
       <link href="/2024/11/13/job/"/>
       <url>/2024/11/13/job/</url>
@@ -185,17 +198,6 @@
     
     
     <entry>
-      <title>分类</title>
-      <link href="/categories/index.html"/>
-      <url>/categories/index.html</url>
-      
-        <content type="html"><![CDATA[]]></content>
-      
-    </entry>
-    
-    
-    
-    <entry>
       <title>友情链接</title>
       <link href="/link/index.html"/>
       <url>/link/index.html</url>
@@ -210,6 +212,17 @@
       <title>标签</title>
       <link href="/tags/index.html"/>
       <url>/tags/index.html</url>
+      
+        <content type="html"><![CDATA[]]></content>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>分类</title>
+      <link href="/categories/index.html"/>
+      <url>/categories/index.html</url>
       
         <content type="html"><![CDATA[]]></content>
       
