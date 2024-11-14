@@ -176,17 +176,6 @@
     
     
     <entry>
-      <title>图库</title>
-      <link href="/Gallery/index.html"/>
-      <url>/Gallery/index.html</url>
-      
-        <content type="html"><![CDATA[<div class="gallery-group-main"><figure class="gallery-group">  <img class="gallery-group-img no-lightbox" src='/Gallery/beijing.jpg' alt="Group Image Gallery">  <figcaption>  <div class="gallery-group-name">北京</div>  <p>车站</p>  <a href='/Gallery/beijing.jpg'></a>  </figcaption>  </figure>  <figure class="gallery-group">  <img class="gallery-group-img no-lightbox" src='/Gallery/beijing2.jpg' alt="Group Image Gallery">  <figcaption>  <div class="gallery-group-name">北京</div>  <p>风景</p>  <a href='/Gallery/beijing2.jpg'></a>  </figcaption>  </figure>  <figure class="gallery-group">  <img class="gallery-group-img no-lightbox" src='/Gallery/beijing3.jpg' alt="Group Image Gallery">  <figcaption>  <div class="gallery-group-name">北京</div>  <p>中关村</p>  <a href='/Gallery/beijing3.jpg'></a>  </figcaption>  </figure>  </div><div class="gallery-container" data-type="data" data-button="">      <div class="gallery-items">[{"url":"/Gallery/beijing4.jpg","alt":""},{"url":"/Gallery/beijing5.jpg","alt":""},{"url":"/Gallery/beijing6.jpg","alt":""},{"url":"/Gallery/beijing7.jpg","alt":""},{"url":"/Gallery/beijing8.jpg","alt":""},{"url":"/Gallery/beijing9.jpg","alt":""},{"url":"/Gallery/beijing11.jpg","alt":""},{"url":"/Gallery/beijing12.jpg","alt":""}]</div>    </div>]]></content>
-      
-    </entry>
-    
-    
-    
-    <entry>
       <title>音乐</title>
       <link href="/Music/index.html"/>
       <url>/Music/index.html</url>
@@ -198,9 +187,20 @@
     
     
     <entry>
-      <title>友情链接</title>
-      <link href="/link/index.html"/>
-      <url>/link/index.html</url>
+      <title>图库</title>
+      <link href="/Gallery/index.html"/>
+      <url>/Gallery/index.html</url>
+      
+        <content type="html"><![CDATA[<div class="gallery-group-main"><figure class="gallery-group">  <img class="gallery-group-img no-lightbox" src='/Gallery/beijing.jpg' alt="Group Image Gallery">  <figcaption>  <div class="gallery-group-name">北京</div>  <p>车站</p>  <a href='/Gallery/beijing.jpg'></a>  </figcaption>  </figure>  <figure class="gallery-group">  <img class="gallery-group-img no-lightbox" src='/Gallery/beijing2.jpg' alt="Group Image Gallery">  <figcaption>  <div class="gallery-group-name">北京</div>  <p>风景</p>  <a href='/Gallery/beijing2.jpg'></a>  </figcaption>  </figure>  <figure class="gallery-group">  <img class="gallery-group-img no-lightbox" src='/Gallery/beijing3.jpg' alt="Group Image Gallery">  <figcaption>  <div class="gallery-group-name">北京</div>  <p>中关村</p>  <a href='/Gallery/beijing3.jpg'></a>  </figcaption>  </figure>  </div><div class="gallery-container" data-type="data" data-button="">      <div class="gallery-items">[{"url":"/Gallery/beijing4.jpg","alt":""},{"url":"/Gallery/beijing5.jpg","alt":""},{"url":"/Gallery/beijing6.jpg","alt":""},{"url":"/Gallery/beijing7.jpg","alt":""},{"url":"/Gallery/beijing8.jpg","alt":""},{"url":"/Gallery/beijing9.jpg","alt":""},{"url":"/Gallery/beijing11.jpg","alt":""},{"url":"/Gallery/beijing12.jpg","alt":""}]</div>    </div>]]></content>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>分类</title>
+      <link href="/categories/index.html"/>
+      <url>/categories/index.html</url>
       
         <content type="html"><![CDATA[]]></content>
       
@@ -220,9 +220,9 @@
     
     
     <entry>
-      <title>分类</title>
-      <link href="/categories/index.html"/>
-      <url>/categories/index.html</url>
+      <title>友情链接</title>
+      <link href="/link/index.html"/>
+      <url>/link/index.html</url>
       
         <content type="html"><![CDATA[]]></content>
       
