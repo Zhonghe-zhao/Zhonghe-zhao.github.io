@@ -4,6 +4,19 @@
   
     
     <entry>
+      <title>11.26日字节直播总结</title>
+      <link href="/2024/11/26/Dance_live2/"/>
+      <url>/2024/11/26/Dance_live2/</url>
+      
+        <content type="html"><![CDATA[<h1 id="字节结营直播答疑"><a href="#字节结营直播答疑" class="headerlink" title="字节结营直播答疑"></a>字节结营直播答疑</h1><p>revue 项目</p><p><img src="/about_Dance/1.png" alt="image-20241126190953519"></p><p><img src="/about_Dance/2.png" alt="image-20241126191031196"></p><p>性能优化     ci&#x2F;cd流程 （ star法则来描述一件事情)</p><p>准备找实习 写好简历</p><p><img src="/about_Dance/3.png" alt="image-20241126191500892"></p><p>zt：</p><p>服务端： 计算机基础知识（字节：计算机网络 tcp&#x2F;ip  腾讯：操作系统 阿里： 组成原理）</p><p>技术： （数据结构 高阶算法 链表 堆栈 树（面试重点））</p><p>leetcode 100 150 200</p><p>项目： 烂大街的（入门） 改进一些项目（做优化 项目存在的意义 解决了什么问题？ 带来了什么？ 项目亮点在哪里）</p><p>实习经历：（做了什么需求 需求是（谁给的 自己还是别人？）通过实现了什么？ 解决了什么？ 团队收益还是小组收益？）</p><p>专业能力： 小厂一门语言 ＋数据库存储 会就ok  大数据 架构数据 微服务层面</p><p><img src="/about_Dance/4.png" alt="image-20241126192005590"></p><p>八股扎实稳固 算法 中等难度题很快弄出来</p><p>项目亮点：能让面试官和你聊下去 如何提升亮点和竞争力  开源社区！</p><p>抄项目 然后手写 尝试自己理解      前端（vue）（react）</p><p><img src="/about_Dance/5.png" alt="image-20241126192541252"></p><p>数据结构 计算机基础知识  面试官想看你的亮点（你牛逼在哪里？）</p><p>做过什么会什么？</p><p>服务端是一些思维 而不是纠结你是用什么语言</p><p>从0-1 有没有调研 各行各业的优秀作业</p><p>合作项目</p><p>责任意识</p><p>技术探索：遇到什么问题 怎么解决的？</p><p>业务理解能力 项目受众是谁 项目模块 最重要是哪个模块 怎么优化这个模块</p><p><img src="/about_Dance/6.png" alt="image-20241126193100190"></p><p><img src="/about_Dance/7.png" alt="image-20241126193341747"></p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">“开源社区新手入门该参与什么内容，有哪些社区比较活跃”</span><br><span class="line">可以看看类似于开源之夏这类的活动往年都是做什么的</span><br></pre></td></tr></table></figure><p>多逛github</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">“在github中新手怎么找项目”</span><br><span class="line">，你用vue就去看VUE文档仓库，看看有没有错别字，有的话修一下</span><br></pre></td></tr></table></figure><p>项目的含金量 和自己从0-1实现</p><p>组件多 中间件多 新奇的做法等 可以被称为含金量（）</p><p>核心能力 技术深度 在广度的前提下 一定要有一个深度</p><p>项目一样 面试官能问什么？</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">老哥们 大二第一次找实习的话一般要什么程度我正在跟着别人做一个项目 但是不知道什么时候才够格去投简历”</span><br><span class="line">看看面经别人被问了什么你能不能回答</span><br></pre></td></tr></table></figure><p><img src="/about_Dance/8.png" alt="image-20241126193803102"></p><p>平地起项目 是有条件的： 大厂实习 项目经历&gt;&#x3D;3 等经历 否则不要平地起</p><p>对于项目的理解一定是从头到尾的 对项目改造 新增功能 优化 才能体现你的亮点</p><p>思考 ： 多人协作是否有沟通 是否涉及复杂逻辑</p><p>新颖的想法！ 创造力！</p><p>投简历的方式</p><p>如何面对八股 算法</p><p>找开源项目：熟悉流程 寻找错别字熟悉流程哈哈哈 看issue bug（解决issue）</p><p>知乎 蔚来 比亚迪 从小厂到大厂 循序渐进</p><p><img src="/about_Dance/9.png" alt="image-20241126195807918"></p><p>字节  99%go</p><p>语言是基础无所谓</p><p>培养独立解决问题的能力 做出一个合格的项目 （不断回顾自己的项目 查找不足）</p><p>后端开发实习生（简历）</p><p>数据库的课（掘金的）</p><p>《Redis深度历险：核心原理和应用实践》</p><p>服务端开源： 不建议新手就去找开源 学习成本很大 2~3段实习之后尝试开源</p><p><img src="/about_Dance/10.png" alt="image-20241126200922693"></p><p>知名项目源码： 前提一定要熟悉使用这个项目的源码 项目的使用环境 如何启动它</p><p>例如：熟练使用docker ， kubernets istio了，再去看源码 i   <strong>写出一个对源码理解的文章</strong></p><p>对于源码：一步一步慢慢来 该学的东西就学 不要纠结没用的例如学历 没法改变就不去改变</p><p>.md .sh 依赖那些中间件 中间件是否具备？ 如何去不使用中间件如何启动这个项目 分析目录结构（单体 还是微服务）包的作用 模块之间的耦合关系  利用isue 项目常见报错解决方式</p><p>组队开发的群聊看看能不能找到</p>]]></content>
+      
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>UDP socket的ack机制和丢包重传</title>
       <link href="/2024/11/23/UDP_socket/"/>
       <url>/2024/11/23/UDP_socket/</url>
