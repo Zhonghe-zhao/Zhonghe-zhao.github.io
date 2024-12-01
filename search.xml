@@ -34,7 +34,7 @@
       <link href="/2024/11/16/computer_operate/"/>
       <url>/2024/11/16/computer_operate/</url>
       
-        <content type="html"><![CDATA[<hr><p>6.cs081os学习</p><p>感谢：</p><p>参考资料：</p><p><a href="https://www.geeksforgeeks.org/pipe-system-call/">https://www.geeksforgeeks.org/pipe-system-call/</a></p><p>很好的文章：</p><p><a href="https://swtch.com/~rsc/thread/">https://swtch.com/~rsc/thread/</a></p><p>同步机制：<a href="https://zybtree.github.io/2020/08/12/%E5%90%8C%E6%AD%A5%E6%9C%BA%E5%88%B6/">https://zybtree.github.io/2020/08/12/%E5%90%8C%E6%AD%A5%E6%9C%BA%E5%88%B6/</a></p><p>参考答案： <a href="https://github.com/relaxcn/xv6-labs-2022-solutions/blob/main/doc/utils.md">https://github.com/relaxcn/xv6-labs-2022-solutions/blob/main/doc/utils.md</a></p><p>学习链接： <a href="https://pdos.csail.mit.edu/6.828/2021/schedule.html">https://pdos.csail.mit.edu/6.828/2021/schedule.html</a></p><hr><p>直接从进程与线程入手</p><h4 id="进程与线程"><a href="#进程与线程" class="headerlink" title="进程与线程"></a>进程与线程</h4><p>单独的CPU变换成多个虚拟的CPU</p><h5 id="进程"><a href="#进程" class="headerlink" title="进程"></a>进程</h5><p>当网页请求进入的时候 先查看 网页是否在缓存中 如果不是<br>启动一个磁盘请求用来获取网页  磁盘请求会花费很多时间 等待的过程中会有更多的请求进入<br>每个进程有它自己的虚拟的CPU 真正的CPU在进程之间来回切换<br>需要一些方法例如多个磁盘 模拟控制并发 进程就能发挥作用<br>来回切换称： 多道程序设计</p><p>支持多进程的多道程序系统<br>一个核一次也只能运行一个进程</p><p><img src="/study_photo2/operater1.jpg" alt="internet.jpg"></p><h4 id="12-1日"><a href="#12-1日" class="headerlink" title="12.1日"></a>12.1日</h4><h5 id="一-进程的并发执行"><a href="#一-进程的并发执行" class="headerlink" title="一.进程的并发执行"></a>一.进程的并发执行</h5><ol><li>并发</li></ol><ul><li>进程的执行是间断的</li></ul><p>每个进程的生命周期期间CPU执行 由于某种原因暂停 每个进程执行是间断性的</p><ul><li>进程的执行速度是不可预测的</li></ul><p>进程调度，有其他事件的发生，每个进程上cpu执行坑你一点时间听着再接着运行</p><ol start="2"><li>共享</li></ol><ul><li>进程线程之间的制约性<br>在一个并发环境下多个进程或者线程之间会共享某些资源，在这些资源的使用过程中会产生进程之间的一种制约性。<br>比如当一个进程享用打印机这个资源，另外一个进程在第一个进程没有释放这个资源的前提之下就得不到这个资源，那就得等待。</li></ul><ol start="3"><li>不确定性</li></ol><ul><li>进程执行的结果与其执行的相对速度有关</li></ul><p>进程执行的结果和它的相对执行速度是有关系的，因此在不同的执行顺序的情况下，进程的执行结果也是不确定的。</p><h5 id="二-进程互斥"><a href="#二-进程互斥" class="headerlink" title="二.进程互斥"></a>二.进程互斥</h5><p>由于各进程要求使用共享资源(变量、文件等)， 而这些资源需要排他性使用，<br>各进程之间竞争使用这些资源，这一关系称为进程互斥。</p><ul><li>临界资源<br>系统中某些资源一次只允许一个进程使用，称这样的资源为临界资源或互斥资源或共享变量。<br>这些程序片段，分散在不同的进程里，它们的共同的特点是对同一个共享变量进行一些操作<br>这一段代码，和另外一个进程的这一段代码互为临界区，互为互斥区</li></ul><p><img src="/study_photo2/operater2.jpg" alt="internet.jpg"></p>]]></content>
+        <content type="html"><![CDATA[<hr><p>6.cs081os学习</p><p>感谢：</p><p>参考资料：</p><p><a href="https://www.geeksforgeeks.org/pipe-system-call/">https://www.geeksforgeeks.org/pipe-system-call/</a></p><p>很好的文章：</p><p><a href="https://swtch.com/~rsc/thread/">https://swtch.com/~rsc/thread/</a></p><p>同步机制：<a href="https://zybtree.github.io/2020/08/12/%E5%90%8C%E6%AD%A5%E6%9C%BA%E5%88%B6/">https://zybtree.github.io/2020/08/12/%E5%90%8C%E6%AD%A5%E6%9C%BA%E5%88%B6/</a></p><p>参考答案： <a href="https://github.com/relaxcn/xv6-labs-2022-solutions/blob/main/doc/utils.md">https://github.com/relaxcn/xv6-labs-2022-solutions/blob/main/doc/utils.md</a></p><p>学习链接： <a href="https://pdos.csail.mit.edu/6.828/2021/schedule.html">https://pdos.csail.mit.edu/6.828/2021/schedule.html</a></p><hr><p>直接从进程与线程入手</p><h4 id="进程与线程"><a href="#进程与线程" class="headerlink" title="进程与线程"></a>进程与线程</h4><p>单独的CPU变换成多个虚拟的CPU</p><h5 id="进程"><a href="#进程" class="headerlink" title="进程"></a>进程</h5><p>当网页请求进入的时候 先查看 网页是否在缓存中 如果不是<br>启动一个磁盘请求用来获取网页  磁盘请求会花费很多时间 等待的过程中会有更多的请求进入<br>每个进程有它自己的虚拟的CPU 真正的CPU在进程之间来回切换<br>需要一些方法例如多个磁盘 模拟控制并发 进程就能发挥作用<br>来回切换称： 多道程序设计</p><p>支持多进程的多道程序系统<br>一个核一次也只能运行一个进程</p><p><img src="/study_photo2/operater1.jpg" alt="internet.jpg"></p><hr><h4 id="12-1日"><a href="#12-1日" class="headerlink" title="12.1日"></a>12.1日</h4><h5 id="一-进程的并发执行"><a href="#一-进程的并发执行" class="headerlink" title="一.进程的并发执行"></a>一.进程的并发执行</h5><ol><li>并发</li></ol><ul><li>进程的执行是间断的</li></ul><p>每个进程的生命周期期间CPU执行 由于某种原因暂停 每个进程执行是间断性的</p><ul><li>进程的执行速度是不可预测的</li></ul><p>进程调度，有其他事件的发生，每个进程上cpu执行坑你一点时间听着再接着运行</p><ol start="2"><li>共享</li></ol><ul><li>进程线程之间的制约性<br>在一个并发环境下多个进程或者线程之间会共享某些资源，在这些资源的使用过程中会产生进程之间的一种制约性。<br>比如当一个进程享用打印机这个资源，另外一个进程在第一个进程没有释放这个资源的前提之下就得不到这个资源，那就得等待。</li></ul><ol start="3"><li>不确定性</li></ol><ul><li>进程执行的结果与其执行的相对速度有关</li></ul><p>进程执行的结果和它的相对执行速度是有关系的，因此在不同的执行顺序的情况下，进程的执行结果也是不确定的。</p><h5 id="二-进程互斥"><a href="#二-进程互斥" class="headerlink" title="二.进程互斥"></a>二.进程互斥</h5><p>由于各进程要求使用共享资源(变量、文件等)， 而这些资源需要排他性使用，<br>各进程之间竞争使用这些资源，这一关系称为进程互斥。</p><ul><li>临界资源<br>系统中某些资源一次只允许一个进程使用，称这样的资源为临界资源或互斥资源或共享变量。<br>这些程序片段，分散在不同的进程里，它们的共同的特点是对同一个共享变量进行一些操作<br>这一段代码，和另外一个进程的这一段代码互为临界区，互为互斥区</li></ul><p><img src="/study_photo2/operater2.jpg" alt="internet.jpg"></p><h4 id="冯诺依曼模型"><a href="#冯诺依曼模型" class="headerlink" title="冯诺依曼模型"></a>冯诺依曼模型</h4><p>计算机基本结构：运算器 控制器 存储器 输入设备 输出设备</p><h5 id="内存"><a href="#内存" class="headerlink" title="内存"></a>内存</h5><p>程序和数据都是存储在内存，存储区域是线性的</p><p>存储数据的基本单位是 字节 每一个字节对应一个内存地址</p><p>最后一个地址为内存总字节数 -1 结构就像数序中的数据</p><h5 id="中央处理器"><a href="#中央处理器" class="headerlink" title="中央处理器"></a>中央处理器</h5><p>也就是cpu：<br>32位cpu一次可以计算4个字节<br>64位cpu一次可以计算8个字节 位数也就是cpu的位宽 代表cpu一次可以计算的数据量</p><p>8 位的 CPU，那么一次只能计算 1 个字节也就是0~255 范围内的数值 那么 32位也就是一次可以计算出 2的32次方这么大的数值<br>cpu内部组件：寄存器，控制单元和逻辑运算单元</p><p>为什么有了内存还需要寄存器？</p><p>寄存器种类（通用寄存器）（程序计数器）（指令寄存器）</p><p>因为： 内存离 CPU 太远了，而寄存器就在 CPU 里，紧挨着控制单元和逻辑运算单元，自然计算时速度会很快。</p><h6 id="总线"><a href="#总线" class="headerlink" title="总线"></a>总线</h6><p>总线用于cpu和内存以及其他设备之前的通信</p><p>（地址总线）：指定CPU将要操作的内存地址</p><p>（数据总线）：用于读写内存的数据</p><p>（控制总线）： 发送和接收信号，比如中断，设备复位等信号</p><p>CPU 要读写内存数据的时候：</p><ul><li>首先要通过「地址总线」来指定内存的地址；</li><li>然后通过「控制总线」控制是读或写命令；</li><li>最后通过「数据总线」来传输数据；</li></ul><h5 id="输入输出设备"><a href="#输入输出设备" class="headerlink" title="输入输出设备"></a>输入输出设备</h5><p>输入设备向计算机输入数据，计算机经过计算后，把数据输出给输出设备。<br>如果输入设备是键盘，按下按键时是需要和 CPU 进行交互的，这时就需要用到控制总线了。</p><h5 id="线路位宽与CPU位宽"><a href="#线路位宽与CPU位宽" class="headerlink" title="线路位宽与CPU位宽"></a>线路位宽与CPU位宽</h5><p>数据是如何通过线路传输的呢<br>操作电压，低电压表示 0，高压电压则表示 1</p><p>101 二进制数据，十进制则表示 5，如果只有一条线路，就意味着每次只能传递 1 bit 的数据， 那么传输 101 这个数据，就需要 3 次才能传输完成，这样的效率非常低。</p><p>增加线路，数据并行传输</p><p>CPU 想要操作「内存地址」就需要「地址总线」：</p><p>地址总线只有 1 条，那每次只能表示 「0 或 1」这两种地址  最大数量为 2（2^1）个</p><p>如果地址总线有 2 条，那么能表示 00、01、10、11 这四种地址  最大数量为 4（2^2）个</p><p>CPU 操作 4G 大的内存，那么就需要 32 条地址总线，因为 2 ^ 32 &#x3D; 4G</p><p>CPU位宽最好不要小于线路位宽</p>]]></content>
       
       
       
@@ -252,28 +252,6 @@
     
     
     <entry>
-      <title>分类</title>
-      <link href="/categories/index.html"/>
-      <url>/categories/index.html</url>
-      
-        <content type="html"><![CDATA[]]></content>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>友情链接</title>
-      <link href="/link/index.html"/>
-      <url>/link/index.html</url>
-      
-        <content type="html"><![CDATA[]]></content>
-      
-    </entry>
-    
-    
-    
-    <entry>
       <title>图库</title>
       <link href="/Gallery/index.html"/>
       <url>/Gallery/index.html</url>
@@ -285,9 +263,31 @@
     
     
     <entry>
+      <title>分类</title>
+      <link href="/categories/index.html"/>
+      <url>/categories/index.html</url>
+      
+        <content type="html"><![CDATA[]]></content>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>标签</title>
       <link href="/tags/index.html"/>
       <url>/tags/index.html</url>
+      
+        <content type="html"><![CDATA[]]></content>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>友情链接</title>
+      <link href="/link/index.html"/>
+      <url>/link/index.html</url>
       
         <content type="html"><![CDATA[]]></content>
       
