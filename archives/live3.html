@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="赵忠赫">
+
+
+
+
+
+<title>一位老哥的分享给了我一些启发 | 赵忠赫的个人博客</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 7.3.0"><link rel="alternate" href="/atom.xml" title="赵忠赫的个人博客" type="application/atom+xml">
+</head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">赵忠赫&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tags">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">赵忠赫&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tags">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    <article class="post-wrap page">
+        
+        <h2 class="post-title">一位老哥的分享给了我一些启发</h2>
+        
+        <section class="post-content">
+            <p>学习方法：老哥的思维方式也给了我一些启发</p>
+<p>以下是老哥的分享：</p>
+<p>当知识点量大起来时, 我觉得”写作”的意义应该在于辅助思考</p>
+<p>因为短时间内可能我们能记得很好, 但是对于长时间的庞大知识体系的学习, 就容易忘记一些分支内容 </p>
+<p>所以第一步我做的是把长长的博客尽量拆解为小的讨论主题</p>
+<p>作为”词条”存在</p>
+<p>比如我写了个k8s主题的词条 写道”容器”这个词会自动链接到我之前写过的容器相关的内容  里面的内容是否符合当下我需要的定义  如果是, 那么可以知识复用  如果不是, 那么我需不需要创建新的词条来讨论这个主题<br>然后关联知识形成网络</p>
+<p>比如一个使用mysql + reids搭建的系统, 即用到了mysql, 又用到了redis, 同时它本身还是个系统设计就会难以归类 </p>
+<p>但是 一个文章可以同时带有mysql, redis, 系统设计三种tag  让知识形成网络！</p>
+<p>先把书的标题提取出来 建立一个词条  然后去网上查, 这个东西包含哪些东西 然后去网上查, 这个东西包含哪些东西 等熟悉了基于零散信息的网络后  再去快速浏览权威书籍 迭代网络  </p>
+<hr>
+<p>听了老哥的分享！ 我觉得自己再生活中真的缺乏太多的思考了！什么事知道他困难，不想办法，应该去思考一些东西才能让东西变得更活！</p>
+
+        </section>
+    </article>
+</div>
+
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© 赵忠赫 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+
+</html>

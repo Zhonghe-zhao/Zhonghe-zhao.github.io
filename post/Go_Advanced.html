@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="赵忠赫">
+
+
+
+
+
+<title>Go语言进阶 | 赵忠赫的个人博客</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 7.3.0"><link rel="alternate" href="/atom.xml" title="赵忠赫的个人博客" type="application/atom+xml">
+</head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">赵忠赫&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tags">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">赵忠赫&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tags">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    <article class="post-wrap page">
+        
+        <h2 class="post-title">Go语言进阶</h2>
+        
+        <section class="post-content">
+            <h1 id="字节青训营学习"><a href="#字节青训营学习" class="headerlink" title="字节青训营学习"></a>字节青训营学习</h1><h3 id="一-入门篇学习"><a href="#一-入门篇学习" class="headerlink" title="一.入门篇学习"></a>一.入门篇学习</h3><p>实战篇：</p>
+<h4 id="1-猜数字游戏"><a href="#1-猜数字游戏" class="headerlink" title="1.猜数字游戏"></a>1.猜数字游戏</h4><p>运用</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">”math/rand“</span><br><span class="line"></span><br><span class="line">maxNum := 100</span><br><span class="line">调用 Intn（maxNum）</span><br><span class="line">//注意这并不能使每一次都用都产生不同的值</span><br><span class="line"></span><br><span class="line">需要加 时间戳 才能每次产生不同的值</span><br><span class="line">应该是：</span><br><span class="line">maxNum := 100</span><br><span class="line">ran.Seed(time.Now().UnixNano())</span><br><span class="line">然后调用</span><br><span class="line"> ran.Intn（maxNum）</span><br><span class="line"> </span><br><span class="line"> 用 &quot;bufio&quot;</span><br><span class="line"> 这个特别的包以后可以用到</span><br><span class="line"> </span><br><span class="line"> 这里读取一行输入用的是</span><br><span class="line"> reader := bufo.NewReader(os.Stdin)//调用这个可以更加灵活</span><br><span class="line"> input， err := reader.ReadString(&#x27;\n&#x27;)</span><br><span class="line"> if err != nil&#123;...&#125;</span><br><span class="line"> </span><br><span class="line"> input = strings.TrimSuffix(intput,&quot;\n&quot;)//去掉换行符</span><br><span class="line"> </span><br><span class="line"> guess,err := strconv.Atoi(input)//转换成数字</span><br><span class="line"> </span><br><span class="line"> 菜值逻辑 </span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="2-在线词典介绍"><a href="#2-在线词典介绍" class="headerlink" title="2.在线词典介绍"></a>2.在线词典介绍</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">go run simpledict/v4/main.go hello</span><br><span class="line">//意思是查询hello这个功能</span><br><span class="line">//会输出以下内容</span><br><span class="line">hello UK:[&#x27;he&#x27;lau]US:[ha&#x27;lo]</span><br><span class="line">int.喂；哈罗</span><br><span class="line">n.引人注意的呼声</span><br><span class="line">V.向人呼（喂</span><br><span class="line"></span><br><span class="line">调用第三方api</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<p>生成请求</p>
+<p><a target="_blank" rel="noopener" href="https://curlconverter.com/">https://curlconverter.com/</a></p>
+<p>写入curl 自动生成代码</p>
+<p>示例：</p>
+<p><img src="/study_photo/39.png" alt="image-20241104201754858"></p>
+<p>会输出一些列bilibili的东西</p>
+<p>json序列化</p>
+<p><img src="/study_photo/40.png" alt="image-20241104202957339"></p>
+<p>衍生出以下</p>
+<p><img src="/study_photo/41.png" alt="image-20241104203014855"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">结构体</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">request ：= DicRequest&#123;Trans Type：&quot;en2zh&quot;,Source:&quot;good&quot;&#125;</span><br><span class="line">buf, err := json.Marshal(request)//序列化request 变成byte数组</span><br><span class="line">if~~~</span><br><span class="line">var data = bytes.NewReader(buf) //因为buf返回的是bytes数组所以我们应该 bytes.NewReader</span><br></pre></td></tr></table></figure>
+
+
+
+<p>解析response 进行反序列化</p>
+<p>json转golang 结构体</p>
+<p><a target="_blank" rel="noopener" href="https://oktools.net/json2go">https://oktools.net/json2go</a></p>
+<p>反序列化</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">err = json.Unmarshal(bodytext,&amp;dictResponse)//传入结构体</span><br><span class="line"></span><br><span class="line">fmt.Println(&quot;%#v&quot;,dicResponse)</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h3 id="Go进阶"><a href="#Go进阶" class="headerlink" title="Go进阶"></a>Go进阶</h3><h4 id="1-并发编程"><a href="#1-并发编程" class="headerlink" title="1.并发编程"></a>1.并发编程</h4><p>并发：多线程在一个核运行 时间碎片</p>
+<p>并行： 多核</p>
+<p><img src="/study_photo/42.png" alt="image-20241109132249854"></p>
+<p>并行是并发的手段</p>
+<h4 id="2-协程"><a href="#2-协程" class="headerlink" title="2.协程"></a>2.协程</h4><p><img src="/study_photo/43.png" alt="image-20241109132406297"></p>
+<p>协程：轻量级线程 线程本身重量级 Goroutine：可以实现上万个携程</p>
+<p>例子:协程</p>
+<p><img src="/study_photo/44.png" alt="image-20241109132554426"></p>
+<p>go关键字开启协程</p>
+<p>通过通信来共享内存</p>
+<p><img src="/study_photo/45.png" alt="image-20241109132746410"></p>
+<p>channel</p>
+<p>make创建channel</p>
+<p><img src="/study_photo/46.png" alt="image-20241109132925436"></p>
+<p>有缓冲：</p>
+<p>无缓冲：进行通信时（两个goroutine同步）也称同步通道</p>
+<p>示例：</p>
+<p><img src="/study_photo/47.png" alt="image-20241109133236164"></p>
+<p>先make创建通道 把数字放入第一个通道里</p>
+<p>然后b把src做平方运算</p>
+<p>并发安全 Lock</p>
+<p><img src="/study_photo/48.png" alt="image-20241109134052647"></p>
+<p>Lock（）临界区</p>
+<p><img src="/study_photo/49.png" alt="image-20241109134621688"></p>
+<h4 id="3-依赖管理"><a href="#3-依赖管理" class="headerlink" title="3.依赖管理"></a>3.依赖管理</h4><p>1.GOPATH</p>
+<p>bin pkg src（项目源码）</p>
+<p>无法实现package 的多版本控制</p>
+<p>2.vendor存放依赖副本 也有弊端</p>
+<p>3.go module 管理 解决了问题</p>
+<p><img src="/study_photo/51.png" alt="image-20241109135629389"></p>
+<p>indirect关键词</p>
+<p><img src="/study_photo/52.png" alt="image-20241109140344112"></p>
+<p>b（选择最低兼容版本）</p>
+<h4 id="4-依赖分发"><a href="#4-依赖分发" class="headerlink" title="4.依赖分发"></a>4.依赖分发</h4><p>Github         SVN               …</p>
+<p>​          Developer</p>
+<p>无法保证构建稳定性</p>
+<p>无法保证依赖可用性</p>
+<p>增加第三方压力</p>
+<p>Go proxy （）缓存内容版本 从proxy拉取依赖 减少第三方压力</p>
+<p>Proxy1 -》 proxy2 -》 Direct  依次进行</p>
+<h4 id="5-工具-go-get"><a href="#5-工具-go-get" class="headerlink" title="5.工具 go get"></a>5.工具 go get</h4><p>go mod       <strong>init tidy download</strong></p>
+<h4 id="6-测试"><a href="#6-测试" class="headerlink" title="6.测试"></a>6.测试</h4><p>事故：</p>
+<p><img src="/study_photo/59.png" alt="image-20241111092419264"></p>
+<p>测试的重要性：避免事故的最后一道屏障</p>
+<p>单元测试 mock测试   回归测试 集成测试</p>
+<h5 id="1-单元测试"><a href="#1-单元测试" class="headerlink" title="1.单元测试"></a>1.单元测试</h5><p><img src="/study_photo/60.png" alt="image-20241111092633595"></p>
+<p>保证代码整体覆盖率</p>
+<p>提升效率</p>
+<h5 id="2-规则"><a href="#2-规则" class="headerlink" title="2. 规则"></a>2. 规则</h5><p><img src="/study_photo/61.png" alt="image-20241111092852792"></p>
+<h5 id="3例子："><a href="#3例子：" class="headerlink" title="3例子："></a>3例子：</h5><p><img src="/study_photo/62.png" alt="image-20241111093035601"></p>
+<p>go test 【flags】 【packages】</p>
+<h5 id="4-assert"><a href="#4-assert" class="headerlink" title="4.assert"></a>4.assert</h5><p><img src="/study_photo/63.png" alt="image-20241111093202556"></p>
+<h5 id="5-覆盖率"><a href="#5-覆盖率" class="headerlink" title="5.覆盖率"></a>5.覆盖率</h5><p><img src="/study_photo/64.png" alt="image-20241111093237237"></p>
+<p><img src="/study_photo/65.png" alt="image-20241111093252039"></p>
+<p>提升覆盖率</p>
+<p><img src="/study_photo/66.png" alt="image-20241111093436343"></p>
+<p>对各个分支测试 使函数代码都经过完备的测试 提升覆盖率 减少事故</p>
+<p><img src="/study_photo/67.png" alt="image-20241111093526971"></p>
+<h5 id="6-依赖"><a href="#6-依赖" class="headerlink" title="6.依赖"></a>6.依赖</h5><p><img src="/study_photo/68.png" alt="image-20241111093723869"></p>
+<h5 id="7-文件处理"><a href="#7-文件处理" class="headerlink" title="7.文件处理"></a>7.文件处理</h5><p><img src="/study_photo/69.png" alt="image-20241111093855592"></p>
+<p>一旦文件被别人篡改 在特定场景下就无法运行！</p>
+<h5 id="8-Mock"><a href="#8-Mock" class="headerlink" title="8.Mock"></a>8.Mock</h5><p><img src="/study_photo/70.png" alt="image-20241111094015817"></p>
+<p>replacement 打桩函数</p>
+<p><img src="/study_photo/71.png" alt="image-20241111094459861"></p>
+<p>通过mock 不对 文件有强依&#x2F;study_photo&#x2F;70.png</p>
+<p><img src="/study_photo/72.png" alt="image-20241111094758462"></p>
+<p>优化：</p>
+<p><img src="/study_photo/73.png" alt="image-20241111094944759"></p>
+<p>fastrand</p>
+<h4 id="10-项目实践"><a href="#10-项目实践" class="headerlink" title="10.项目实践"></a>10.项目实践</h4><p><img src="/study_photo/75.png" alt="image-20241111095222107"></p>
+<p><img src="/study_photo/76.png" alt="image-20241111095416063"></p>
+<p><img src="/study_photo/77.png" alt="image-20241111095526585"></p>
+<p><img src="/study_photo/78.png" alt="image-20241111100016448"></p>
+<p>话题id -》 获取所有post</p>
+<p><img src="/study_photo/79.png" alt="image-20241111100134049"></p>
+<p><img src="/study_photo/80.png" alt="image-20241111100208797"></p>
+<p>初始化话题内存索引</p>
+<p><img src="/study_photo/81.png" alt="image-20241111100306256"></p>
+<hr>
+<p>逻辑层：</p>
+<p><img src="/study_photo/82.png" alt="image-20241111100415573"></p>
+<p><img src="/study_photo/83.png" alt="image-20241111121526603"></p>
+<p><img src="/study_photo/83.png" alt="image-20241111121719613"></p>
+<p>并行处理</p>
+<p><img src="/study_photo/84.png" alt="image-20241111121901723"></p>
+<p><img src="/study_photo/85.png" alt="image-20241111122045428"></p>
+<h3 id="三-高质量编程与实践"><a href="#三-高质量编程与实践" class="headerlink" title="三.高质量编程与实践"></a>三.高质量编程与实践</h3><p>如何编写更简洁和跟清晰的代码</p>
+<p>熟悉GO程序性能分析工具</p>
+<p>常用Go语言程序优化手段</p>
+<p>了解工程性能优化的原则和流程</p>
+<p>:性能调优    性能分析工具     性能调优案例</p>
+<p>算法效率</p>
+<h4 id="1-高质量编程"><a href="#1-高质量编程" class="headerlink" title="1.高质量编程"></a>1.高质量编程</h4><p>正确可靠 简洁清晰</p>
+<p>各种边界条件是否考虑完备</p>
+<p>异常情况处理 稳定性保证</p>
+<p>易读易维护</p>
+<p>团队合作保证容易读 维护 使其增加和调整更加快速 更加清晰</p>
+<p>主要是给人看 让人可以看懂  对已有的功能改善 优化 容易添加功能</p>
+<h4 id="2-编码规范"><a href="#2-编码规范" class="headerlink" title="2.编码规范"></a>2.编码规范</h4><p>代码格式</p>
+<p>注释</p>
+<p>命名规范</p>
+<p>控制流程</p>
+<p>错误和异常处理</p>
+<p><img src="/study_photo/87.png" alt="image-20241112171014037"></p>
+<p>不需要注释实现接口的方法 这种注释可以删除</p>
+<p><img src="/study_photo/88.png" alt="image-20241112171126665"></p>
+<h5 id="1-gofmt"><a href="#1-gofmt" class="headerlink" title="1.gofmt"></a>1.gofmt</h5><p>推荐使用gofmt 自动格式化代码为官方统一风格</p>
+<h5 id="2-注释"><a href="#2-注释" class="headerlink" title="2.注释"></a>2.注释</h5><p>注释应该解释代码的作用</p>
+<p>注释应该解释代码如何做的</p>
+<p>注释应该解释代码实现的原因</p>
+<p>注释应该解释代码什么情况会错</p>
+<p><img src="/study_photo/89.png" alt="image-20241112171511567"></p>
+<p>下面的根本不需要注释没有什么必要 函数名字已经说明了</p>
+<p><img src="/study_photo/90.png" alt="image-20241112171655993"></p>
+<p>最后一条语句是很难理解的  如果没有注释   一定要会看英文呵呵</p>
+<p><img src="/study_photo/91.png" alt="image-20241112171909248"></p>
+<p><img src="/study_photo/92.png" alt="image-20241112172349471"></p>
+<p><img src="/study_photo/93.png" alt="image-20241112172623038"></p>
+<p><img src="/study_photo/94.png" alt="image-20241112172638016"></p>
+<p>此时的t就减少了很多东西</p>
+<p><img src="/study_photo/95.png" alt="image-20241112172953450"></p>
+<p>例如http中调用 Server 是 http.Server</p>
+<p>若用 ServerHTTP   http.ServerHTTP这样感觉就变得冗余了没有必要</p>
+<p><img src="/study_photo/96.png" alt="image-20241112173231246"></p>
+<p>避免if else嵌套 包含同样语句可以去掉 重复语句</p>
+<p><img src="/study_photo/97.png" alt="image-20241112173423686"></p>
+<p>这样看起来比较复杂</p>
+<p><img src="/study_photo/98.png" alt="image-20241112173532576"></p>
+<p>调整后：</p>
+<p><img src="/study_photo/99.png" alt="image-20241112173605956"></p>
+<p>控制流程 ： 线性原理 尽量走直线 避免复杂的嵌套分支</p>
+<h5 id="3-错误和异常处理"><a href="#3-错误和异常处理" class="headerlink" title="3.错误和异常处理"></a>3.错误和异常处理</h5><p><img src="/study_photo/100.png" alt="image-20241112173840011"></p>
+<p><img src="/study_photo/101.png" alt="image-20241112173902743"></p>
+<p><img src="/study_photo/102.png" alt="image-20241112174134842"></p>
+<h4 id="性能调优"><a href="#性能调优" class="headerlink" title="性能调优"></a>性能调优</h4><h5 id="原则："><a href="#原则：" class="headerlink" title="原则："></a>原则：</h5><p>1.依靠数据而不是猜测<br>2.定位到最大瓶颈（也就是影响最大的部分），<br>3.不要过早优化<br>4.不要过度优化</p>
+<h5 id="性能调优工具：pprof"><a href="#性能调优工具：pprof" class="headerlink" title="性能调优工具：pprof"></a>性能调优工具：pprof</h5><h5 id="pprof：可视化和性能分析数据的工具"><a href="#pprof：可视化和性能分析数据的工具" class="headerlink" title="pprof：可视化和性能分析数据的工具"></a>pprof：可视化和性能分析数据的工具</h5><p><img src="/study_photo/103.png" alt="image-20241112174134842"></p>
+<h6 id="pprof实战项目："><a href="#pprof实战项目：" class="headerlink" title="pprof实战项目："></a>pprof实战项目：</h6><p>下载项目 并且运行：</p>
+<p>GIthub：<a target="_blank" rel="noopener" href="https://github.com/wolfogre/go-pprof-practice">https://github.com/wolfogre/go-pprof-practice</a></p>
+<p><code>go run main.go</code></p>
+<p>等待编译 等待一段时间</p>
+<p>输入：<a target="_blank" rel="noopener" href="http://localhost:6060/debug/pprof/">http://localhost:6060/debug/pprof/</a> 在浏览器中</p>
+<p><img src="/study_photo/104.png" alt="image-20241112174134842"></p>
+<p>此时的cpu 内存状态：</p>
+<p><img src="/study_photo/111.png" alt="image-20241112174134842"></p>
+<p><img src="/study_photo/112.png" alt="image-20241112174134842"></p>
+<p><img src="/study_photo/113.png" alt="image-20241112174134842"></p>
+<p>以下输出：<br><img src="/study_photo/114.png" alt="image-20241112174134842"></p>
+<p><img src="/study_photo/115.png" alt="image-20241112174134842"></p>
+<p>思考： 什么情况下 Flat &#x3D;&#x3D; Cum Flat&#x3D;&#x3D;0</p>
+<p>分别为1. 函数中没有调用其他函数 都是本函数使用的时间<br>2. 函数中只有其他函数调用并且时间占用也很少可以忽略不计</p>
+<p>在查看到tiger中有一部分占用了很大的时间 把相关的代码注释后</p>
+<p>内存方面并没有解决什么</p>
+<p>Heap：堆内存分析：</p>
+<p>在终端使用这个指令<br><code>go tool pprof -http=:8080 &quot;http://localhost:6060/debug/pprof/heap&quot;</code><br>…没有下载工具先放一下</p>
+<p>先截屏</p>
+<p>锁：<br><code>go tool pprof -http=:8080 &quot;http://localhost:6060/debug/pprof/mutex&quot;</code></p>
+<h4 id="性能优化"><a href="#性能优化" class="headerlink" title="性能优化"></a>性能优化</h4><h5 id="GO语言优化"><a href="#GO语言优化" class="headerlink" title="GO语言优化"></a>GO语言优化</h5><p>内存管理优化</p>
+<p>编译器优化</p>
+<p>什么是性能优化 ，为什么要做性能优化？</p>
+<p>：提升软件系统处理能力，减少不必要的消耗</p>
+<p>：用户体验，让用户刷抖音不卡顿</p>
+<p>：资源高效利用，成低成本，提高效率</p>
+<p>业务代码：处理用户请i去</p>
+<p>SDK：go的SDK</p>
+<p>基础库：</p>
+<p>这两部分提供抽象逻辑（数据结构 网络库 io库）</p>
+<p>语言运行时： gc 调度器（go语言）</p>
+<p>OS</p>
+<p>性能分析工具：pprof</p>
+<p>依靠数据而非猜测</p>
+<p>优化最大瓶颈</p>
+<p>Go的SDK</p>
+<p>接口 命令 APIs</p>
+<p>测试 来 驱动开发</p>
+<p>隔离： 通过选择控制是否开启优化</p>
+<p>可观测：</p>
+<p>静态分析：</p>
+<h5 id="自动内存管理"><a href="#自动内存管理" class="headerlink" title="自动内存管理"></a>自动内存管理</h5><p>基于追踪的垃圾回收</p>
+<p>GC</p>
+<p>动态内存 malloc</p>
+<p>自动内存回收： 避免手动内存管理 专注于实现业务逻辑</p>
+<p>保证内存使用的正确性和安全性</p>
+<p>为新对象分配空间</p>
+<p>偷懒了：实在不知道怎么记了 留着以后学的更深入一些再看吧</p>
+<p><img src="/study_photo/149.png" alt="image-20241112174134842"></p>
+<p><img src="/study_photo/150.png" alt="image-20241112174134842"></p>
+<p><img src="/study_photo/151.png" alt="image-20241112174134842"></p>
+<p><img src="/study_photo/152.png" alt="image-20241112174134842"></p>
+<p><img src="/study_photo/153.png" alt="image-20241112174134842"></p>
+<p><img src="/study_photo/154.png" alt="image-20241112174134842"></p>
+<p><img src="/study_photo/155.png" alt="image-20241112174134842"></p>
+<p><img src="/study_photo/156.png" alt="image-20241112174134842"></p>
+<p><img src="/study_photo/157.png" alt="image-20241112174134842"></p>
+<p><img src="/study_photo/158.png" alt="image-20241112174134842"></p>
+<p><img src="/study_photo/159.png" alt="image-20241112174134842"></p>
+<h4 id="四-数据库"><a href="#四-数据库" class="headerlink" title="四.数据库"></a>四.数据库</h4><h5 id="数据库database-sql"><a href="#数据库database-sql" class="headerlink" title="数据库database&#x2F;sql"></a>数据库database&#x2F;sql</h5><p><img src="/study_photo/160.png" alt="image-20241112174134842"></p>
+<p><img src="/study_photo/161.png" alt="image-20241112174134842"></p>
+<p>GORM ： 业务需求驱动开发</p>
+<p><img src="/study_photo/162.png" alt="image-20241112174134842"></p>
+<p><strong>基本用法</strong></p>
+<p><img src="/study_photo/163.png" alt="image-20241112174134842"></p>
+<p><img src="/study_photo/164.png" alt="image-20241112174134842"></p>
+<p><strong>规定</strong></p>
+<p><img src="/study_photo/165.png" alt="image-20241112174134842"></p>
+<p>数据库约束</p>
+<p>Select实现级联删除</p>
+<h4 id="数据结构与算法"><a href="#数据结构与算法" class="headerlink" title="数据结构与算法"></a>数据结构与算法</h4><h5 id="1-经典排序算法"><a href="#1-经典排序算法" class="headerlink" title="1.经典排序算法"></a>1.经典排序算法</h5><p>为什么要用数据结构和算法：</p>
+<p><img src="/study_photo/img_7.png" alt="image-20241112173840011"></p>
+<p>最快的排序算法：<br>Go ： introsort </p>
+<p>1.19的默认排序算法：如何设计的 生产环境和课本上的排序算法有什么区别</p>
+<h6 id="1-插入排序：（洗牌）"><a href="#1-插入排序：（洗牌）" class="headerlink" title="1.插入排序：（洗牌）"></a>1.插入排序：（洗牌）</h6><p><img src="/study_photo/img_8.png" alt="image-20241112173840011"></p>
+<p>时间复杂度：最好O（n）有序 平均O（n^2） 最坏 （n^2）</p>
+<p>缺点：太慢 优点：最好</p>
+<h6 id="2。快速排序："><a href="#2。快速排序：" class="headerlink" title="2。快速排序："></a>2。快速排序：</h6><p><img src="/study_photo/img_9.png" alt="image-20241112173840011"></p>
+<p>时间复杂度；最好 O（n<em>logn） 平均O（n</em>logn）最坏O（n^2）</p>
+<p>缺点 最坏太慢 优点 平均的挺好</p>
+<h5 id="3-堆排序"><a href="#3-堆排序" class="headerlink" title="3.堆排序"></a>3.堆排序</h5><p><img src="/study_photo/img_10.png" alt="image-20241112173840011"></p>
+<p><img src="/study_photo/img_11.png" alt="image-20241112173840011"></p>
+<h4 id="网络与部署"><a href="#网络与部署" class="headerlink" title="网络与部署"></a>网络与部署</h4><p>《负载均衡 高并发网关原理与实践》</p>
+<p>协议基础</p>
+<p>协议分析（自学）</p>
+<p>熟悉tcp&#x2F;ip 熟悉计算机网络</p>
+<p>抖音视频 加载出来 会有什么交互（网络是如何交互的）（为什么刷抖音又快又稳）（计算机网络要解决什么问题 发现什么问题）</p>
+<p>应用层：  域名解析（DNS） 图片下载 视频下载（HTTP）评论API&#x2F;HTTP</p>
+<p>网络接入 网络传输</p>
+<p>手机要先访问抖音服务器</p>
+<p><img src="/study_photo/116.png" alt="image-20241116152733233"></p>
+<p>终端（pc pad） 通过 4g &#x2F;wifi 通过有线网络 接入 四大运营商网络 -》 接通抖音的机房（服务器） 还用通过光缆（海底） 接通 美国网络</p>
+<h5 id="网络接入-（路由）"><a href="#网络接入-（路由）" class="headerlink" title="网络接入 （路由）"></a>网络接入 （路由）</h5><p>交换机&#x2F;逻辑交换机&#x2F;网络虚拟化</p>
+<p>路由一定对称吗？</p>
+<p>路由是工作在哪一层协议？</p>
+<p>路由协议（ip层） 本身不是ip层 动态路由协议（传输层协议bgp）（基于tcp udp）可能 不是很简单</p>
+<p>路由改的是ip地址吗？</p>
+<p>不是改ip地址 而是mac地址 路由是为了找到目标ip</p>
+<p>怎么找下一跳（网络中间节点）的MAC 通过 ARP协议 跨网段 不能发送ARP</p>
+<p>同网段可以发送ARP 否则需要一级一级的发送  免费ARP：（）新加入机器（向其中发送免费ARP ： 防止ip冲突 在同一局域网里有两个同一个ip ）</p>
+<p>ARP：本质是查找下一跳MAC 而不是目标请求地址</p>
+<p>ARP 代理： 中间设备抢先应答 （）</p>
+<p><img src="/study_photo/117.png" alt="image-20241116154311845"></p>
+<p><img src="/study_photo/118.png" alt="image-20241116154131510"></p>
+<p>IP协议</p>
+<p>唯一标识</p>
+<p>为什么Mac（2层）（以太网） 地址不能代替ip协议 ： IP协议把MAC地址问题 解决了</p>
+<p>ipv4不够用 怎么解决：如果不支持ipv6 ， 用NAT（原理 内部用户 通过NAT）</p>
+<p><img src="/study_photo/119.png" alt="image-20241116155224812"></p>
+<p>问题2 ： （NAT ip＋端口）一起改变 解决第二个问题</p>
+<h4 id="网络打通视频怎么下载"><a href="#网络打通视频怎么下载" class="headerlink" title="网络打通视频怎么下载"></a>网络打通视频怎么下载</h4><p><img src="/study_photo/120.png" alt="image-20241116155401344"></p>
+<p><img src="/study_photo/121.png" alt="image-20241116155543012"></p>
+<p>也就是服务的封装与拆解</p>
+<p>如何把域名映射到ip （DNS基于UDP协议（端口＋校验））</p>
+<p><img src="/study_photo/122.png" alt="image-20241116155905523"></p>
+<p>避免分片</p>
+<p>丢包丢了UDP也不知道</p>
+<h4 id="TCP连接-三次握手"><a href="#TCP连接-三次握手" class="headerlink" title="TCP连接 三次握手"></a>TCP连接 三次握手</h4><p>TCP连接状态</p>
+<p>如果拔了网线，连接会断吗（没有什么关系）</p>
+<p>keep-alive ：保活机制（不会一定断开在一定场景下）</p>
+<h4 id="TCP传输"><a href="#TCP传输" class="headerlink" title="TCP传输"></a>TCP传输</h4><p><img src="/study_photo/123.png" alt="image-20241116160324196"></p>
+<p>很复杂的协议</p>
+<p>Timewait？（） 状态复杂</p>
+<p>TCP丢包</p>
+<p>滑动窗口</p>
+<p>流量控制</p>
+<h4 id="网络传输-HTTP-HTTP1-1"><a href="#网络传输-HTTP-HTTP1-1" class="headerlink" title="网络传输 HTTP&#x2F;HTTP1.1"></a>网络传输 HTTP&#x2F;HTTP1.1</h4><p><img src="/study_photo/124.png" alt="image-20241116161839691"></p>
+<p>HTTPS 解密 出来仍然是HTTP</p>
+<p>防止中间者偷听一些东西  加密之后中间人听不懂</p>
+<p>SSL&#x2F;TLS握手 非对称加密 对称加密</p>
+<p><img src="/study_photo/125.png" alt="image-20241116162211539"></p>
+<h5 id="网络架构"><a href="#网络架构" class="headerlink" title="网络架构"></a>网络架构</h5><p>网络提速</p>
+<p>HTTP 2.0 （多路复用） 并行下载 并行访问</p>
+<p>一次性加载了多个图片 （并行请求 一次性发送了）</p>
+<p><img src="/study_photo/126.png" alt="image-20241117194455726"></p>
+<p>多路复用：</p>
+<p><img src="/study_photo/127.png" alt="image-20241117194604452"></p>
+<p>TCP （丢包 其他包等待（对头阻塞））</p>
+<p><img src="/study_photo/128.png" alt="image-20241117194853572"></p>
+<p><strong>协议优化：</strong></p>
+<p>TCP本身协议不可插拔</p>
+<p>UDP（基于UDP扩展）</p>
+<p>kernel （windows mac 安卓 ios ）是否都要去实现呢？</p>
+<p>Google实现在了用户态（方便）</p>
+<p>RTT</p>
+<p>QUIC（实现了UDP的扩展）(弱网优势) （解决了队头堵塞）（优化了HTTp2.0的多路复用）</p>
+<p><strong>路径优化</strong></p>
+<p><img src="/study_photo/129.png" alt="image-20241117195324763"></p>
+<p>服务器集合（数据中心）</p>
+<p>POP接入（核心机房） 边缘机房（靠近用户（上海电信 上海移动……））</p>
+<p><strong>同运营商访问</strong> （访问客户端ip  电信 解析到 电信）</p>
+<p>电信 访问 电信</p>
+<p>移动 访问 移动</p>
+<p>若要使两者跨网访问（丢包率较高）</p>
+<p>路径优化（CDN） 网络提速-静态资源 （边缘机房（缓存）直接从缓存中取出资源 如果找不到 -》 核心机房）</p>
+<p>动态API （播放 &#x2F; 评论接口）（因为信息不一样）</p>
+<p><img src="/study_photo/130.png" alt="image-20241117195852655"></p>
+<p>DSA（路径优化算法） 直连最快</p>
+<p>机房延迟探测 （做成表（通过算法 找到最优路径））</p>
+<h5 id="网络提速的优化之路"><a href="#网络提速的优化之路" class="headerlink" title="网络提速的优化之路"></a>网络提速的优化之路</h5><p>几天就挂了怎么办？？</p>
+<p>抖音稳定性如何调高？</p>
+<p><img src="/study_photo/131.png" alt="image-20241117200255063"></p>
+<p><img src="/study_photo/132.png" alt="image-20241117200401223"></p>
+<p>专线： 内部字节机房-》没有走外部internet（如果走internet 如果从北京 访问 上海 可能会造成中间去到江苏再回到上海这样会很慢 并且丢包等）-》自己拉线连接两个机房（通过交换机等）（这样速度更快）</p>
+<p>b -》 c  外网：机房内部专线以外的网络通过internet连接 （如果专线挂了）需要走外网容灾 微服务可能跨机房</p>
+<p><img src="/study_photo/133.png" alt="image-20241117200824142"></p>
+<p>全局容灾系统 ：  A机房不可用了 （自动容灾） 探测机房b的容量可以承载 a机房的容量</p>
+<p>自动降级&#x2F;容灾</p>
+<p>云到端 SDK告诉端，不要访问，崩了的A机房   云控   什么场景云控控制不到（Web服务器 字节搜索&#x2F;百度搜索 ）</p>
+<p>故障明确</p>
+<p>沟通： 明确是什么业务 什么接口故障</p>
+<p>故障体现在哪？ 其他目标是否访问正常（业务A有故障 接口A有问题 其他的是否有问题？）</p>
+<p>是否是修改导致的异常？（如果是就回退）</p>
+<p>如果你上传导致的错误（找是谁 ）</p>
+<p>先止损 再 排查（debug）</p>
+<p>如何止损</p>
+<p>分段排查</p>
+<p><img src="/study_photo/134.png" alt="image-20241117202312571"></p>
+<h5 id="常用指令"><a href="#常用指令" class="headerlink" title="常用指令"></a>常用指令</h5><p><img src="/study_photo/135.png" alt="image-20241117202359378"></p>
+<p>最后一个是抓包工具</p>
+<p>误判断 摘除了 好的服务器</p>
+<p>线上debug（p0级别事故）</p>
+<p><img src="/study_photo/136.png" alt="image-20241117202838541"></p>
+<p>抓包：</p>
+<p>快速发包（路由对称）实际路由并不是对称的（找下一跳） 故障预防真的很重要</p>
+<h5 id="课后作业"><a href="#课后作业" class="headerlink" title="课后作业"></a>课后作业</h5><p><img src="/study_photo/137.png" alt="image-20241117203250586"></p>
+<p><img src="/study_photo/138.png" alt="image-20241117203354461"></p>
+<h4 id="企业级"><a href="#企业级" class="headerlink" title="企业级"></a>企业级</h4><p>输入网页到内容加载出来 中间都经历了什么 （TCP握手 SSL 域名解析）</p>
+<p>浏览器抓包</p>
+<p>看第一条请求了什么</p>
+<p><img src="/study_photo/139.png" alt="image-20241118125748346"></p>
+<p>网络卡 还是服务器满 还是什么？</p>
+<p>企业接入：</p>
+<p>域名系统 自建DNS服务器 HTTPS 接入全站加速 四层负载均衡 七层负载均衡</p>
+<p>example公司  Host -》 ip映射</p>
+<p>问题： 流量和负载 名称冲突 时效性（）</p>
+<h5 id="使用域名系统"><a href="#使用域名系统" class="headerlink" title="使用域名系统"></a>使用域名系统</h5><p>使用域名系统 替换hosts</p>
+<p><img src="/study_photo/140.png" alt="image-20241118130222229"></p>
+<p>域名购买  购买二级域名 example.com  域名备案防止从事非法运动</p>
+<p>建设外部网站：</p>
+<p><img src="/study_photo/141.png" alt="image-20241118130420184"></p>
+<p>自建DNS：</p>
+<p>取代云厂商</p>
+<p><img src="/study_photo/142.png" alt="image-20241118130700240"></p>
+<p>先访问 本地DNS服务器 -》 根 -》 顶级 -》权威-》本地缓存</p>
+<h5 id="DNS查询过程"><a href="#DNS查询过程" class="headerlink" title="DNS查询过程"></a>DNS查询过程</h5><p><img src="/study_photo/143.png" alt="image-20241118130854468"></p>
+<h5 id="权威DNS系统架构"><a href="#权威DNS系统架构" class="headerlink" title="权威DNS系统架构"></a>权威DNS系统架构</h5><p><img src="/study_photo/144.png" alt="image-20241118131553232"></p>
+<h5 id="接入HTTPS协议"><a href="#接入HTTPS协议" class="headerlink" title="接入HTTPS协议"></a>接入HTTPS协议</h5><p>HTTP明文传输 被抓去后 信息很容易被暴露出来</p>
+<p>加密算法：</p>
+<p>对称加密： 一份密钥</p>
+<p>非对称加密 ： 公钥和私钥 （公钥加密私钥解密 或者  对调）（锁头和钥匙）</p>
+<p>SSL 通信过程：</p>
+<p><img src="/study_photo/145.png" alt="image-20241118174903171"></p>
+<p>证书链：</p>
+<p>公钥是不是可信的 会不会被劫持？</p>
+<p>数字签名</p>
+<p>外网访问站点一定是一帆风顺的吗：</p>
+<p>1.源站（网站） 容量第 可承载的并发请求数低 容易打跨</p>
+<p>2.报文经过的网络设备越多 出问题概率越大 丢包 劫持</p>
+<p>3.自主选择网络链路长 时延高</p>
+<p>整体看来：就是响应慢 卡顿</p>
+<p>优化：</p>
+<p>增加后端机器扩容 静态内容</p>
+<p>全站加速：</p>
+<p>静态加速：CDN</p>
+<p>cpu访问 （缓存）</p>
+<p>动态加速：</p>
+<p><img src="/study_photo/146.png" alt="image-20241118175913629"></p>
+<p>DCDN原理 ：</p>
+<p>RTT： 用户到核心</p>
+<p>用户到边缘</p>
+<p>边缘到汇聚</p>
+<p>汇聚到核心</p>
+<h5 id="全站加速"><a href="#全站加速" class="headerlink" title="全站加速"></a>全站加速</h5><p><img src="/study_photo/147.png" alt="image-20241118180340066"></p>
+<p><img src="/study_photo/148.png" alt="image-20241118180356658"></p>
+<h4 id="消息队列-kafka"><a href="#消息队列-kafka" class="headerlink" title="消息队列 kafka"></a>消息队列 kafka</h4><p>用户行为： 搜索 点赞 评论 收藏</p>
+<p>使用场景： 搜索服务， 直播服务 订单服务 支付服务</p>
+<p>如何使用Kafka： 创建集群 新增topic 编写生产者逻辑 编写消费之逻辑</p>
+<p><img src="/study_photo/196.png" alt="image-20241125172137241"></p>
+<p><img src="/study_photo/197.png" alt="image-20241125172850441"></p>
+<p>Kafka架构：</p>
+<p>Zookeeper</p>
+<p>Producer 批量发送</p>
+<pre><code>      数据压缩
+</code></pre>
+<p>Broker 数据存储 消息文件结构</p>
+<p>磁盘结构</p>
+<p>​		操作系统：</p>
+<p><img src="/study_photo/198.png" alt="image-20241125174036284"></p>
+<p>顺序写： 提高写入效率</p>
+<p><img src="/study_photo/199.png" alt="image-20241125174650570"></p>
+<p>Broker 偏移量索引文件</p>
+<p>二分查找</p>
+<p><img src="/study_photo/200.png" alt="image-20241125174726467"></p>
+<p>Broker 时间戳索引文件</p>
+<p>传统数据拷贝：</p>
+<p>操作系统层面： 数据的内存拷贝（开销很大）</p>
+<p><img src="/study_photo/201.png" alt="image-20241125175012153"></p>
+<p>Broker零拷贝</p>
+<p><img src="/study_photo/202.png" alt="image-20241125175137912"></p>
+<p>Consumer-消息接收端</p>
+<p><img src="/study_photo/203.png" alt="image-20241125175549378"></p>
+<p>通过手动分配 哪一个Consumer消费哪一个Partition 完全由业务决定</p>
+<p>缺点</p>
+<p>不能自动容灾</p>
+<p>优点：</p>
+<p>快</p>
+<p>自动分配 High-level</p>
+<p><img src="/study_photo/204.png" alt="image-20241125180033073"></p>
+<p><img src="/study_photo/205.png" alt="image-20241125180233648"></p>
+<h4 id="存储与数据库"><a href="#存储与数据库" class="headerlink" title="存储与数据库"></a>存储与数据库</h4><p>数据的持久化</p>
+<p>1.校验数据的合法行</p>
+<p>（名字是否存在） （修改内存 用高效的数据结构组织数据）（写入存储介质 以寿命 性能友好写入硬件）（）</p>
+<p><img src="/study_photo/206.png" alt="image-20241126175430987"></p>
+<p>什么是存储系统？</p>
+<p>一个提供了 读写 控制类接口 能够安全有效的 把 数据持久化的软件 称为 存储系统</p>
+<p>user Medium Memory Network(把原有的单机 升级到分布式系统) 还可能与这些有关</p>
+<p>特点：</p>
+<p>性能敏感 容易受硬件影响  代码既简单又复杂（考虑到多种异常情况）</p>
+<p>存储器层级结构：</p>
+<p>Persistent Memory</p>
+<p>数据怎么从应用到存储介质</p>
+<p><img src="/study_photo/207.png" alt="image-20241126180440273"></p>
+<p>数据拷贝 消耗cpu 如果cpu全部用来拷贝 软件性能就会降低（减少拷贝的使用） Disk（）</p>
+<p>RAID技术： 单机存储怎么做到 高性能&#x2F;高性价比&#x2F;高可靠性</p>
+<p>背景： 大容量磁盘价格》 多块小容量磁盘</p>
+<p>单块磁盘的写入性能 《 多块磁盘的并发写入性能</p>
+<p>RAID0</p>
+<p>多块磁盘的简单组合</p>
+<p>数据条带化存储 调高磁盘带宽</p>
+<p>没有额外的容错设计</p>
+<p>RAID1</p>
+<p>一块磁盘对应一块额外镜像盘</p>
+<p>真是空间利用率50%</p>
+<p>容错能力强</p>
+<p>上面是两个极端</p>
+<p>RAID 0 + 1</p>
+<p>RAID 0 和 RAID 1</p>
+<h5 id="数据库和存储系统不一样吗？"><a href="#数据库和存储系统不一样吗？" class="headerlink" title="数据库和存储系统不一样吗？"></a>数据库和存储系统不一样吗？</h5><p>关系型数据库（是存储系统）</p>
+<p>非关系型数据库</p>
+<p>关系是什么： 关系模型（EFCodd）&#x3D; 集合 反映了事务间的关系</p>
+<p>关系代数 &#x3D; 运算的抽象查询语句</p>
+<p>SQL &#x3D; 一种DSL （方便人类阅读的 关系代数表达式）</p>
+<p>关系型数据库：结构化数据友好 支持事务（ACID）支持复杂的查询语言（sql 全集 子集）</p>
+<p>非关系型数据库（也是存储系统）： 半结构化数据友好 可能支持事务（ACID） 可能支持复杂查询语言</p>
+<p>数据库 vs 经典存储 - 结构化数据管理</p>
+<p><img src="/study_photo/208.png" alt="image-20241126181756913"></p>
+<h5 id="事务能力："><a href="#事务能力：" class="headerlink" title="事务能力："></a>事务能力：</h5><p>要么全做 要么全不做</p>
+<p>数据状态是一致的</p>
+<p>可以隔离多个并发事务 避免影响</p>
+<p>事务一旦提交成功 数据保持持久性</p>
+<h5 id="复杂查询能力："><a href="#复杂查询能力：" class="headerlink" title="复杂查询能力："></a>复杂查询能力：</h5><p>复杂查询： 请查询出以xiao开头 密码提示问题小于10个字的人 并按照性别分组统计人数</p>
+<p><img src="/study_photo/209.png" alt="image-20241126182318775"></p>
+<p>左边灵活简介 右边复杂</p>
+<h4 id="支流产品剖析"><a href="#支流产品剖析" class="headerlink" title="支流产品剖析"></a>支流产品剖析</h4><h5 id="单机存储系统"><a href="#单机存储系统" class="headerlink" title="单机存储系统"></a>单机存储系统</h5><p>单个计算机节点上的存储软件系统 一般不涉及网络交互</p>
+<p>key-value存储 本地文件系统</p>
+<p>本地文件系统</p>
+<p>一切皆文件：</p>
+<p>文件系统管理单元： 文件</p>
+<p>文件系统接口： 文件系统繁多 Ext2 遵循VFS统一抽象接口</p>
+<p>linux 文件系统的两大数据结构 ：Index Node   Directory Entry</p>
+<ol>
+<li>innode 记录文件元数据 如id 大小 权限 磁盘位置</li>
+<li>innode 是一个文件的唯一标识  会被存储到磁盘上</li>
+<li>innode总数在格式化文件系统时就固定了</li>
+</ol>
+<p>​	1：1</p>
+<p>1.Directory Entry</p>
+<p>记录文件名 innode指针 层级关系</p>
+<p>dentry时内存结构 与innode 关系时N：1</p>
+<p>key-value存储</p>
+<p><img src="/study_photo/210.png" alt="image-20241126183518576"></p>
+<p>put(k,v) get(k)</p>
+<p>LSM-Tree 某种程度上牺牲读性能 追求写入性能（）</p>
+<p>拳头产品： RocksDB</p>
+<p>分布式存储：</p>
+<p>在单机存储基础上实现了分布式协议，实际大量网络交互</p>
+<p>分布式文件系统  分布式对象存储系统</p>
+<p>HDFS ：</p>
+<p>核心：</p>
+<p>支持海量数据存储（使用普通硬件堆叠）</p>
+<p>高容错性</p>
+<p>弱POSIX语义</p>
+<p>使用普通x86服务器-极高性价比高</p>
+<p>DataNode</p>
+<p>Ceph- （分布式存储）开源分布式存储系统里的【万金油】 里面的算法很好</p>
+<p>一切皆对象；</p>
+<p>数据写入采用主备复制模型</p>
+<p>数据分布模型采用CRUSH算法</p>
+<p>单机数据库</p>
+<p>单个计算机节点上的数据库系统</p>
+<p>事务在单机内执行 通过网络交互实现分布式事务</p>
+<p>关系数据库</p>
+<p>商业产品Oracle</p>
+<p>开源产品 MySQL PostgreSQL</p>
+<p><img src="/study_photo2/1.png" alt="image-20241127101722363"></p>
+<p><img src="/study_photo2/2.png" alt="image-20241127101919309"></p>
+<p>Page  <em>Redo Log</em>  临时文件</p>
+<p>内存 与 磁盘之间的交互</p>
+<p><img src="/study_photo2/3.png" alt="image-20241127102206620"></p>
+<p>非关系型数据库 没有准则 交互方式各不相同</p>
+<p>schema相对灵活</p>
+<p>SQL查询语言的统治地位很重视</p>
+<p><img src="/study_photo2/4.png" alt="image-20241127102716222"></p>
+<p>模糊搜索</p>
+<p><img src="/study_photo2/5.png" alt="image-20241127102924660"></p>
+<p>Query： match 编程语言 好 难度  模糊匹配到小明的帖子 ES天然能够做 模糊搜索 还能自动算出关联程度 传统关系型无法做到这一点</p>
+<p>分布式数据库（引入分布式架构）：</p>
+<p>容量 弹性 性价比 解决单机时代遇到的问题</p>
+<p>解决容量问题：</p>
+<p><img src="/study_photo2/6.png" alt="image-20241127103344147"></p>
+<p>存储池 动态扩缩容</p>
+<p>弹性问题：</p>
+<p><img src="/study_photo2/7.png" alt="image-20241127103713521"></p>
+<p>随着业务的变化而变化 1t如何搬到200g？</p>
+<p>池化！</p>
+<p>性价比问题</p>
+<p><img src="/study_photo2/8.png" alt="image-20241127103908948"></p>
+<p>硬件disk不需要怎么准备 什么不够用Storge Pool 分布式存储池来解决这个问题</p>
+<p>磁盘池化 内存池化（降低成本）</p>
+<p>单写vs多写     从磁盘弹性到内存弹性    分布式事务优化</p>
+<h5 id="新技术演进"><a href="#新技术演进" class="headerlink" title="新技术演进"></a>新技术演进</h5><p>软件架构变更（依赖于操作系统内核） AI增强（智能存储格式转换） 新硬件革命（存储介质变更 计算单元变更 网络硬件变更）</p>
+<p><img src="/study_photo2/9.png" alt="image-20241127104445468"></p>
+<p>cpu中断 使性能降低 与之替换的是用轮询替换</p>
+<p><img src="/study_photo2/10.png" alt="image-20241127104706603"></p>
+<p>数据存储格式的转换 左边是二维表由 多个行与列 行存 列存 （优势 劣势）</p>
+<p>ai决策-》行列混存（动态性强）</p>
+<p><img src="/study_photo2/11.png" alt="image-20241127104909837"></p>
+<p><img src="/study_photo2/12.png" alt="image-20241127105517074"></p>
+<p>硬件反推软件变革</p>
+<h5 id="课后作业-1"><a href="#课后作业-1" class="headerlink" title="课后作业"></a>课后作业</h5><p><img src="/study_photo2/13.png" alt="image-20241127105647523"></p>
+<p>材料引用</p>
+<p><img src="/study_photo2/14.png" alt="image-20241127105742332"></p>
+<h4 id="深入理解RDBMS（关系型数据库）"><a href="#深入理解RDBMS（关系型数据库）" class="headerlink" title="深入理解RDBMS（关系型数据库）"></a>深入理解RDBMS（关系型数据库）</h4><p>存储系统:</p>
+<p>块存储 文件存储 对象存储 key-value存储</p>
+<p>数据库系统：</p>
+<p>大型关系数据库 非关系型数据库</p>
+<p>抖音红包雨</p>
+<p>从抖音账号扣除1个亿</p>
+<p><img src="/study_photo2/15.png" alt="image-20241127110101367"></p>
+<p>事务ACID</p>
+<p><img src="/study_photo2/16.png" alt="image-20241127110324168"></p>
+<p>红包雨与ACID</p>
+<p><img src="/study_photo2/17.png" alt="image-20241127110453611"></p>
+<p>事务要同时成功与同时失败</p>
+<p>账户的钱不能为复数</p>
+<p><img src="/study_photo2/18.png" alt="image-20241127110554045"></p>
+<p>操作一定要是合法的</p>
+<p>隔离性问题 ： 两个操作同时进行 有相互影响的关系</p>
+<p><img src="/study_photo2/19.png" alt="image-20241127110756892"></p>
+<p>刚开始抢了一个亿（成功） 但是服务器挂了</p>
+<p><img src="/study_photo2/20.png" alt="image-20241127111019483"></p>
+<p><strong>高并发</strong></p>
+<p>10亿人 同时抢红包 一定 数据要有处理高并发的能力 每秒处理事务的请求</p>
+<p><strong>高可靠</strong></p>
+<p>在关键时间和结点上 保证后台服务可靠</p>
+<p>从 纸 到 磁盘文件</p>
+<p>第一个数据库 网状数据库（W.Bachman）</p>
+<p>​             Collage</p>
+<p>English   computer  Maths</p>
+<p>多对多</p>
+<p>没有交叉</p>
+<p>结点 网络结构 父节点可以有多个子节点</p>
+<p>层次模型（IBM）</p>
+<p>用树形结构描述实体 与 网状结构相似 但是并不交叉树状</p>
+<p>每个子节点只有一个父节点</p>
+<p>（1对多）</p>
+<p>关系模型（IBM）（EFCodd博士）</p>
+<p><img src="/study_photo2/21.png" alt="image-20241127113215926"></p>
+<h5 id="关键技术"><a href="#关键技术" class="headerlink" title="关键技术"></a>关键技术</h5><p>一条SQL的一生 ：</p>
+<p>解析SQL（语法解析器） 语法树AST  优化器 Plan Executor（执行器） 写入数据 写入日志</p>
+<p><img src="/study_photo2/22.png" alt="image-20241127150742531"></p>
+<p>分析</p>
+<p><img src="/study_photo2/23.png" alt="image-20241127151110898"></p>
+<p>为什么还要优化器？（Optimizer）  类比于 （高德地图路线优化） 快 慢 红绿灯</p>
+<p>基于规则的优化</p>
+<p>条件简化……</p>
+<p>Scan优化</p>
+<p><img src="/study_photo2/24.png" alt="image-20241127151708954"></p>
+<p>基于代价优化：</p>
+<p>时间是代价 最少时间到目的地</p>
+<p>io cpu NET MEM也是代价</p>
+<p>火山模型：</p>
+<p><img src="/study_photo2/25.png" alt="image-20241127152543557"></p>
+<p>向量化：</p>
+<p>每次返回是一批数据 而不是一行数据</p>
+<p>优点：</p>
+<p>函数调用次数降低为1&#x2F;N</p>
+<p>CPU cache命中率更高</p>
+<p>可以利用CPU提供SIMD机制 一次加法（可以操作多个数据）</p>
+<p>编译执行：</p>
+<h5 id="存储引擎-InnoDB"><a href="#存储引擎-InnoDB" class="headerlink" title="存储引擎-InnoDB"></a>存储引擎-InnoDB</h5><p>内存态（做一点内存缓存）</p>
+<p><img src="/study_photo2/26.png" alt="image-20241127153304028"></p>
+<p>存储引擎-Buffer Pool</p>
+<p>instance0</p>
+<p>instance1</p>
+<p>HashMap管理</p>
+<p>LRU 算法</p>
+<p>保留最近最常使用的保存在内存 其他的 淘汰</p>
+<p>内存放不下？ 放磁盘  从磁盘访问数据</p>
+<p><img src="/study_photo2/27.png" alt="image-20241127153706131"></p>
+<p>存储引擎-Page</p>
+<p>B+Tree索引 B树的扩展（二分查找树）</p>
+<p><img src="/study_photo2/28.png" alt="image-20241127154133896"></p>
+<h5 id="事务引擎："><a href="#事务引擎：" class="headerlink" title="事务引擎："></a>事务引擎：</h5><p>原子性   与   Undo Log</p>
+<p>同步失败或成功</p>
+<p>如何将数据库回退到修改之前的状态？</p>
+<p>Undo日志：</p>
+<p>逻辑日志 进行事务回滚 保证原子性</p>
+<p><img src="/study_photo2/29.png" alt="image-20241127154501380"></p>
+<p>isolation 与 锁</p>
+<p>如果两个操作同时发生 发生冲突怎么办</p>
+<p>锁机制</p>
+<p>Share Lock 共享锁 读读 两个人都有共享锁</p>
+<p>Exclusice Lock 写锁 读写 一个有写锁另一个不能有</p>
+<p>读写   -》  MVCC数据的多版本</p>
+<p><img src="/study_photo2/30.png" alt="image-20241127154917696"></p>
+<p>一致性：</p>
+<p>对数据的修改 永久保存</p>
+<p>方案一 事务提交前页面写盘</p>
+<p>随机io 写放大</p>
+<p>方案二 WAL</p>
+
+        </section>
+    </article>
+</div>
+
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© 赵忠赫 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+
+</html>

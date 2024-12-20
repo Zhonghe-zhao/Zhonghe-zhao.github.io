@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="赵忠赫">
+
+
+
+
+
+<title>操作系统学习 | 赵忠赫的个人博客</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 7.3.0"><link rel="alternate" href="/atom.xml" title="赵忠赫的个人博客" type="application/atom+xml">
+</head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">赵忠赫&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tags">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">赵忠赫&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tags">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    <article class="post-wrap page">
+        
+        <h2 class="post-title">操作系统学习</h2>
+        
+        <section class="post-content">
+            <hr>
+<p>6.cs081os学习</p>
+<p>感谢：</p>
+<p>参考资料：</p>
+<p><a target="_blank" rel="noopener" href="https://www.geeksforgeeks.org/pipe-system-call/">https://www.geeksforgeeks.org/pipe-system-call/</a></p>
+<p>很好的文章：</p>
+<p><a target="_blank" rel="noopener" href="https://swtch.com/~rsc/thread/">https://swtch.com/~rsc/thread/</a></p>
+<p>同步机制：<a target="_blank" rel="noopener" href="https://zybtree.github.io/2020/08/12/%E5%90%8C%E6%AD%A5%E6%9C%BA%E5%88%B6/">https://zybtree.github.io/2020/08/12/%E5%90%8C%E6%AD%A5%E6%9C%BA%E5%88%B6/</a></p>
+<p>参考答案： <a target="_blank" rel="noopener" href="https://github.com/relaxcn/xv6-labs-2022-solutions/blob/main/doc/utils.md">https://github.com/relaxcn/xv6-labs-2022-solutions/blob/main/doc/utils.md</a></p>
+<p>学习链接： <a target="_blank" rel="noopener" href="https://pdos.csail.mit.edu/6.828/2021/schedule.html">https://pdos.csail.mit.edu/6.828/2021/schedule.html</a></p>
+<hr>
+<p>直接从进程与线程入手</p>
+<h4 id="进程与线程"><a href="#进程与线程" class="headerlink" title="进程与线程"></a>进程与线程</h4><p>单独的CPU变换成多个虚拟的CPU</p>
+<h5 id="进程"><a href="#进程" class="headerlink" title="进程"></a>进程</h5><p>当网页请求进入的时候 先查看 网页是否在缓存中 如果不是<br>启动一个磁盘请求用来获取网页  磁盘请求会花费很多时间 等待的过程中会有更多的请求进入<br>每个进程有它自己的虚拟的CPU 真正的CPU在进程之间来回切换<br>需要一些方法例如多个磁盘 模拟控制并发 进程就能发挥作用<br>来回切换称： 多道程序设计</p>
+<p>支持多进程的多道程序系统<br>一个核一次也只能运行一个进程</p>
+<p><img src="/study_photo2/operater1.jpg" alt="internet.jpg"></p>
+<hr>
+<h4 id="12-1日"><a href="#12-1日" class="headerlink" title="12.1日"></a>12.1日</h4><h5 id="一-进程的并发执行"><a href="#一-进程的并发执行" class="headerlink" title="一.进程的并发执行"></a>一.进程的并发执行</h5><ol>
+<li>并发</li>
+</ol>
+<ul>
+<li>进程的执行是间断的</li>
+</ul>
+<p>每个进程的生命周期期间CPU执行 由于某种原因暂停 每个进程执行是间断性的</p>
+<ul>
+<li>进程的执行速度是不可预测的</li>
+</ul>
+<p>进程调度，有其他事件的发生，每个进程上cpu执行坑你一点时间听着再接着运行</p>
+<ol start="2">
+<li>共享</li>
+</ol>
+<ul>
+<li>进程线程之间的制约性<br>在一个并发环境下多个进程或者线程之间会共享某些资源，在这些资源的使用过程中会产生进程之间的一种制约性。<br>比如当一个进程享用打印机这个资源，另外一个进程在第一个进程没有释放这个资源的前提之下就得不到这个资源，那就得等待。</li>
+</ul>
+<ol start="3">
+<li>不确定性</li>
+</ol>
+<ul>
+<li>进程执行的结果与其执行的相对速度有关</li>
+</ul>
+<p>进程执行的结果和它的相对执行速度是有关系的，因此在不同的执行顺序的情况下，进程的执行结果也是不确定的。</p>
+<h5 id="二-进程互斥"><a href="#二-进程互斥" class="headerlink" title="二.进程互斥"></a>二.进程互斥</h5><p>由于各进程要求使用共享资源(变量、文件等)， 而这些资源需要排他性使用，<br>各进程之间竞争使用这些资源，这一关系称为进程互斥。</p>
+<ul>
+<li>临界资源<br>系统中某些资源一次只允许一个进程使用，称这样的资源为临界资源或互斥资源或共享变量。<br>这些程序片段，分散在不同的进程里，它们的共同的特点是对同一个共享变量进行一些操作<br>这一段代码，和另外一个进程的这一段代码互为临界区，互为互斥区</li>
+</ul>
+<p><img src="/study_photo2/operater2.jpg" alt="internet.jpg"></p>
+<h4 id="冯诺依曼模型"><a href="#冯诺依曼模型" class="headerlink" title="冯诺依曼模型"></a>冯诺依曼模型</h4><p>计算机基本结构：运算器 控制器 存储器 输入设备 输出设备</p>
+<h5 id="内存"><a href="#内存" class="headerlink" title="内存"></a>内存</h5><p>程序和数据都是存储在内存，存储区域是线性的</p>
+<p>存储数据的基本单位是 字节 每一个字节对应一个内存地址</p>
+<p>最后一个地址为内存总字节数 -1 结构就像数序中的数据</p>
+<h5 id="中央处理器"><a href="#中央处理器" class="headerlink" title="中央处理器"></a>中央处理器</h5><p>也就是cpu：<br>32位cpu一次可以计算4个字节<br>64位cpu一次可以计算8个字节 位数也就是cpu的位宽 代表cpu一次可以计算的数据量</p>
+<p>8 位的 CPU，那么一次只能计算 1 个字节也就是0~255 范围内的数值 那么 32位也就是一次可以计算出 2的32次方这么大的数值<br>cpu内部组件：寄存器，控制单元和逻辑运算单元</p>
+<p>为什么有了内存还需要寄存器？</p>
+<p>寄存器种类（通用寄存器）（程序计数器）（指令寄存器）</p>
+<p>因为： 内存离 CPU 太远了，而寄存器就在 CPU 里，紧挨着控制单元和逻辑运算单元，自然计算时速度会很快。</p>
+<h6 id="总线"><a href="#总线" class="headerlink" title="总线"></a>总线</h6><p>总线用于cpu和内存以及其他设备之前的通信</p>
+<p>（地址总线）：指定CPU将要操作的内存地址</p>
+<p>（数据总线）：用于读写内存的数据</p>
+<p>（控制总线）： 发送和接收信号，比如中断，设备复位等信号</p>
+<p>CPU 要读写内存数据的时候：</p>
+<ul>
+<li>首先要通过「地址总线」来指定内存的地址；</li>
+<li>然后通过「控制总线」控制是读或写命令；</li>
+<li>最后通过「数据总线」来传输数据；</li>
+</ul>
+<h5 id="输入输出设备"><a href="#输入输出设备" class="headerlink" title="输入输出设备"></a>输入输出设备</h5><p>输入设备向计算机输入数据，计算机经过计算后，把数据输出给输出设备。<br>如果输入设备是键盘，按下按键时是需要和 CPU 进行交互的，这时就需要用到控制总线了。</p>
+<h5 id="线路位宽与CPU位宽"><a href="#线路位宽与CPU位宽" class="headerlink" title="线路位宽与CPU位宽"></a>线路位宽与CPU位宽</h5><p>数据是如何通过线路传输的呢<br>操作电压，低电压表示 0，高压电压则表示 1</p>
+<p>101 二进制数据，十进制则表示 5，如果只有一条线路，就意味着每次只能传递 1 bit 的数据， 那么传输 101 这个数据，就需要 3 次才能传输完成，这样的效率非常低。</p>
+<p>增加线路，数据并行传输</p>
+<p>CPU 想要操作「内存地址」就需要「地址总线」：</p>
+<p>地址总线只有 1 条，那每次只能表示 「0 或 1」这两种地址  最大数量为 2（2^1）个</p>
+<p>如果地址总线有 2 条，那么能表示 00、01、10、11 这四种地址  最大数量为 4（2^2）个</p>
+<p>CPU 操作 4G 大的内存，那么就需要 32 条地址总线，因为 2 ^ 32 &#x3D; 4G</p>
+<p>CPU位宽最好不要小于线路位宽</p>
+<h5 id="a-little-operater-systerm"><a href="#a-little-operater-systerm" class="headerlink" title="a little operater systerm"></a>a little operater systerm</h5><p>链接 ： <a target="_blank" rel="noopener" href="https://lwn.net/Articles/250967/">https://lwn.net/Articles/250967/</a></p>
+<p><img src="/study_photo2/cpumemory.4.png" alt="internet.jpg"></p>
+<p>所有 CPU（前面的示例中为两个，但可以有更多）都通过公共总线（前端总线，FSB）连接到北桥。除其他外，北桥还包含内存控制器，<br>其实现决定了计算机使用的 RAM 芯片的类型。不同类型的 RAM，例如 DRAM、Rambus 和 SDRAM，需要不同的内存控制器。</p>
+<p>要访问所有其他系统设备，北桥必须与南桥进行通信。南桥通常称为 I&#x2F;O 桥，通过各种不同的总线处理与设备的通信。如今，PCI、PCI Express、SATA 和 USB 总线最为重要，但南桥也支持 PATA、IEEE 1394、串行和并行端口。<br>较旧的系统具有连接到北桥的 AGP 插槽。这样做是出于与北桥和南桥之间的连接速度不够快相关的性能原因。然而，如今 PCI-E 插槽全部连接到南桥。</p>
+<hr>
+<h2 id="让终端显示出自己说的话"><a href="#让终端显示出自己说的话" class="headerlink" title="让终端显示出自己说的话"></a>让终端显示出自己说的话<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">cd ~</span><br><span class="line">root@xiaoxinxiaohao:~# vim .bashrc</span><br><span class="line">root@xiaoxinxiaohao:~# source ~/.bashrc</span><br><span class="line">赵忠鹤闪亮登场</span><br><span class="line">Today is: Fri Dec  6 05:12:09 PM CST 2024</span><br><span class="line">今天也要充满活力哇咔咔</span><br><span class="line"></span><br></pre></td></tr></table></figure></h2><p>听从了一些学习的建议，带着问题去读书，想学什么，去书中学，带着问题去读书</p>
+<hr>
+<p>12.16日</p>
+<h4 id="看到了b站的一个关于Go并发设计"><a href="#看到了b站的一个关于Go并发设计" class="headerlink" title="看到了b站的一个关于Go并发设计"></a>看到了b站的一个关于Go并发设计</h4><p>了解协程： 协程是一种用户级的轻量级线程。协程拥有自己的寄存器上下文和栈。协程调度切换时，将寄存器上下文和栈保存到其他地方，在切回来的时候，恢复先前保存的寄存器上下文和栈</p>
+<p>主流语言基本上都选择了多线程作为并发设施</p>
+<p>线程相关的概念就是抢占式多任务（Preemptive multitasking），而与协程相关的是协作式多任务</p>
+<p>多线程编程是比较困难的， 因为调度程序任何时候都能中断线程， 必须记住保留锁， 去保护程序中重要部分， 防止多线程在执行的过程中断 协程默认会做好全方位保护， 以防止中断</p>
+<h5 id="协程相比于多线程的优点"><a href="#协程相比于多线程的优点" class="headerlink" title="协程相比于多线程的优点"></a>协程相比于多线程的优点</h5><p>无需系统内核的上下文切换，减小开销； 因为：协程它不像线程和进程那样，需要进行系统内核上的上下文切换，协程的上下文切换是由开发人员决定的</p>
+<p>无需原子操作锁定及同步的开销，不用担心资源共享的问题</p>
+<p>单线程即可实现高并发，单核 CPU 即便支持上万的协程都不是问题，所以很适合用于高并发处理，尤其是在应用在网络爬虫中</p>
+<h5 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h5><ol>
+<li>无法使用 CPU 的多核 因为： 协程的本质是个单线程</li>
+<li>写协程就意味着你要一值写一些非阻塞的代码，使用各种异步版本的库，比如后面的异步爬虫教程中用的 aiohttp</li>
+<li><strong>协程的概念最核心的点其实就是函数或者一段程序能够被挂起（说暂停其实也没啥问题），待会儿再恢复</strong></li>
+</ol>
+
+        </section>
+    </article>
+</div>
+
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© 赵忠赫 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+
+</html>

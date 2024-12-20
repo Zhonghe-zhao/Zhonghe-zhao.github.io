@@ -1,459 +1,221 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-    <!-- title -->
-<!-- keywords -->
+
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
     <meta name="author" content="赵忠赫">
-    <meta name="renderer" content="webkit">
-    <meta name="copyright" content="赵忠赫">
-        <meta name="keywords" content="hexo,hexo-theme,hexo-blog">
-    <meta name="description" content="">
-    <meta name="description" content="重新开启simplebank学习！！！一.创建数据库表https:&#x2F;&#x2F;dbdiagram.io 可视化数据库工具 1.创建账户表1234567Table accounts as A &#123; &#x2F;&#x2F;A作为account的别名  id bigserisal [pk]  &#x2F;&#x2F;pk作为主键 自增的id列  owner varchar  balance bigint  currency varchar">
-<meta property="og:type" content="article">
-<meta property="og:title" content="后端项目学习">
-<meta property="og:url" content="https://whuichenggong.github.io/2024/11/09/Simple_bank/index.html">
-<meta property="og:site_name" content="赵忠赫的个人博客">
-<meta property="og:description" content="重新开启simplebank学习！！！一.创建数据库表https:&#x2F;&#x2F;dbdiagram.io 可视化数据库工具 1.创建账户表1234567Table accounts as A &#123; &#x2F;&#x2F;A作为account的别名  id bigserisal [pk]  &#x2F;&#x2F;pk作为主键 自增的id列  owner varchar  balance bigint  currency varchar">
-<meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="c:\Users\30413\AppData\Roaming\Typora\typora-user-images\image-20241026184159996.png">
-<meta property="og:image" content="c:\Users\30413\AppData\Roaming\Typora\typora-user-images\image-20241026184634250.png">
-<meta property="og:image" content="https://whuichenggong.github.io/study_photo2/simplebank1.png">
-<meta property="og:image" content="https://whuichenggong.github.io/study_photo2/simplebank2.png">
-<meta property="og:image" content="https://whuichenggong.github.io/study_photo2/simplebank3.png">
-<meta property="og:image" content="https://whuichenggong.github.io/study_photo2/simplebank4.png">
-<meta property="og:image" content="https://whuichenggong.github.io/study_photo2/simplebank5.png">
-<meta property="og:image" content="https://whuichenggong.github.io/study_photo2/simplebank6.png">
-<meta property="og:image" content="https://whuichenggong.github.io/study_photo2/simplebank7.png">
-<meta property="og:image" content="https://whuichenggong.github.io/study_photo2/simplebank8.png">
-<meta property="og:image" content="https://whuichenggong.github.io/study_photo2/simplebank9.png">
-<meta property="og:image" content="https://whuichenggong.github.io/study_photo2/simplebank10.png">
-<meta property="article:published_time" content="2024-11-09T13:19:10.454Z">
-<meta property="article:modified_time" content="2024-12-07T05:33:12.530Z">
-<meta property="article:author" content="赵忠赫">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="c:\Users\30413\AppData\Roaming\Typora\typora-user-images\image-20241026184159996.png">
-    <meta http-equiv="Cache-control" content="no-cache">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <link rel="icon" href="/assets/favicon.ico">
-    <title>后端项目学习 · fi3ework&#39;s Studio</title>
-    <!-- /*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
-/* This file is meant as a standalone workflow for
-- testing support for link[rel=preload]
-- enabling async CSS loading in browsers that do not support rel=preload
-- applying rel preload css once loaded, whether supported or not.
-*/ -->
-<script>
-    (function (w) {
-        'use strict'
-        // rel=preload support test
-        if (!w.loadCSS) {
-            w.loadCSS = function () {}
-        }
-        // define on the loadCSS obj
-        var rp = (loadCSS.relpreload = {})
-        // rel=preload feature support test
-        // runs once and returns a function for compat purposes
-        rp.support = (function () {
-            var ret
-            try {
-                ret = w.document.createElement('link').relList.supports('preload')
-            } catch (e) {
-                ret = false
-            }
-            return function () {
-                return ret
-            }
-        })()
 
-        // if preload isn't supported, get an asynchronous load by using a non-matching media attribute
-        // then change that media back to its intended value on load
-        rp.bindMediaToggle = function (link) {
-            // remember existing media attr for ultimate state, or default to 'all'
-            var finalMedia = link.media || 'all'
 
-            function enableStylesheet() {
-                link.media = finalMedia
-            }
 
-            // bind load handlers to enable media
-            if (link.addEventListener) {
-                link.addEventListener('load', enableStylesheet)
-            } else if (link.attachEvent) {
-                link.attachEvent('onload', enableStylesheet)
-            }
 
-            // Set rel and non-applicable media type to start an async request
-            // note: timeout allows this to happen async to let rendering continue in IE
-            setTimeout(function () {
-                link.rel = 'stylesheet'
-                link.media = 'only x'
-            })
-            // also enable media after 3 seconds,
-            // which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
-            setTimeout(enableStylesheet, 3000)
-        }
 
-        // loop through link elements in DOM
-        rp.poly = function () {
-            // double check this to prevent external calls from running
-            if (rp.support()) {
-                return
-            }
-            var links = w.document.getElementsByTagName('link')
-            for (var i = 0; i < links.length; i++) {
-                var link = links[i]
-                // qualify links to those with rel=preload and as=style attrs
-                if (
-                    link.rel === 'preload' &&
-                    link.getAttribute('as') === 'style' &&
-                    !link.getAttribute('data-loadcss')
-                ) {
-                    // prevent rerunning on link
-                    link.setAttribute('data-loadcss', true)
-                    // bind listeners to toggle media back
-                    rp.bindMediaToggle(link)
-                }
-            }
-        }
+<title>后端项目学习 | 赵忠赫的个人博客</title>
 
-        // if unsupported, run the polyfill
-        if (!rp.support()) {
-            // run once at least
-            rp.poly()
 
-            // rerun poly on an interval until onload
-            var run = w.setInterval(rp.poly, 500)
-            if (w.addEventListener) {
-                w.addEventListener('load', function () {
-                    rp.poly()
-                    w.clearInterval(run)
-                })
-            } else if (w.attachEvent) {
-                w.attachEvent('onload', function () {
-                    rp.poly()
-                    w.clearInterval(run)
-                })
-            }
-        }
 
-        // commonjs
-        if (typeof exports !== 'undefined') {
-            exports.loadCSS = loadCSS
-        } else {
-            w.loadCSS = loadCSS
-        }
-    })(typeof global !== 'undefined' ? global : this)
-</script>
+    <link rel="icon" href="/favicon.ico">
 
-    <style type="text/css">
-    @font-face {
-        font-family: 'Oswald-Regular';
-        src: url("/font/Oswald-Regular.ttf");
-    }
 
-    body {
-        margin: 0;
-    }
 
-    header,
-    footer,
-    .footer-fixed-btn,
-    .sidebar,
-    .container,
-    .site-intro-meta,
-    .toc-wrapper {
-        display: none;
-    }
 
-    .site-intro {
-        position: relative;
-        z-index: 3;
-        width: 100%;
-        /* height: 50vh; */
-        overflow: hidden;
-    }
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
 
-    .site-intro-placeholder {
-        position: absolute;
-        z-index: -2;
-        top: 0;
-        left: 0;
-        width: calc(100% + 300px);
-        height: 100%;
-        background: repeating-linear-gradient(
-            -45deg,
-            #444 0,
-            #444 80px,
-            #333 80px,
-            #333 160px
-        );
-        background-position: center center;
-        transform: translate3d(-226px, 0, 0);
-        animation: gradient-move 2.5s ease-out 0s infinite;
-    }
 
-    @keyframes gradient-move {
-        0% {
-            transform: translate3d(-226px, 0, 0);
-        }
-        100% {
-            transform: translate3d(0, 0, 0);
-        }
-    }
-</style>
 
-    <link id="stylesheet-fancybox" rel="preload" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.36/dist/fancybox/fancybox.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <link id="stylesheet-base" rel="preload" href="/css/style.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <link id="stylesheet-mobile" rel="preload" href="/css/mobile.css" as="style" onload="this.onload=null;this.rel='stylesheet';this.media='screen and (max-width: 960px)'">
-    <link id="stylesheet-theme-dark" rel="preload" href="/css/dark.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <link rel="preload" href="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" as="script">
-    <link rel="preload" href="/scripts/main.js" as="script">
-    <link rel="preload" href="/font/Oswald-Regular.ttf" as="font" crossorigin>
-    <link rel="preload" href="https://at.alicdn.com/t/font_327081_1dta1rlogw17zaor.woff" as="font" crossorigin>
-    <!-- algolia -->
-    <!-- 百度统计  -->
-    <!-- 谷歌统计  -->
-    <!-- Google tag (gtag.js) -->
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
 <meta name="generator" content="Hexo 7.3.0"><link rel="alternate" href="/atom.xml" title="赵忠赫的个人博客" type="application/atom+xml">
 </head>
 
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
-    <script type="text/javascript">
-        if (typeof window.$ == undefined) {
-            console.warn('jquery load from jsdelivr failed, will load local script')
-            document.write('<script src="/lib/jquery.min.js" />')
-        }
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
     </script>
-        <body class="post-body">
-        <!-- header -->
-        <header class="header header-mobile">
-    <!-- top read progress line -->
-    <div class="header-element">
-        <div class="read-progress"></div>
-    </div>
-    <!-- sidebar menu button -->
-    <div class="header-element">
-        <div class="header-sidebar-menu">
-            <div style="padding-left: 1px;">&#xe775;</div>
-        </div>
-    </div>
-    <!-- header actions -->
-    <div class="header-actions">
-        <!-- theme mode switch button -->
-        <span class="header-theme-btn header-element">
-            <i class="fas fa-adjust"></i>
-        </span>
-        <!-- back to home page text -->
-        <span class="home-link header-element">
-            <a href="/">fi3ework's Studio.</a>
-        </span>
-    </div>
-    <!-- toggle banner -->
-    <div class="banner">
-        <div class="blog-title header-element">
-            <a href="/">fi3ework&#39;s Studio.</a>
-        </div>
-        <div class="post-title header-element">
-            <a href="#" class="post-name">后端项目学习</a>
-        </div>
-    </div>
-</header>
 
-        <!-- fixed footer -->
-        <footer class="footer-fixed">
-    <!-- donate button -->
-
-    <!-- back to top button -->
-    <div class="footer-fixed-btn footer-fixed-btn--hidden back-top">
-        <div>&#xe639;</div>
-    </div>
-</footer>
-
-        <!-- wrapper -->
-        <div class="wrapper">
-            <div class="site-intro" style="    height:50vh;
-">
-    <!-- 主页  -->
-    <!-- 404页  -->
-    <div class="site-intro-placeholder"></div>
-    <div class="site-intro-img" style="background-image: url(/intro/post-bg.jpg)"></div>
-    <div class="site-intro-meta">
-        <!-- 标题  -->
-        <h1 class="intro-title">
-            <!-- 主页  -->
-                后端项目学习
-            <!-- 404 -->
-        </h1>
-        <!-- 副标题 -->
-        <p class="intro-subtitle">
-            <!-- 主页副标题  -->
-            <!-- 404 -->
-        </p>
-        <!-- 文章页 meta -->
-            <div class="post-intros">
-                <!-- 文章页标签  -->
-                    <div class="post-intro-tags" >
-</div>
-
-                <!-- 文章字数统计 -->
-                <div class="post-intro-meta">
-                    <!-- 撰写日期 -->
-                    <span class="iconfont-archer post-intro-calander">&#xe676;</span>
-                    <span class="post-intro-time">2024/11/09</span>
-                    <!-- busuanzi -->
-                        <span id="busuanzi_container_page_pv" class="busuanzi-pv">
-                            <span class="iconfont-archer post-intro-busuanzi">&#xe602;</span>
-                            <span id="busuanzi_value_page_pv"></span>
-                        </span>
-                    <!-- 文章分享 -->
-                    <span class="share-wrapper">
-                        <span class="iconfont-archer share-icon">&#xe71d;</span>
-                        <span class="share-text">Share</span>
-                        <ul class="share-list">
-                            <li class="iconfont-archer share-qr" data-type="qr">&#xe75b;
-                                <div class="share-qrcode"></div>
-                            </li>
-                            <li class="iconfont-archer" data-type="weibo">&#xe619;</li>
-                            <li class="iconfont-archer" data-type="qzone">&#xe62e;</li>
-                            <li class="iconfont-archer" data-type="twitter">&#xe634;</li>
-                            <li class="iconfont-archer" data-type="facebook">&#xe67a;</li>
-                        </ul>
-                    </span>
-                </div>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">赵忠赫&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tags">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
             </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">赵忠赫&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tags">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
     </div>
 </div>
 
-            <script>
-  // get user agent
-  function getBrowserVersions() {
-    var u = window.navigator.userAgent
-    return {
-      userAgent: u,
-      trident: u.indexOf('Trident') > -1, //IE内核
-      presto: u.indexOf('Presto') > -1, //opera内核
-      webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
-      gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
-      mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
-      ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
-      android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
-      iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者安卓QQ浏览器
-      iPad: u.indexOf('iPad') > -1, //是否为iPad
-      webApp: u.indexOf('Safari') == -1, //是否为web应用程序，没有头部与底部
-      weixin: u.indexOf('MicroMessenger') == -1, //是否为微信浏览器
-      uc: u.indexOf('UCBrowser') > -1, //是否为android下的UC浏览器
-    }
-  }
-  var browser = {
-    versions: getBrowserVersions(),
-  }
-  console.log('userAgent: ' + browser.versions.userAgent)
+<script>
+    var tocbot_timer;
+    var DEPTH_MAX = 6; // 为 6 时展开所有
+    var tocbot_default_config = {
+        tocSelector: '.tocbot-list',
+        contentSelector: '.post-content',
+        headingSelector: 'h1, h2, h3, h4, h5',
+        orderedList: false,
+        scrollSmooth: true,
+        onClick: extend_click,
+    };
 
-  // callback
-  function fontLoaded() {
-    console.log('font loaded')
-    if (document.getElementsByClassName('site-intro-meta')) {
-      document
-        .getElementsByClassName('intro-title')[0]
-        .classList.add('intro-fade-in')
-      document
-        .getElementsByClassName('intro-subtitle')[0]
-        .classList.add('intro-fade-in')
-      var postIntros = document.getElementsByClassName('post-intros')[0]
-      if (postIntros) {
-        postIntros.classList.add('post-fade-in')
-      }
-    }
-  }
-
-  // UC不支持跨域，所以直接显示
-  function asyncCb() {
-    if (browser.versions.uc) {
-      console.log('UCBrowser')
-      fontLoaded()
-    } else {
-      WebFont.load({
-        custom: {
-          families: ['Oswald-Regular'],
-        },
-        loading: function () {
-          // 所有字体开始加载
-          // console.log('font loading');
-        },
-        active: function () {
-          // 所有字体已渲染
-          fontLoaded()
-        },
-        inactive: function () {
-          // 字体预加载失败，无效字体或浏览器不支持加载
-          console.log('inactive: timeout')
-          fontLoaded()
-        },
-        timeout: 5000, // Set the timeout to two seconds
-      })
-    }
-  }
-
-  function asyncErr() {
-    console.warn('script load from CDN failed, will load local script')
-  }
-
-  // load webfont-loader async, and add callback function
-  function async(u, cb, err) {
-    var d = document,
-      t = 'script',
-      o = d.createElement(t),
-      s = d.getElementsByTagName(t)[0]
-    o.src = u
-    if (cb) {
-      o.addEventListener(
-        'load',
-        function (e) {
-          cb(null, e)
-        },
-        false
-      )
-    }
-    if (err) {
-      o.addEventListener(
-        'error',
-        function (e) {
-          err(null, e)
-        },
-        false
-      )
-    }
-    s.parentNode.insertBefore(o, s)
-  }
-
-  var asyncLoadWithFallBack = function (arr, success, reject) {
-    var currReject = function () {
-      reject()
-      arr.shift()
-      if (arr.length) async(arr[0], success, currReject)
+    function extend_click() {
+        clearTimeout(tocbot_timer);
+        tocbot_timer = setTimeout(function() {
+            tocbot.refresh(obj_merge(tocbot_default_config, {
+                hasInnerContainers: true
+            }));
+        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
     }
 
-    async(arr[0], success, currReject)
-  }
+    document.ready(function() {
+        tocbot.init(obj_merge(tocbot_default_config, {
+            collapseDepth: 1
+        }));
+    });
 
-  asyncLoadWithFallBack(
-    [
-      'https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js',
-      'https://cdn.bootcss.com/webfont/1.6.28/webfontloader.js',
-      "/lib/webfontloader.min.js",
-    ],
-    asyncCb,
-    asyncErr
-  )
+    function expand_toc() {
+        var b = document.querySelector('.tocbot-toc-expand');
+        var expanded = b.getAttribute('data-expanded');
+        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
+        tocbot.refresh(obj_merge(tocbot_default_config, {
+            collapseDepth: expanded ? 1 : DEPTH_MAX
+        }));
+        b.innerText = expanded ? 'Expand all' : 'Collapse all';
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function obj_merge(target, source) {
+        for (var item in source) {
+            if (source.hasOwnProperty(item)) {
+                target[item] = source[item];
+            }
+        }
+        return target;
+    }
 </script>
+    
 
-            <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" alt="loading">
-            <div class="container container-unloaded">
-                <main class="main post-page">
-    <article class="article-entry">
-        <h1 id="重新开启simplebank学习！！！"><a href="#重新开启simplebank学习！！！" class="headerlink" title="重新开启simplebank学习！！！"></a>重新开启simplebank学习！！！</h1><h3 id="一-创建数据库表"><a href="#一-创建数据库表" class="headerlink" title="一.创建数据库表"></a>一.创建数据库表</h3><p><a target="_blank" rel="noopener" href="https://dbdiagram.io/">https://dbdiagram.io</a> 可视化数据库工具</p>
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">后端项目学习</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">赵忠赫</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">十一月 9, 2024&nbsp;&nbsp;21:19:10</a>
+                        </span>
+                    
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h1 id="重新开启simplebank学习！！！"><a href="#重新开启simplebank学习！！！" class="headerlink" title="重新开启simplebank学习！！！"></a>重新开启simplebank学习！！！</h1><h3 id="一-创建数据库表"><a href="#一-创建数据库表" class="headerlink" title="一.创建数据库表"></a>一.创建数据库表</h3><p><a target="_blank" rel="noopener" href="https://dbdiagram.io/">https://dbdiagram.io</a> 可视化数据库工具</p>
 <h4 id="1-创建账户表"><a href="#1-创建账户表" class="headerlink" title="1.创建账户表"></a>1.创建账户表</h4><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Table accounts as A &#123; <span class="comment">//A作为account的别名</span></span><br><span class="line">  id bigserisal [pk]  <span class="comment">//pk作为主键 自增的id列</span></span><br><span class="line">  owner varchar</span><br><span class="line">  balance bigint</span><br><span class="line">  currency varchar </span><br><span class="line">  created_at timestamp [<span class="keyword">default</span>: <span class="string">`now()`</span>] <span class="comment">//自动获取时间</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <h4 id="2-创建条目表"><a href="#2-创建条目表" class="headerlink" title="2.创建条目表"></a>2.创建条目表</h4><p>&#x2F;&#x2F;记录账户余额的变化</p>
@@ -1450,351 +1212,71 @@
 <h4 id="12-2日"><a href="#12-2日" class="headerlink" title="12.2日"></a>12.2日</h4><p>加入更多的响应</p>
 <p><img src="/study_photo2/simplebank10.png" alt="image-20241129195504285"></p>
 
-    </article>
-    <!-- license -->
-        <div class="license-wrapper">
-            <p>原文作者：<a href="https://Whuichenggong.github.io">赵忠赫</a>
-            <p>原文链接：<a href="https://whuichenggong.github.io/2024/11/09/Simple_bank/">https://whuichenggong.github.io/2024/11/09/Simple_bank/</a>
-            <p>发表日期：<a href="https://whuichenggong.github.io/2024/11/09/Simple_bank/">十一月 9日 2024, 9:19:10 晚上</a>
-            <p>更新日期：<a href="https://whuichenggong.github.io/2024/11/09/Simple_bank/">December 7th 2024, 1:33:12 pm</a>
-            <p>版权声明：本文采用<a rel="license noopener" target="_blank" href="http://creativecommons.org/licenses/by-nc/4.0/">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p>
         </div>
-    <!-- paginator -->
-    <ul class="post-paginator">
-        <li class="next">
-                <div class="nextSlogan">Next Post</div>
-                <a href="/2024/11/11/Go_Advanced/" title="Go语言进阶">
-                    <div class="nextTitle">Go语言进阶</div>
-                </a>
-        </li>
-        <li class="previous">
-                <div class="prevSlogan">Previous Post</div>
-                <a href="/2024/11/09/data_structure/" title="数据结构的实现">
-                    <div class="prevTitle">数据结构的实现</div>
-                </a>
-        </li>
-    </ul>
-    <!-- comment -->
-        <div class="post-comment">
-            <!-- 来必力 City 版安装代码 -->
 
-            
-            
-            
-            <!-- utteranc评论 -->
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>赵忠赫</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="https://whuichenggong.github.io/2024/11/09/Simple_bank/">https://whuichenggong.github.io/2024/11/09/Simple_bank/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY</strong>?</span>
+                     </p>
+                
 
-            <!-- partial('_partial/comment/changyan') -->
-            <!--PC版-->
-
-            
-            
-            
-        </div>
-    <!-- timeliness note -->
-    <!-- idea from: https://hexo.fluid-dev.com/posts/hexo-injector/#%E6%96%87%E7%AB%A0%E6%97%B6%E6%95%88%E6%80%A7%E6%8F%90%E7%A4%BA -->
-    <!-- Mathjax -->
-</main>
-
-                <!-- profile -->
-            </div>
-            <footer class="footer footer-unloaded">
-    <!-- social  -->
-        <div class="social">
-                            <a href="mailto:3041322213@qq.com" class="iconfont-archer email" title="email" ></a>
-                <a href="//github.com/Whuichenggong" class="iconfont-archer github" target="_blank" title="github"></a>
-                <span class="iconfont-archer wechat" title="wechat">
-                    <img class="profile-qr" src="/assets/example_qr.png" />
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
                 </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2024/11/11/Go_Advanced/">Go语言进阶</a>
+            
+            
+            <a class="next" rel="next" href="/2024/11/09/data_structure/">数据结构的实现</a>
+            
+        </section>
 
-        </div>
-    <!-- powered by Hexo  -->
+
+    </article>
+</div>
+
+            </div>
+            <footer id="footer" class="footer">
     <div class="copyright">
-        <span id="hexo-power">Powered by <a href="https://hexo.io/" target="_blank">Hexo</a></span><span class="iconfont-archer power">&#xe635;</span><span id="theme-info">theme <a href="https://github.com/fi3ework/hexo-theme-archer" target="_blank">Archer</a></span>
+        <span>© 赵忠赫 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
     </div>
-    <!-- website approve for Chinese user -->
-    <!-- 不蒜子  -->
-        <div class="busuanzi-container">
-                <span id="busuanzi_container_site_pv">PV: <span id="busuanzi_value_site_pv"></span> :)</span>
-        </div>
 </footer>
 
-        </div>
-        <!-- toc -->
-            <div class="toc-wrapper toc-wrapper-loding" style=    top:50vh;
->
-                <div class="toc-catalog">
-                    <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
-                </div>
-                <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%87%8D%E6%96%B0%E5%BC%80%E5%90%AFsimplebank%E5%AD%A6%E4%B9%A0%EF%BC%81%EF%BC%81%EF%BC%81"><span class="toc-number">1.</span> <span class="toc-text">重新开启simplebank学习！！！</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%80-%E5%88%9B%E5%BB%BA%E6%95%B0%E6%8D%AE%E5%BA%93%E8%A1%A8"><span class="toc-number">1.0.1.</span> <span class="toc-text">一.创建数据库表</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E5%88%9B%E5%BB%BA%E8%B4%A6%E6%88%B7%E8%A1%A8"><span class="toc-number">1.0.1.1.</span> <span class="toc-text">1.创建账户表</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E5%88%9B%E5%BB%BA%E6%9D%A1%E7%9B%AE%E8%A1%A8"><span class="toc-number">1.0.1.2.</span> <span class="toc-text">2.创建条目表</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-%E5%88%9B%E5%BB%BA-%E8%BD%AC%E8%B4%A6%E8%A1%A8"><span class="toc-number">1.0.1.3.</span> <span class="toc-text">3.创建 转账表</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8C-Docker"><span class="toc-number">1.0.2.</span> <span class="toc-text">二.Docker</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%89-Tableplus"><span class="toc-number">1.0.3.</span> <span class="toc-text">三.Tableplus</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%9B-DB-migration"><span class="toc-number">1.0.4.</span> <span class="toc-text">四.DB migration</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%94-Makefile%E6%96%87%E4%BB%B6"><span class="toc-number">1.0.5.</span> <span class="toc-text">五.Makefile文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%AD-%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9A%84CRUD"><span class="toc-number">1.0.6.</span> <span class="toc-text">六.数据库的CRUD</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%83-%E4%BD%BF%E7%94%A8sqlc"><span class="toc-number">1.0.7.</span> <span class="toc-text">七.使用sqlc</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%AB-sqlc-yaml"><span class="toc-number">1.0.8.</span> <span class="toc-text">八.sqlc.yaml</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#make-sqlc-%E7%94%9F%E6%88%90%E4%BB%A3%E7%A0%81"><span class="toc-number">1.0.8.1.</span> <span class="toc-text">make sqlc 生成代码</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-account-sql-go"><span class="toc-number">1.0.8.1.1.</span> <span class="toc-text">1.account.sql.go</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-db-go"><span class="toc-number">1.0.8.1.2.</span> <span class="toc-text">2.db.go</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3-models-go"><span class="toc-number">1.0.8.1.3.</span> <span class="toc-text">3.models.go</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B9%9D-%E7%BC%96%E5%86%99%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95%E7%94%A8%E4%BE%8B"><span class="toc-number">1.0.9.</span> <span class="toc-text">九.编写单元测试用例</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#10-8%E6%97%A5-%E8%A7%A3%E5%86%B3%E7%9B%AE%E5%89%8D%E4%B8%BA%E6%AD%A2%E9%81%87%E8%A7%81%E7%9A%84%E4%B8%80%E4%B8%AA%E9%97%AE%E9%A2%98"><span class="toc-number">1.0.9.1.</span> <span class="toc-text">10.8日 解决目前为止遇见的一个问题</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E6%9C%80%E7%BB%88%E7%9A%84account-test-go%E4%BB%A3%E7%A0%81"><span class="toc-number">1.0.9.2.</span> <span class="toc-text">1.最终的account_test.go代码</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E6%9C%80%E7%BB%88%E7%9A%84main-test-go%E4%BB%A3%E7%A0%81"><span class="toc-number">1.0.9.3.</span> <span class="toc-text">2.最终的main_test.go代码</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-account-test-go%E4%BB%A3%E7%A0%81%EF%BC%9A"><span class="toc-number">1.0.9.4.</span> <span class="toc-text">3.account_test.go代码：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-entry-test-go"><span class="toc-number">1.0.9.5.</span> <span class="toc-text">4.entry_test.go</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-transfer-test-go"><span class="toc-number">1.0.9.6.</span> <span class="toc-text">5.transfer_test.go</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8D%81-db-transaction"><span class="toc-number">1.0.10.</span> <span class="toc-text">十.db transaction</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8D%81%E4%B8%80-config-go"><span class="toc-number">1.0.11.</span> <span class="toc-text">十一.config.go</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8D%81%E4%BA%8C-%E9%9C%80%E8%A6%81%E4%BB%94%E7%BB%86%E5%A4%84%E7%90%86%E5%B9%B6%E5%8F%91-%E4%BA%A4%E6%98%93-%E4%BB%A5%E9%81%BF%E5%85%8D%E6%AD%BB%E9%94%81"><span class="toc-number">1.0.12.</span> <span class="toc-text">十二.需要仔细处理并发 交易 以避免死锁</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95"><span class="toc-number">1.0.13.</span> <span class="toc-text">解决方法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BB%88%E7%AB%AF%E9%98%BB%E5%A1%9E-%E4%BA%8B%E5%8A%A1%E7%8A%B6%E6%80%81"><span class="toc-number">1.0.13.1.</span> <span class="toc-text">终端阻塞 事务状态</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E8%AF%86%E5%88%AB%E5%B9%B6%E7%BB%88%E6%AD%A2%E9%98%BB%E5%A1%9E%E7%9A%84%E4%BA%8B%E5%8A%A1"><span class="toc-number">1.0.13.2.</span> <span class="toc-text">1. 识别并终止阻塞的事务</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E7%A1%AE%E8%AE%A4%E4%BA%8B%E5%8A%A1%E7%9A%84%E7%8A%B6%E6%80%81"><span class="toc-number">1.0.13.3.</span> <span class="toc-text">2. 确认事务的状态</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-%E5%B0%9D%E8%AF%95%E5%86%8D%E6%AC%A1%E6%89%A7%E8%A1%8C%E6%8F%92%E5%85%A5"><span class="toc-number">1.0.13.4.</span> <span class="toc-text">3. 尝试再次执行插入</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-%E5%A6%82%E6%9E%9C%E9%97%AE%E9%A2%98%E4%BE%9D%E7%84%B6%E5%AD%98%E5%9C%A8"><span class="toc-number">1.0.13.5.</span> <span class="toc-text">4. 如果问题依然存在</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-postgres-lock%EF%BC%9A%E5%B8%AE%E5%8A%A9%E6%9F%A5%E8%AF%A2%E5%93%AA%E9%87%8C%E6%9C%89%E9%94%81"><span class="toc-number">1.0.13.6.</span> <span class="toc-text">5.postgres lock：帮助查询哪里有锁</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8D%81%E4%B8%89-%E9%9A%94%E7%A6%BB%E7%BA%A7%E5%88%AB"><span class="toc-number">1.0.14.</span> <span class="toc-text">十三.隔离级别</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Read-Phenomenaa"><span class="toc-number">1.0.14.1.</span> <span class="toc-text">Read Phenomenaa</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E8%84%8F%E8%AF%BB"><span class="toc-number">1.0.14.2.</span> <span class="toc-text">1.脏读</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E4%B8%8D%E5%8F%AF%E9%87%8D%E5%A4%8D%E8%AF%BB"><span class="toc-number">1.0.14.3.</span> <span class="toc-text">2.不可重复读</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-%E5%B9%BB%E8%AF%BB"><span class="toc-number">1.0.14.4.</span> <span class="toc-text">3.幻读</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-%E5%9B%9B%E7%A7%8D%E9%9A%94%E7%A6%BB%E7%BA%A7%E5%88%AB"><span class="toc-number">1.0.14.5.</span> <span class="toc-text">4.四种隔离级别</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-mysql%E9%80%89%E6%8B%A9%E9%9A%94%E7%A6%BB%E7%BA%A7%E5%88%AB"><span class="toc-number">1.0.14.6.</span> <span class="toc-text">5.mysql选择隔离级别</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#6-postgresql%E9%80%89%E6%8B%A9%E9%9A%94%E7%A6%BB%E7%BA%A7%E5%88%AB-%E5%8F%AA%E6%9C%89%E4%B8%89%E4%B8%AA"><span class="toc-number">1.0.14.7.</span> <span class="toc-text">6.postgresql选择隔离级别 只有三个</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8D%81%E5%9B%9B-%E6%8C%81%E7%BB%AD%E9%9B%86%E6%88%90%E6%88%96CI"><span class="toc-number">1.0.15.</span> <span class="toc-text">十四.持续集成或CI</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-Github-Action"><span class="toc-number">1.0.15.1.</span> <span class="toc-text">1.Github Action</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8D%81%E4%BA%94-RESTful-HEEP-API"><span class="toc-number">1.0.16.</span> <span class="toc-text">十五.RESTful HEEP API</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E5%88%9B%E5%BB%BAapi%E6%96%87%E4%BB%B6%E5%A4%B9"><span class="toc-number">1.0.16.1.</span> <span class="toc-text">1.创建api文件夹</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E6%A8%A1%E6%8B%9F%E6%95%B0%E6%8D%AE%E5%BA%93%E6%B5%8B%E8%AF%95"><span class="toc-number">1.0.16.2.</span> <span class="toc-text">2.模拟数据库测试</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-account-test-go"><span class="toc-number">1.0.16.3.</span> <span class="toc-text">3.account_test.go</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-transfer-go"><span class="toc-number">1.0.16.4.</span> <span class="toc-text">4.transfer.go</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8D%81%E5%85%AD-%E7%94%A8%E6%88%B7%E8%BA%AB%E4%BB%BD%E9%AA%8C%E8%AF%81%E5%92%8C%E6%8E%88%E6%9D%83"><span class="toc-number">1.0.17.</span> <span class="toc-text">十六.用户身份验证和授权</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E5%BB%BAuser%E6%95%B0%E6%8D%AE%E5%BA%93%E8%A1%A8"><span class="toc-number">1.0.17.1.</span> <span class="toc-text">1.建user数据库表</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8D%81%E4%B8%83-%E8%BF%81%E7%A7%BB%E5%A4%B1%E8%B4%A5%E5%8E%9F%E5%9B%A0"><span class="toc-number">1.0.18.</span> <span class="toc-text">十七.迁移失败原因</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E9%97%AE%E9%A2%98%EF%BC%9A"><span class="toc-number">1.0.18.1.</span> <span class="toc-text">2.问题：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-%E8%A7%A3%E9%99%A4%E5%A4%96%E9%94%AE%E7%BA%A6%E6%9D%9F"><span class="toc-number">1.0.18.2.</span> <span class="toc-text">3.解除外键约束</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-%E9%97%AE%E9%A2%98%EF%BC%9A"><span class="toc-number">1.0.18.3.</span> <span class="toc-text">4.问题：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-%E8%A7%A3%E5%86%B3%EF%BC%9A"><span class="toc-number">1.0.18.4.</span> <span class="toc-text">5.解决：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#6-%E6%A3%80%E6%9F%A5%E5%BD%93%E5%89%8D%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%AD%E7%9A%84%E7%BA%A6%E6%9D%9F%E5%90%8D"><span class="toc-number">1.0.18.5.</span> <span class="toc-text">6.检查当前数据库中的约束名</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8D%81%E5%85%AB-user-test-go"><span class="toc-number">1.0.19.</span> <span class="toc-text">十八. user_test.go</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-10-23%E5%A4%96%E9%94%AE%E7%BA%A6%E6%9D%9F%E9%97%AE%E9%A2%98"><span class="toc-number">1.0.19.1.</span> <span class="toc-text">1. 10.23外键约束问题</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E6%95%B0%E6%8D%AE%E5%BA%93%E8%A1%A8%E5%87%BA%E7%8E%B0%E9%94%99%E8%AF%AF"><span class="toc-number">1.0.19.2.</span> <span class="toc-text">2.数据库表出现错误</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-%E4%BF%AE%E6%94%B9%E7%8A%B6%E6%80%81%E7%A0%81"><span class="toc-number">1.0.19.3.</span> <span class="toc-text">3.修改状态码</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8D%81%E4%B9%9D-%E5%9C%A8%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%AD%E5%AE%89%E5%85%A8%E7%9A%84%E5%AD%98%E5%82%A8%E5%AF%86%E7%A0%81"><span class="toc-number">1.0.20.</span> <span class="toc-text">十九.在数据库中安全的存储密码</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-password-go"><span class="toc-number">1.0.20.1.</span> <span class="toc-text">1.password.go</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-password-test-go"><span class="toc-number">1.0.20.2.</span> <span class="toc-text">2.password_test.go</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-user-go"><span class="toc-number">1.0.20.3.</span> <span class="toc-text">3.user.go</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8C%E5%8D%81-user-test-go"><span class="toc-number">1.0.21.</span> <span class="toc-text">二十.user_test.go</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E9%97%AE%E9%A2%98"><span class="toc-number">1.0.21.1.</span> <span class="toc-text">1.问题</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8C%E5%8D%81%E4%B8%80-JWT"><span class="toc-number">1.0.22.</span> <span class="toc-text">二十一.JWT</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-JSON-Web%E4%BB%A4%E7%89%8C"><span class="toc-number">1.0.22.1.</span> <span class="toc-text">1.JSON Web令牌</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E5%9F%BA%E4%BA%8E%E4%BB%A4%E7%89%8C%E7%9A%84%E8%BA%AB%E4%BB%BD%E9%AA%8C%E8%AF%81%E7%9A%84%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="toc-number">1.0.22.2.</span> <span class="toc-text">2.基于令牌的身份验证的工作原理是什么？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-%E5%9F%BA%E4%BA%8E%E4%BB%A4%E7%89%8C%E7%9A%84%E8%BA%AB%E4%BB%BD%E9%AA%8C%E8%AF%81%E6%9C%89%E4%BD%95%E7%9B%8A%E5%A4%84%EF%BC%9F"><span class="toc-number">1.0.22.3.</span> <span class="toc-text">3.基于令牌的身份验证有何益处？</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8C%E5%8D%81%E4%BA%8C-%E7%BC%96%E5%86%99%E4%BB%A4%E7%89%8C"><span class="toc-number">1.0.23.</span> <span class="toc-text">二十二.编写令牌</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#make-go"><span class="toc-number">1.0.23.1.</span> <span class="toc-text">make.go</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#payload-go"><span class="toc-number">1.0.23.2.</span> <span class="toc-text">payload.go</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#jwt-maker-go"><span class="toc-number">1.0.23.3.</span> <span class="toc-text">jwt_maker.go</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#passeto-maker-go"><span class="toc-number">1.0.23.4.</span> <span class="toc-text">passeto_maker.go</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#paseto-make-test-go"><span class="toc-number">1.0.23.5.</span> <span class="toc-text">paseto_make_test.go</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#10-28%E5%AD%A6%E4%B9%A0%E5%A6%82%E4%BD%95%E7%94%A8%E4%BB%A4%E7%89%8C%E7%99%BB%E5%BD%95api"><span class="toc-number">1.0.24.</span> <span class="toc-text">10.28学习如何用令牌登录api</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-server-go"><span class="toc-number">1.0.24.1.</span> <span class="toc-text">1.server.go</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-user-go"><span class="toc-number">1.0.24.2.</span> <span class="toc-text">2.user.go</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-%E9%97%AE%E9%A2%981"><span class="toc-number">1.0.24.3.</span> <span class="toc-text">3.问题1</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-%E8%A7%A3%E5%86%B31"><span class="toc-number">1.0.24.4.</span> <span class="toc-text">4.解决1</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-%E9%97%AE%E9%A2%982"><span class="toc-number">1.0.24.5.</span> <span class="toc-text">5.问题2</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#6-%E8%A7%A3%E5%86%B32"><span class="toc-number">1.0.24.6.</span> <span class="toc-text">6.解决2</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#11-6%E6%97%A5-%E4%BA%8C%E5%8D%81%E4%BA%8C-%E8%BA%AB%E4%BB%BD%E9%AA%8C%E8%AF%81%E4%B8%AD%E9%97%B4%E4%BB%B6-%E6%8E%88%E6%9D%83API%E8%AF%B7%E6%B1%82"><span class="toc-number">1.0.24.7.</span> <span class="toc-text">11.6日 二十二.身份验证中间件 授权API请求</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8C%E5%8D%81%E4%B8%89-%E9%83%A8%E7%BD%B2%E7%9B%AE%E5%89%8D%E7%9A%84%E7%A8%8B%E5%BA%8F"><span class="toc-number">1.0.25.</span> <span class="toc-text">二十三.部署目前的程序</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E5%AF%B9%E7%A8%8B%E5%BA%8F%E8%BF%9B%E8%A1%8Cdocker%E5%8C%96"><span class="toc-number">1.0.25.1.</span> <span class="toc-text">1.对程序进行docker化</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#11-10%E6%97%A5"><span class="toc-number">1.0.25.2.</span> <span class="toc-text">11.10日</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Dockerfile"><span class="toc-number">1.0.25.3.</span> <span class="toc-text">Dockerfile</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#11-13%E6%97%A5"><span class="toc-number">1.0.25.4.</span> <span class="toc-text">11.13日</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E9%97%AE%E9%A2%98%EF%BC%9A"><span class="toc-number">1.0.25.4.1.</span> <span class="toc-text">问题：</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%85%B3%E9%94%AE%EF%BC%9A"><span class="toc-number">1.0.25.4.2.</span> <span class="toc-text">关键：</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B%E6%9B%B4%E8%AF%A6%E7%BB%86%E7%9A%84%E7%BD%91%E7%BB%9C%E4%BF%A1%E6%81%AF"><span class="toc-number">1.0.25.4.3.</span> <span class="toc-text">查看更详细的网络信息</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E8%87%AA%E5%B7%B1%E7%9A%84%E7%BD%91%E7%BB%9C"><span class="toc-number">1.0.25.4.4.</span> <span class="toc-text">创建自己的网络</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%BF%9E%E6%8E%A5%E5%88%9B%E5%BB%BA%E7%9A%84%E7%BD%91%E7%BB%9C"><span class="toc-number">1.0.25.4.5.</span> <span class="toc-text">连接创建的网络</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#%E5%BE%97%E5%85%88%E5%90%AF%E5%8A%A8-postrges12"><span class="toc-number">1.0.25.4.5.1.</span> <span class="toc-text">得先启动 postrges12</span></a></li></ol></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BA%8C%E5%8D%81%E5%9B%9B-docker-compose"><span class="toc-number">1.0.25.5.</span> <span class="toc-text">二十四.docker-compose</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#11-18%E6%97%A5"><span class="toc-number">1.0.25.6.</span> <span class="toc-text">11.18日</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%87%BA%E9%94%99"><span class="toc-number">1.0.25.6.1.</span> <span class="toc-text">出错</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95-1"><span class="toc-number">1.0.25.6.2.</span> <span class="toc-text">解决方法</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BA%8C-11-22%E6%97%A5"><span class="toc-number">1.0.25.7.</span> <span class="toc-text">二.11.22日</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%A7%A3%E5%86%B3%E4%B8%8A%E6%AC%A1%E7%9A%84%E9%97%AE%E9%A2%98"><span class="toc-number">1.0.25.7.1.</span> <span class="toc-text">解决上次的问题</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%89-11-23%E6%97%A5"><span class="toc-number">1.0.25.8.</span> <span class="toc-text">三.11.23日</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%88%9B%E5%BB%BAAWS-%E6%9C%80%E5%A4%A7%E7%9A%84%E4%BA%91%E6%8F%90%E4%BE%9B%E5%95%86-%E8%B4%A6%E6%88%B7%E9%83%A8%E7%BD%B2%E5%BA%94%E7%94%A8%E7%A8%8B%E5%BA%8F"><span class="toc-number">1.0.25.8.1.</span> <span class="toc-text">创建AWS(最大的云提供商)账户部署应用程序</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%87%AA%E5%8A%A8%E6%9E%84%E5%BB%BAdocker%E9%95%9C%E5%83%8F%E5%B9%B6%E6%8E%A8%E9%80%81%E5%88%B0AWS-ECR"><span class="toc-number">1.0.25.8.2.</span> <span class="toc-text">自动构建docker镜像并推送到AWS ECR</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9B%9B-11-29%E6%97%A5-%E5%B0%9D%E8%AF%95"><span class="toc-number">1.0.25.9.</span> <span class="toc-text">四.11.29日 尝试</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BA%94-2024%E5%B9%B4-11-30%E6%97%A5-21%EF%BC%9A27%E5%88%86-%E6%88%90%E4%BA%86%E6%8A%8A%E9%A1%B9%E7%9B%AE%E6%88%90%E5%8A%9F%E9%83%A8%E7%BD%B2%E5%88%B0%E4%BA%86%E4%BA%91%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B8%8A%E5%A4%AA%E4%B8%8D%E5%AE%B9%E6%98%93%E4%BA%86"><span class="toc-number">1.0.25.10.</span> <span class="toc-text">五.2024年 11.30日 21：27分  成了把项目成功部署到了云服务器上太不容易了</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#Docker-%E6%8C%87%E4%BB%A4"><span class="toc-number">1.0.25.10.1.</span> <span class="toc-text">Docker 指令</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E5%88%9B%E5%BB%BA%E6%96%B0%E7%9A%84EKS%E9%9B%86%E7%BE%A4%E5%B9%B6%E5%90%91%E5%85%B6%E4%B8%AD%E6%B7%BB%E5%8A%A0%E5%B7%A5%E4%BD%9C%E8%8A%82%E7%82%B9"><span class="toc-number">1.0.25.10.2.</span> <span class="toc-text">如何创建新的EKS集群并向其中添加工作节点</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%BF%9B%E9%98%B6%E5%90%8E%E7%AB%AF"><span class="toc-number">1.0.25.11.</span> <span class="toc-text">进阶后端</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#add-sessions-up-sql"><span class="toc-number">1.0.25.11.1.</span> <span class="toc-text">add_sessions.up.sql</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#11-30%E6%97%A5"><span class="toc-number">1.0.25.12.</span> <span class="toc-text">11.30日</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#12-2%E6%97%A5"><span class="toc-number">1.0.25.13.</span> <span class="toc-text">12.2日</span></a></li></ol></li></ol></li></ol></li></ol>
-            </div>
-        <!-- sidebar -->
-        <div class="sidebar sidebar-hide">
-    <ul class="sidebar-tabs sidebar-tabs-active-0">
-        <li class="sidebar-tab-archives"><span class="iconfont-archer">&#xe67d;</span><span class="tab-name">Archive</span></li>
-        <li class="sidebar-tab-tags"><span class="iconfont-archer">&#xe61b;</span><span class="tab-name">Tag</span></li>
-        <li class="sidebar-tab-categories"><span class="iconfont-archer">&#xe666;</span><span class="tab-name">Cate</span></li>
-    </ul>
-    <div class="sidebar-content sidebar-content-show-archive">
-        <div class="sidebar-panel-archives">
-    <!-- 在 ejs 中将 archive 按照时间排序 -->
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-    <div class="total-and-search">
-        <div class="total-archive">
-        Total : 29
-        </div>
-        <!-- search  -->
     </div>
-    <div class="post-archive">
-            <div class="archive-year"> Invalid date </div>
-            <ul class="year-list">
-        <li class="archive-post-item">
-            <span class="archive-post-date">Invalid date</span>
-            <a class="archive-post-title" href="/2024/11/08/Dance_Frame/">字节姑关于框架学习</a>
-        </li>
-                </ul>
-            <div class="archive-year"> Invalid date </div>
-            <ul class="year-list">
-        <li class="archive-post-item">
-            <span class="archive-post-date">Invalid date</span>
-            <a class="archive-post-title" href="/2024/11/13/Dance_live/">青训营直播总结</a>
-        </li>
-                </ul>
-            <div class="archive-year"> Invalid date </div>
-            <ul class="year-list">
-        <li class="archive-post-item">
-            <span class="archive-post-date">Invalid date</span>
-            <a class="archive-post-title" href="/2024/11/26/Dance_live2/">11.26日字节直播总结</a>
-        </li>
-                </ul>
-            <div class="archive-year"> 2024 </div>
-            <ul class="year-list">
-        <li class="archive-post-item">
-            <span class="archive-post-date">12/18</span>
-            <a class="archive-post-title" href="/2024/12/18/live3/">一位老哥的分享给了我一些启发</a>
-        </li>
-        <li class="archive-post-item">
-            <span class="archive-post-date">12/16</span>
-            <a class="archive-post-title" href="/2024/12/16/Database/">学习数据库</a>
-        </li>
-        <li class="archive-post-item">
-            <span class="archive-post-date">12/09</span>
-            <a class="archive-post-title" href="/2024/12/09/Distributed/">分布式系统学习</a>
-        </li>
-                </ul>
-            <div class="archive-year"> Invalid date </div>
-            <ul class="year-list">
-        <li class="archive-post-item">
-            <span class="archive-post-date">Invalid date</span>
-            <a class="archive-post-title" href="/2024/11/11/Go_Advanced/">Go语言进阶</a>
-        </li>
-                </ul>
-            <div class="archive-year"> 2024 </div>
-            <ul class="year-list">
-        <li class="archive-post-item">
-            <span class="archive-post-date">12/12</span>
-            <a class="archive-post-title" href="/2024/12/12/current/">聊聊最近</a>
-        </li>
-        <li class="archive-post-item">
-            <span class="archive-post-date">12/07</span>
-            <a class="archive-post-title" href="/2024/12/07/confusion/">为什么别人写项目知道用什么？</a>
-        </li>
-        <li class="archive-post-item">
-            <span class="archive-post-date">12/02</span>
-            <a class="archive-post-title" href="/2024/12/02/Go_Program/">Go语法学习</a>
-        </li>
-        <li class="archive-post-item">
-            <span class="archive-post-date">11/16</span>
-            <a class="archive-post-title" href="/2024/11/16/Goalng_Framework/">7_days_golang学习</a>
-        </li>
-                </ul>
-            <div class="archive-year"> Invalid date </div>
-            <ul class="year-list">
-        <li class="archive-post-item">
-            <span class="archive-post-date">Invalid date</span>
-            <a class="archive-post-title" href="/2024/11/23/UDP_socket/">UDP socket的ack机制和丢包重传</a>
-        </li>
-                </ul>
-            <div class="archive-year"> 2024 </div>
-            <ul class="year-list">
-        <li class="archive-post-item">
-            <span class="archive-post-date">12/07</span>
-            <a class="archive-post-title" href="/2024/12/07/authority/">理解鉴权，权限等名词的区别</a>
-        </li>
-        <li class="archive-post-item">
-            <span class="archive-post-date">11/16</span>
-            <a class="archive-post-title" href="/2024/11/16/computer_operate/">操作系统学习</a>
-        </li>
-        <li class="archive-post-item">
-            <span class="archive-post-date">11/13</span>
-            <a class="archive-post-title" href="/2024/11/13/job/">一些找工作或实习的渠道</a>
-        </li>
-        <li class="archive-post-item">
-            <span class="archive-post-date">11/09</span>
-            <a class="archive-post-title" href="/2024/11/09/Simple_bank/">后端项目学习</a>
-        </li>
-                </ul>
-            <div class="archive-year"> Invalid date </div>
-            <ul class="year-list">
-        <li class="archive-post-item">
-            <span class="archive-post-date">Invalid date</span>
-            <a class="archive-post-title" href="/2024/11/14/computer_network/">计算机网络持续学习中~</a>
-        </li>
-                </ul>
-            <div class="archive-year"> 2024 </div>
-            <ul class="year-list">
-        <li class="archive-post-item">
-            <span class="archive-post-date">11/09</span>
-            <a class="archive-post-title" href="/2024/11/09/data_structure/">数据结构的实现</a>
-        </li>
-                </ul>
-            <div class="archive-year"> Invalid date </div>
-            <ul class="year-list">
-        <li class="archive-post-item">
-            <span class="archive-post-date">Invalid date</span>
-            <a class="archive-post-title" href="/2024/11/04/git/">git使用总结</a>
-        </li>
-                </ul>
-            <div class="archive-year"> Invalid date </div>
-            <ul class="year-list">
-        <li class="archive-post-item">
-            <span class="archive-post-date">Invalid date</span>
-            <a class="archive-post-title" href="/2024/11/05/github/">github参与开源应该做什么</a>
-        </li>
-                </ul>
-            <div class="archive-year"> 2024 </div>
-            <ul class="year-list">
-        <li class="archive-post-item">
-            <span class="archive-post-date">11/09</span>
-            <a class="archive-post-title" href="/2024/11/09/leet-code/">leet-code之旅</a>
-        </li>
-        <li class="archive-post-item">
-            <span class="archive-post-date">11/06</span>
-            <a class="archive-post-title" href="/2024/11/06/github_actions/">发布博客出现的问题</a>
-        </li>
-        <li class="archive-post-item">
-            <span class="archive-post-date">11/04</span>
-            <a class="archive-post-title" href="/2024/11/04/hello-world/">北京之旅</a>
-        </li>
-                </ul>
-            <div class="archive-year"> Invalid date </div>
-            <ul class="year-list">
-        <li class="archive-post-item">
-            <span class="archive-post-date">Invalid date</span>
-            <a class="archive-post-title" href="/2024/11/08/lasting_beauty/">美化博客</a>
-        </li>
-                </ul>
-            <div class="archive-year"> Invalid date </div>
-            <ul class="year-list">
-        <li class="archive-post-item">
-            <span class="archive-post-date">Invalid date</span>
-            <a class="archive-post-title" href="/2024/11/16/live/">20岁生日</a>
-        </li>
-                </ul>
-            <div class="archive-year"> Invalid date </div>
-            <ul class="year-list">
-        <li class="archive-post-item">
-            <span class="archive-post-date">Invalid date</span>
-            <a class="archive-post-title" href="/2024/12/15/resource/">关于我学习的一些资源和方法</a>
-        </li>
-                </ul>
-            <div class="archive-year"> Invalid date </div>
-            <ul class="year-list">
-        <li class="archive-post-item">
-            <span class="archive-post-date">Invalid date</span>
-            <a class="archive-post-title" href="/2024/12/08/postgres/">数据库学习</a>
-        </li>
-                </ul>
-            <div class="archive-year"> Invalid date </div>
-            <ul class="year-list">
-        <li class="archive-post-item">
-            <span class="archive-post-date">Invalid date</span>
-            <a class="archive-post-title" href="/2024/12/02/study_plan/">小计划</a>
-        </li>
-                </ul>
-            <div class="archive-year"> Invalid date </div>
-            <ul class="year-list">
-        <li class="archive-post-item">
-            <span class="archive-post-date">Invalid date</span>
-            <a class="archive-post-title" href="/2024/12/06/serialize/">json的序列化与反序列化</a>
-        </li>
-            </ul>
-    </div>
-</div>
+</body>
 
-        <div class="sidebar-panel-tags">
-    <div class="sidebar-tags-name">
-    </div>
-    <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
-    <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">
-        缺失模块，请参考主题文档进行安装配置：https://github.com/fi3ework/hexo-theme-archer#%E5%AE%89%E8%A3%85%E4%B8%BB%E9%A2%98
-    </div> 
-    <div class="sidebar-tags-list"></div>
-</div>
-
-        <div class="sidebar-panel-categories">
-    <div class="sidebar-categories-name">
-    </div>
-    <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>
-    <div class="sidebar-categories-list"></div>
-</div>
-
-    </div>
-</div>
-
-        <!-- site-meta -->
-        <script>
-    var siteMetaRoot = "/"
-    if (siteMetaRoot === "undefined") {
-        siteMetaRoot = '/'
-    }
-    var siteMeta = {
-        url: "https://Whuichenggong.github.io",
-        root: siteMetaRoot,
-        author: "赵忠赫"
-    }
-</script>
-
-        <!-- import experimental options here -->
-        <!-- Custom Font -->
-
-        <!-- main func -->
-        <script src="/scripts/main.js"></script>
-        <!-- fancybox -->
-        <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.36/dist/fancybox/fancybox.umd.js" onload="window.Fancybox.bind('[data-fancybox]')" defer></script>
-        <!-- algolia -->
-        <!-- busuanzi -->
-            <script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
-        <!-- async load share.js -->
-            <script src="/scripts/share.js" async></script>
-        <!-- mermaid -->
-            <script src='https://cdn.jsdelivr.net/npm/mermaid@8.11.0/dist/mermaid.min.js' onload="window.mermaid.initialize({theme: 'dark'})" async></script>
-    </body>
 </html>

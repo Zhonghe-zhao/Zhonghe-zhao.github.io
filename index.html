@@ -1,995 +1,191 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-    <!-- title -->
-<!-- keywords -->
+
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
     <meta name="author" content="赵忠赫">
-    <meta name="renderer" content="webkit">
-    <meta name="copyright" content="赵忠赫">
-        <meta name="keywords" content="hexo,hexo-theme,hexo-blog">
-    <meta name="description" content="">
-    <meta property="og:type" content="website">
-<meta property="og:title" content="赵忠赫的个人博客">
-<meta property="og:url" content="https://whuichenggong.github.io/index.html">
-<meta property="og:site_name" content="赵忠赫的个人博客">
-<meta property="og:locale" content="zh_CN">
-<meta property="article:author" content="赵忠赫">
-<meta name="twitter:card" content="summary">
-    <meta http-equiv="Cache-control" content="no-cache">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <link rel="icon" href="/assets/favicon.ico">
-    <title>fi3ework&#39;s Studio</title>
-    <!-- /*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
-/* This file is meant as a standalone workflow for
-- testing support for link[rel=preload]
-- enabling async CSS loading in browsers that do not support rel=preload
-- applying rel preload css once loaded, whether supported or not.
-*/ -->
-<script>
-    (function (w) {
-        'use strict'
-        // rel=preload support test
-        if (!w.loadCSS) {
-            w.loadCSS = function () {}
-        }
-        // define on the loadCSS obj
-        var rp = (loadCSS.relpreload = {})
-        // rel=preload feature support test
-        // runs once and returns a function for compat purposes
-        rp.support = (function () {
-            var ret
-            try {
-                ret = w.document.createElement('link').relList.supports('preload')
-            } catch (e) {
-                ret = false
-            }
-            return function () {
-                return ret
-            }
-        })()
 
-        // if preload isn't supported, get an asynchronous load by using a non-matching media attribute
-        // then change that media back to its intended value on load
-        rp.bindMediaToggle = function (link) {
-            // remember existing media attr for ultimate state, or default to 'all'
-            var finalMedia = link.media || 'all'
 
-            function enableStylesheet() {
-                link.media = finalMedia
-            }
 
-            // bind load handlers to enable media
-            if (link.addEventListener) {
-                link.addEventListener('load', enableStylesheet)
-            } else if (link.attachEvent) {
-                link.attachEvent('onload', enableStylesheet)
-            }
 
-            // Set rel and non-applicable media type to start an async request
-            // note: timeout allows this to happen async to let rendering continue in IE
-            setTimeout(function () {
-                link.rel = 'stylesheet'
-                link.media = 'only x'
-            })
-            // also enable media after 3 seconds,
-            // which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
-            setTimeout(enableStylesheet, 3000)
-        }
 
-        // loop through link elements in DOM
-        rp.poly = function () {
-            // double check this to prevent external calls from running
-            if (rp.support()) {
-                return
-            }
-            var links = w.document.getElementsByTagName('link')
-            for (var i = 0; i < links.length; i++) {
-                var link = links[i]
-                // qualify links to those with rel=preload and as=style attrs
-                if (
-                    link.rel === 'preload' &&
-                    link.getAttribute('as') === 'style' &&
-                    !link.getAttribute('data-loadcss')
-                ) {
-                    // prevent rerunning on link
-                    link.setAttribute('data-loadcss', true)
-                    // bind listeners to toggle media back
-                    rp.bindMediaToggle(link)
-                }
-            }
-        }
+<title>赵忠赫的个人博客</title>
 
-        // if unsupported, run the polyfill
-        if (!rp.support()) {
-            // run once at least
-            rp.poly()
 
-            // rerun poly on an interval until onload
-            var run = w.setInterval(rp.poly, 500)
-            if (w.addEventListener) {
-                w.addEventListener('load', function () {
-                    rp.poly()
-                    w.clearInterval(run)
-                })
-            } else if (w.attachEvent) {
-                w.attachEvent('onload', function () {
-                    rp.poly()
-                    w.clearInterval(run)
-                })
-            }
-        }
 
-        // commonjs
-        if (typeof exports !== 'undefined') {
-            exports.loadCSS = loadCSS
-        } else {
-            w.loadCSS = loadCSS
-        }
-    })(typeof global !== 'undefined' ? global : this)
-</script>
+    <link rel="icon" href="/favicon.ico">
 
-    <style type="text/css">
-    @font-face {
-        font-family: 'Oswald-Regular';
-        src: url("/font/Oswald-Regular.ttf");
-    }
 
-    body {
-        margin: 0;
-    }
 
-    header,
-    footer,
-    .footer-fixed-btn,
-    .sidebar,
-    .container,
-    .site-intro-meta,
-    .toc-wrapper {
-        display: none;
-    }
 
-    .site-intro {
-        position: relative;
-        z-index: 3;
-        width: 100%;
-        /* height: 50vh; */
-        overflow: hidden;
-    }
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
 
-    .site-intro-placeholder {
-        position: absolute;
-        z-index: -2;
-        top: 0;
-        left: 0;
-        width: calc(100% + 300px);
-        height: 100%;
-        background: repeating-linear-gradient(
-            -45deg,
-            #444 0,
-            #444 80px,
-            #333 80px,
-            #333 160px
-        );
-        background-position: center center;
-        transform: translate3d(-226px, 0, 0);
-        animation: gradient-move 2.5s ease-out 0s infinite;
-    }
 
-    @keyframes gradient-move {
-        0% {
-            transform: translate3d(-226px, 0, 0);
-        }
-        100% {
-            transform: translate3d(0, 0, 0);
-        }
-    }
-</style>
 
-    <link id="stylesheet-fancybox" rel="preload" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.36/dist/fancybox/fancybox.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <link id="stylesheet-base" rel="preload" href="/css/style.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <link id="stylesheet-mobile" rel="preload" href="/css/mobile.css" as="style" onload="this.onload=null;this.rel='stylesheet';this.media='screen and (max-width: 960px)'">
-    <link id="stylesheet-theme-dark" rel="preload" href="/css/dark.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <link rel="preload" href="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" as="script">
-    <link rel="preload" href="/scripts/main.js" as="script">
-    <link rel="preload" href="/font/Oswald-Regular.ttf" as="font" crossorigin>
-    <link rel="preload" href="https://at.alicdn.com/t/font_327081_1dta1rlogw17zaor.woff" as="font" crossorigin>
-    <!-- algolia -->
-    <!-- 百度统计  -->
-    <!-- 谷歌统计  -->
-    <!-- Google tag (gtag.js) -->
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
 <meta name="generator" content="Hexo 7.3.0"><link rel="alternate" href="/atom.xml" title="赵忠赫的个人博客" type="application/atom+xml">
 </head>
 
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
-    <script type="text/javascript">
-        if (typeof window.$ == undefined) {
-            console.warn('jquery load from jsdelivr failed, will load local script')
-            document.write('<script src="/lib/jquery.min.js" />')
-        }
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
     </script>
-        <body class="home-body">
-        <!-- header -->
-        <header class="header header-mobile index-header">
-    <!-- top read progress line -->
-    <div class="header-element">
-        <div class="read-progress"></div>
-    </div>
-    <!-- sidebar menu button -->
-    <div class="header-element">
-        <div class="header-sidebar-menu">
-            <div style="padding-left: 1px;">&#xe775;</div>
-        </div>
-    </div>
-    <!-- header actions -->
-    <div class="header-actions">
-        <!-- theme mode switch button -->
-        <span class="header-theme-btn header-element">
-            <i class="fas fa-adjust"></i>
-        </span>
-        <!-- back to home page text -->
-        <span class="home-link header-element">
-            <a href="/">fi3ework's Studio.</a>
-        </span>
-    </div>
-    <!-- toggle banner -->
-    <div class="banner">
-        <div class="blog-title header-element">
-            <a href="/">fi3ework&#39;s Studio.</a>
-        </div>
-        <div class="post-title header-element">
-            <a href="#" class="post-name"></a>
-        </div>
-    </div>
-</header>
 
-        <!-- fixed footer -->
-        <footer class="footer-fixed index-footer-fixed">
-    <!-- donate button -->
-
-    <!-- back to top button -->
-    <div class="footer-fixed-btn footer-fixed-btn--hidden back-top">
-        <div>&#xe639;</div>
-    </div>
-</footer>
-
-        <!-- wrapper -->
-        <div class="wrapper">
-            <div class="site-intro" style="    height:50vh;
-">
-    <!-- 主页  -->
-    <!-- 文章页  -->
-    <div class="site-intro-placeholder"></div>
-    <div class="site-intro-img" style="background-image: url(/intro/index-bg.jpg)"></div>
-    <div class="site-intro-meta">
-        <!-- 标题  -->
-        <h1 class="intro-title">
-            <!-- 主页  -->
-                fi3ework's Studio.
-            <!-- 文章页  -->
-        </h1>
-        <!-- 副标题 -->
-        <p class="intro-subtitle">
-            <!-- 主页副标题  -->
-                    it's better to burn out than to fade away
-            <!-- 文章页  -->
-        </p>
-        <!-- 文章页 meta -->
-    </div>
-</div>
-
-            <script>
-  // get user agent
-  function getBrowserVersions() {
-    var u = window.navigator.userAgent
-    return {
-      userAgent: u,
-      trident: u.indexOf('Trident') > -1, //IE内核
-      presto: u.indexOf('Presto') > -1, //opera内核
-      webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
-      gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
-      mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
-      ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
-      android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
-      iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者安卓QQ浏览器
-      iPad: u.indexOf('iPad') > -1, //是否为iPad
-      webApp: u.indexOf('Safari') == -1, //是否为web应用程序，没有头部与底部
-      weixin: u.indexOf('MicroMessenger') == -1, //是否为微信浏览器
-      uc: u.indexOf('UCBrowser') > -1, //是否为android下的UC浏览器
-    }
-  }
-  var browser = {
-    versions: getBrowserVersions(),
-  }
-  console.log('userAgent: ' + browser.versions.userAgent)
-
-  // callback
-  function fontLoaded() {
-    console.log('font loaded')
-    if (document.getElementsByClassName('site-intro-meta')) {
-      document
-        .getElementsByClassName('intro-title')[0]
-        .classList.add('intro-fade-in')
-      document
-        .getElementsByClassName('intro-subtitle')[0]
-        .classList.add('intro-fade-in')
-      var postIntros = document.getElementsByClassName('post-intros')[0]
-      if (postIntros) {
-        postIntros.classList.add('post-fade-in')
-      }
-    }
-  }
-
-  // UC不支持跨域，所以直接显示
-  function asyncCb() {
-    if (browser.versions.uc) {
-      console.log('UCBrowser')
-      fontLoaded()
-    } else {
-      WebFont.load({
-        custom: {
-          families: ['Oswald-Regular'],
-        },
-        loading: function () {
-          // 所有字体开始加载
-          // console.log('font loading');
-        },
-        active: function () {
-          // 所有字体已渲染
-          fontLoaded()
-        },
-        inactive: function () {
-          // 字体预加载失败，无效字体或浏览器不支持加载
-          console.log('inactive: timeout')
-          fontLoaded()
-        },
-        timeout: 5000, // Set the timeout to two seconds
-      })
-    }
-  }
-
-  function asyncErr() {
-    console.warn('script load from CDN failed, will load local script')
-  }
-
-  // load webfont-loader async, and add callback function
-  function async(u, cb, err) {
-    var d = document,
-      t = 'script',
-      o = d.createElement(t),
-      s = d.getElementsByTagName(t)[0]
-    o.src = u
-    if (cb) {
-      o.addEventListener(
-        'load',
-        function (e) {
-          cb(null, e)
-        },
-        false
-      )
-    }
-    if (err) {
-      o.addEventListener(
-        'error',
-        function (e) {
-          err(null, e)
-        },
-        false
-      )
-    }
-    s.parentNode.insertBefore(o, s)
-  }
-
-  var asyncLoadWithFallBack = function (arr, success, reject) {
-    var currReject = function () {
-      reject()
-      arr.shift()
-      if (arr.length) async(arr[0], success, currReject)
-    }
-
-    async(arr[0], success, currReject)
-  }
-
-  asyncLoadWithFallBack(
-    [
-      'https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js',
-      'https://cdn.bootcss.com/webfont/1.6.28/webfontloader.js',
-      "/lib/webfontloader.min.js",
-    ],
-    asyncCb,
-    asyncErr
-  )
-</script>
-
-            <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" alt="loading">
-            <div class="container container-unloaded">
-                <main class="main index-page">
-            
-        <article class="index-post">
-            <a class="abstract-title" href="/2024/12/18/live3/">
-                <span class="abstract-title-text">一位老哥的分享给了我一些启发</span>
-            </a>
-            <div class="abstract-content">
-                学习方法：老哥的思维方式也给了我一些启发
-以下是老哥的分享：
-当知识点量大起来时, 我觉得”写作”的意义应该在于辅助思考
-因为短时间内可能我们能记得很好, 但是对于长时间的庞大知识体系的学习, 就容易忘记一些分支内容 
-所以第一步我做的是把长长的博客尽量拆解为小的讨论主题
-作为”词条”存在
-比如我写了个k8s主题的词条 写道”容器”这个词会自动链接到我之前写过的容器相关的内容  里面的内容是否符合当下我需要的定义  如果是, 那么可以知识复用  如果不是, 那么我需不需要创建新的词条来讨论这个主题然后关联知识形成网络
-比如一个使用mysql + reids搭建的系统, 即用到了mysql...
-            </div>
-            <!-- read more -->
-            <div class="abstract-post-meta">
-                <!-- date -->
-                <div class="abstract-date" title="Last updated: 2024/12/18">
-                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2024/12/18</span>
-                </div>
-                <!-- tags -->
-            </div>
-        </article>
-        <div class="index-post-divider"></div>
-            
-        <article class="index-post">
-            <a class="abstract-title" href="/2024/12/16/Database/">
-                <span class="abstract-title-text">学习数据库</span>
-            </a>
-            <div class="abstract-content">
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">赵忠赫&#39;s Blog</a></div>
+            <div class="menu navbar-right">
                 
-参考书籍： 数据库设计
-
-我先从事务入手：
-事务概念 ： 与单个用户或者程序执行，完成读取或者更新数据库内容的一个或一串操作
-应用程序的一次执行就是一个事务或者多个事务
-示例：
-简单事务： 更新x员工的工资（涉及：数据库的读和写，和非数据库操作）
-复杂事务：删除x的员工记录，并把x员工的事务交付给其他人去做。 （过程中若并非所有的操作都被执行，那么数据库的引用完整性将遭到破坏）（数据库也处于不一致状态）
-尽管一致性暂时遭到破坏，但是数据库总是可以从一种一致状态转换到另一种一致的状态
-数据库最终的结果
-COMMIT：执行成功，事务最终被提交 （数据库也达到了一种新的状态）
-ABORTED...
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tags">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
             </div>
-            <!-- read more -->
-            <div class="abstract-post-meta">
-                <!-- date -->
-                <div class="abstract-date" title="Last updated: 2024/12/20">
-                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2024/12/16</span>
-                </div>
-                <!-- tags -->
-            </div>
-        </article>
-        <div class="index-post-divider"></div>
-            
-        <article class="index-post">
-            <a class="abstract-title" href="/2024/12/15/resource/">
-                <span class="abstract-title-text">关于我学习的一些资源和方法</span>
-            </a>
-            <div class="abstract-content">
-                兄弟，我理解你的心态，觉得实践的收获更直观，看书反而有点慢。但实际上，看书和实践结合，效果会倍增。下面我不仅推荐优质资源，还会分享高效阅读的方法，帮你更好地平衡学习时间。
-
-学习资料推荐1. 数据库相关
-书籍：《高性能 MySQL》
-重点阅读：索引优化、事务机制、查询优化。
-免费在线教程：
-SQL 教程（w3schools）
-MySQL 官方文档
-
-
-
-
-
-2. 计算机网络
-书籍：《计算机网络：自顶向下方法》或《图解HTTP》
-重点章节：HTTP、TCP&#x2F;IP、DNS、HTTPS。
-免费资源：
-HTTP 协议详解
-Wireshark 网络分析教程
-
-
-
-
-
-3. 操作系统
-书籍...
-            </div>
-            <!-- read more -->
-            <div class="abstract-post-meta">
-                <!-- date -->
-                <div class="abstract-date" title="Last updated: 2024/12/15">
-                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2024/12/15</span>
-                </div>
-                <!-- tags -->
-            </div>
-        </article>
-        <div class="index-post-divider"></div>
-            
-        <article class="index-post">
-            <a class="abstract-title" href="/2024/12/12/current/">
-                <span class="abstract-title-text">聊聊最近</span>
-            </a>
-            <div class="abstract-content">
-                最近的日子在想着达到就业的水平，不断地提升额，嗯然后今天手机掉水里了，烘干24小时，看看能不能复活吧，突然觉得之前手机不是那么重要，回想起它占用我的时间，好像都不是什么重要的事情，近期来，感觉是为了让自己舒服一点，白天学完，晚上回去就刷手机而且就是 12点 1点，恶性循环，本想着晚上回去看会书，自己却暗示自己，学一天了，玩吧哈哈哈。好像都没做，但是确实没有那么重要，吃饭可以让同学帮我付，哈哈，还是得学习呢，反省一下，是不是你想要的太多了而导致你很累，那种精神上的压迫自己，反思~
-今天12.12日试着实现将单片机的数据传输到数据库中交互先简单的使用按钮的高低电平0 1 实现交互试试看
-后端...
-            </div>
-            <!-- read more -->
-            <div class="abstract-post-meta">
-                <!-- date -->
-                <div class="abstract-date" title="Last updated: 2024/12/13">
-                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2024/12/12</span>
-                </div>
-                <!-- tags -->
-            </div>
-        </article>
-        <div class="index-post-divider"></div>
-            
-        <article class="index-post">
-            <a class="abstract-title" href="/2024/12/09/Distributed/">
-                <span class="abstract-title-text">分布式系统学习</span>
-            </a>
-            <div class="abstract-content">
-                go build -buildmode=plugin ../mrapps/wc.go这个指令是什么意思 :
-这个命令的作用是编译 ..&#x2F;mrapps&#x2F;wc.go 文件，并将其生成一个 Go 插件文件。生成的插件文件通常是一个 .so（共享库文件）文件，它可以在运行时被其他 Go 程序通过 plugin 包加载和调用。
-例如：
-你可以在主程序中使用 plugin 包动态加载 wc.so 插件，并调用插件中的函数。
-go run mrsequential.go wc.so pg*.txt：
-go run：用于编译并运行 Go 程序。它会在内存中临时编译指定的 Go 文件，...
-            </div>
-            <!-- read more -->
-            <div class="abstract-post-meta">
-                <!-- date -->
-                <div class="abstract-date" title="Last updated: 2024/12/09">
-                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2024/12/09</span>
-                </div>
-                <!-- tags -->
-            </div>
-        </article>
-        <div class="index-post-divider"></div>
-            
-        <article class="index-post">
-            <a class="abstract-title" href="/2024/12/08/postgres/">
-                <span class="abstract-title-text">数据库学习</span>
-            </a>
-            <div class="abstract-content">
-                学习文档：
-https://www.rockdata.net/zh-cn/tutorial/toc/
-WHERE 语句如何使用
-https://www.rockdata.net/zh-cn/tutorial/dml-where/、
-总结来说： 放入condition，返回结果只会返回符合condition条件的， 搭配 AND OR IN LIKE等使用
-
-            </div>
-            <!-- read more -->
-            <div class="abstract-post-meta">
-                <!-- date -->
-                <div class="abstract-date" title="Last updated: 2024/12/08">
-                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2024/12/08</span>
-                </div>
-                <!-- tags -->
-            </div>
-        </article>
-        <div class="index-post-divider"></div>
-            
-        <article class="index-post">
-            <a class="abstract-title" href="/2024/12/07/confusion/">
-                <span class="abstract-title-text">为什么别人写项目知道用什么？</span>
-            </a>
-            <div class="abstract-content">
-                同样来自GPT的回答：
-你的疑惑非常好！许多人在学习编程时都会有类似的感受，尤其是在学习阶段，看到博主轻松选择某些包或者工具来解决问题时，会觉得他们似乎“无所不知”。事实上，这背后是经验和积累的结果。以下几点可以帮助你理解和逐步建立这种能力：
-
-1. 经验的积累
-博主的背景：他们可能已经解决过类似问题，因此知道哪些包是高效的选择。这是经验的体现。
-类比：就像一位厨师在做菜时，很容易知道用什么调料，而新手可能需要查配方。
-
-你可以这样做：
-多看、多学：通过模仿优秀项目和学习文档，积累对常用库和框架的了解。
-练习总结：每次解决问题后，记录用到的包和方法，慢慢形成自己的“工具箱”。
-
-
-2. ...
-            </div>
-            <!-- read more -->
-            <div class="abstract-post-meta">
-                <!-- date -->
-                <div class="abstract-date" title="Last updated: 2024/12/07">
-                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2024/12/07</span>
-                </div>
-                <!-- tags -->
-            </div>
-        </article>
-        <div class="index-post-divider"></div>
-            
-        <article class="index-post">
-            <a class="abstract-title" href="/2024/12/07/authority/">
-                <span class="abstract-title-text">理解鉴权，权限等名词的区别</span>
-            </a>
-            <div class="abstract-content">
-                GPT很好的给出了答案问：
-用户通过了身份验证，但是不具有访问资源所需的权限。 这句话我应该怎么理解，我还有的疑惑是Cookie，Token，鉴权，权限等这几个名词都是什么意思，我现在对他们的理解有点模糊
-答：
-这些概念是 Web 安全和权限管理的核心部分。让我们分两步：先理解句子的含义，再深入解析相关概念（Cookie、Token、鉴权、权限等）。
-
-1. 句子的含义
-“用户通过了身份验证，但是不具有访问资源所需的权限。”
-
-这句话分为两个阶段：
-
-身份验证（Authentication）：系统确认了用户的身份（比如你用正确的用户名和密码登录）。
-
-说明：你确实是你声称的那个人。
-类比...
-            </div>
-            <!-- read more -->
-            <div class="abstract-post-meta">
-                <!-- date -->
-                <div class="abstract-date" title="Last updated: 2024/12/07">
-                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2024/12/07</span>
-                </div>
-                <!-- tags -->
-            </div>
-        </article>
-        <div class="index-post-divider"></div>
-            
-        <article class="index-post">
-            <a class="abstract-title" href="/2024/12/06/serialize/">
-                <span class="abstract-title-text">json的序列化与反序列化</span>
-            </a>
-            <div class="abstract-content">
-                序列化：将 Go 中的结构体、切片、map 等数据结构转换为 JSON 格式的字符串。
-作用：方便数据在网络传输、文件保存等情境中使用。
-反序列化：将 JSON 格式的字符串转换为 Go 的数据结构。
-作用：方便从 JSON 中提取数据并在程序中使用。
-JSON{“”： “”，“”： “”，“”： “”}
-Go中 使用 Marshal Unmarshal 进行序列化和反序列化
-123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657pa...
-            </div>
-            <!-- read more -->
-            <div class="abstract-post-meta">
-                <!-- date -->
-                <div class="abstract-date" title="Last updated: 2024/12/06">
-                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2024/12/06</span>
-                </div>
-                <!-- tags -->
-            </div>
-        </article>
-        <div class="index-post-divider"></div>
-            
-        <article class="index-post">
-            <a class="abstract-title" href="/2024/12/02/Go_Program/">
-                <span class="abstract-title-text">Go语法学习</span>
-            </a>
-            <div class="abstract-content">
-                12345678910111213whatAmI := func(i interface&#123;&#125;) &#123;    switch t := i.(type) &#123;    case bool:        fmt.Println(&quot;I&#x27;m a bool&quot;)    case int:        fmt.Println(&quot;I&#x27;m an int&quot;)    default:        fmt.Printf(&quot;Don&#x27;t know type %T\n&quot;, t)    &#1...
-            </div>
-            <!-- read more -->
-            <div class="abstract-post-meta">
-                <!-- date -->
-                <div class="abstract-date" title="Last updated: 2024/12/16">
-                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2024/12/02</span>
-                </div>
-                <!-- tags -->
-            </div>
-        </article>
-        <div class="index-post-divider"></div>
-    <!-- paginator  -->
-        <nav class="page-nav">
-            <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/">NEXT &gt;</a>
-        </nav>
-</main>
-
-                <!-- profile -->
-                    <div class="profile">
-    <img class="profile-avatar" alt="avatar" src="/avatar/Misaka.jpg" >
-    <div class="profile-name">fi3ework</div>
-        <div class="profile-signature">
-            witness me
         </div>
-        <div class="profile-social">
-                            <a href="mailto:3041322213@qq.com" class="iconfont-archer email" title="email" ></a>
-                <a href="//github.com/Whuichenggong" class="iconfont-archer github" target="_blank" title="github"></a>
-                <span class="iconfont-archer wechat" title="wechat">
-                    <img class="profile-qr" src="/assets/example_qr.png" />
-                </span>
+    </nav>
 
-        </div>
-        <div class="profile-link-item">
-            <a href="/about" class="about-me">
-                ABOUT ME
-            </a>
-        </div>
-</div>
-
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">赵忠赫&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
             </div>
-            <footer class="footer footer-unloaded">
-    <!-- social  -->
-        <div class="social">
-                            <a href="mailto:3041322213@qq.com" class="iconfont-archer email" title="email" ></a>
-                <a href="//github.com/Whuichenggong" class="iconfont-archer github" target="_blank" title="github"></a>
-                <span class="iconfont-archer wechat" title="wechat">
-                    <img class="profile-qr" src="/assets/example_qr.png" />
-                </span>
-
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tags">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
         </div>
-    <!-- powered by Hexo  -->
-    <div class="copyright">
-        <span id="hexo-power">Powered by <a href="https://hexo.io/" target="_blank">Hexo</a></span><span class="iconfont-archer power">&#xe635;</span><span id="theme-info">theme <a href="https://github.com/fi3ework/hexo-theme-archer" target="_blank">Archer</a></span>
-    </div>
-    <!-- website approve for Chinese user -->
-    <!-- 不蒜子  -->
-        <div class="busuanzi-container">
-                <span id="busuanzi_container_site_pv">PV: <span id="busuanzi_value_site_pv"></span> :)</span>
-        </div>
-</footer>
+    </nav>
 
-        </div>
-        <!-- toc -->
-        <!-- sidebar -->
-        <div class="sidebar sidebar-hide">
-    <ul class="sidebar-tabs sidebar-tabs-active-0">
-        <li class="sidebar-tab-archives"><span class="iconfont-archer">&#xe67d;</span><span class="tab-name">Archive</span></li>
-        <li class="sidebar-tab-tags"><span class="iconfont-archer">&#xe61b;</span><span class="tab-name">Tag</span></li>
-        <li class="sidebar-tab-categories"><span class="iconfont-archer">&#xe666;</span><span class="tab-name">Cate</span></li>
-    </ul>
-    <div class="sidebar-content sidebar-content-show-archive">
-        <div class="sidebar-panel-archives">
-    <!-- 在 ejs 中将 archive 按照时间排序 -->
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-    <div class="total-and-search">
-        <div class="total-archive">
-        Total : 29
-        </div>
-        <!-- search  -->
-    </div>
-    <div class="post-archive">
-            <div class="archive-year"> Invalid date </div>
-            <ul class="year-list">
-        <li class="archive-post-item">
-            <span class="archive-post-date">Invalid date</span>
-            <a class="archive-post-title" href="/2024/11/08/Dance_Frame/">字节姑关于框架学习</a>
-        </li>
-                </ul>
-            <div class="archive-year"> Invalid date </div>
-            <ul class="year-list">
-        <li class="archive-post-item">
-            <span class="archive-post-date">Invalid date</span>
-            <a class="archive-post-title" href="/2024/11/13/Dance_live/">青训营直播总结</a>
-        </li>
-                </ul>
-            <div class="archive-year"> Invalid date </div>
-            <ul class="year-list">
-        <li class="archive-post-item">
-            <span class="archive-post-date">Invalid date</span>
-            <a class="archive-post-title" href="/2024/11/26/Dance_live2/">11.26日字节直播总结</a>
-        </li>
-                </ul>
-            <div class="archive-year"> 2024 </div>
-            <ul class="year-list">
-        <li class="archive-post-item">
-            <span class="archive-post-date">12/18</span>
-            <a class="archive-post-title" href="/2024/12/18/live3/">一位老哥的分享给了我一些启发</a>
-        </li>
-        <li class="archive-post-item">
-            <span class="archive-post-date">12/16</span>
-            <a class="archive-post-title" href="/2024/12/16/Database/">学习数据库</a>
-        </li>
-        <li class="archive-post-item">
-            <span class="archive-post-date">12/09</span>
-            <a class="archive-post-title" href="/2024/12/09/Distributed/">分布式系统学习</a>
-        </li>
-                </ul>
-            <div class="archive-year"> Invalid date </div>
-            <ul class="year-list">
-        <li class="archive-post-item">
-            <span class="archive-post-date">Invalid date</span>
-            <a class="archive-post-title" href="/2024/11/11/Go_Advanced/">Go语言进阶</a>
-        </li>
-                </ul>
-            <div class="archive-year"> 2024 </div>
-            <ul class="year-list">
-        <li class="archive-post-item">
-            <span class="archive-post-date">12/12</span>
-            <a class="archive-post-title" href="/2024/12/12/current/">聊聊最近</a>
-        </li>
-        <li class="archive-post-item">
-            <span class="archive-post-date">12/07</span>
-            <a class="archive-post-title" href="/2024/12/07/confusion/">为什么别人写项目知道用什么？</a>
-        </li>
-        <li class="archive-post-item">
-            <span class="archive-post-date">12/02</span>
-            <a class="archive-post-title" href="/2024/12/02/Go_Program/">Go语法学习</a>
-        </li>
-        <li class="archive-post-item">
-            <span class="archive-post-date">11/16</span>
-            <a class="archive-post-title" href="/2024/11/16/Goalng_Framework/">7_days_golang学习</a>
-        </li>
-                </ul>
-            <div class="archive-year"> Invalid date </div>
-            <ul class="year-list">
-        <li class="archive-post-item">
-            <span class="archive-post-date">Invalid date</span>
-            <a class="archive-post-title" href="/2024/11/23/UDP_socket/">UDP socket的ack机制和丢包重传</a>
-        </li>
-                </ul>
-            <div class="archive-year"> 2024 </div>
-            <ul class="year-list">
-        <li class="archive-post-item">
-            <span class="archive-post-date">12/07</span>
-            <a class="archive-post-title" href="/2024/12/07/authority/">理解鉴权，权限等名词的区别</a>
-        </li>
-        <li class="archive-post-item">
-            <span class="archive-post-date">11/16</span>
-            <a class="archive-post-title" href="/2024/11/16/computer_operate/">操作系统学习</a>
-        </li>
-        <li class="archive-post-item">
-            <span class="archive-post-date">11/13</span>
-            <a class="archive-post-title" href="/2024/11/13/job/">一些找工作或实习的渠道</a>
-        </li>
-        <li class="archive-post-item">
-            <span class="archive-post-date">11/09</span>
-            <a class="archive-post-title" href="/2024/11/09/Simple_bank/">后端项目学习</a>
-        </li>
-                </ul>
-            <div class="archive-year"> Invalid date </div>
-            <ul class="year-list">
-        <li class="archive-post-item">
-            <span class="archive-post-date">Invalid date</span>
-            <a class="archive-post-title" href="/2024/11/14/computer_network/">计算机网络持续学习中~</a>
-        </li>
-                </ul>
-            <div class="archive-year"> 2024 </div>
-            <ul class="year-list">
-        <li class="archive-post-item">
-            <span class="archive-post-date">11/09</span>
-            <a class="archive-post-title" href="/2024/11/09/data_structure/">数据结构的实现</a>
-        </li>
-                </ul>
-            <div class="archive-year"> Invalid date </div>
-            <ul class="year-list">
-        <li class="archive-post-item">
-            <span class="archive-post-date">Invalid date</span>
-            <a class="archive-post-title" href="/2024/11/04/git/">git使用总结</a>
-        </li>
-                </ul>
-            <div class="archive-year"> Invalid date </div>
-            <ul class="year-list">
-        <li class="archive-post-item">
-            <span class="archive-post-date">Invalid date</span>
-            <a class="archive-post-title" href="/2024/11/05/github/">github参与开源应该做什么</a>
-        </li>
-                </ul>
-            <div class="archive-year"> 2024 </div>
-            <ul class="year-list">
-        <li class="archive-post-item">
-            <span class="archive-post-date">11/09</span>
-            <a class="archive-post-title" href="/2024/11/09/leet-code/">leet-code之旅</a>
-        </li>
-        <li class="archive-post-item">
-            <span class="archive-post-date">11/06</span>
-            <a class="archive-post-title" href="/2024/11/06/github_actions/">发布博客出现的问题</a>
-        </li>
-        <li class="archive-post-item">
-            <span class="archive-post-date">11/04</span>
-            <a class="archive-post-title" href="/2024/11/04/hello-world/">北京之旅</a>
-        </li>
-                </ul>
-            <div class="archive-year"> Invalid date </div>
-            <ul class="year-list">
-        <li class="archive-post-item">
-            <span class="archive-post-date">Invalid date</span>
-            <a class="archive-post-title" href="/2024/11/08/lasting_beauty/">美化博客</a>
-        </li>
-                </ul>
-            <div class="archive-year"> Invalid date </div>
-            <ul class="year-list">
-        <li class="archive-post-item">
-            <span class="archive-post-date">Invalid date</span>
-            <a class="archive-post-title" href="/2024/11/16/live/">20岁生日</a>
-        </li>
-                </ul>
-            <div class="archive-year"> Invalid date </div>
-            <ul class="year-list">
-        <li class="archive-post-item">
-            <span class="archive-post-date">Invalid date</span>
-            <a class="archive-post-title" href="/2024/12/15/resource/">关于我学习的一些资源和方法</a>
-        </li>
-                </ul>
-            <div class="archive-year"> Invalid date </div>
-            <ul class="year-list">
-        <li class="archive-post-item">
-            <span class="archive-post-date">Invalid date</span>
-            <a class="archive-post-title" href="/2024/12/08/postgres/">数据库学习</a>
-        </li>
-                </ul>
-            <div class="archive-year"> Invalid date </div>
-            <ul class="year-list">
-        <li class="archive-post-item">
-            <span class="archive-post-date">Invalid date</span>
-            <a class="archive-post-title" href="/2024/12/02/study_plan/">小计划</a>
-        </li>
-                </ul>
-            <div class="archive-year"> Invalid date </div>
-            <ul class="year-list">
-        <li class="archive-post-item">
-            <span class="archive-post-date">Invalid date</span>
-            <a class="archive-post-title" href="/2024/12/06/serialize/">json的序列化与反序列化</a>
-        </li>
-            </ul>
-    </div>
-</div>
-
-        <div class="sidebar-panel-tags">
-    <div class="sidebar-tags-name">
-    </div>
-    <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
-    <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">
-        缺失模块，请参考主题文档进行安装配置：https://github.com/fi3ework/hexo-theme-archer#%E5%AE%89%E8%A3%85%E4%B8%BB%E9%A2%98
-    </div> 
-    <div class="sidebar-tags-list"></div>
-</div>
-
-        <div class="sidebar-panel-categories">
-    <div class="sidebar-categories-name">
-    </div>
-    <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>
-    <div class="sidebar-categories-list"></div>
-</div>
-
-    </div>
-</div>
-
-        <!-- site-meta -->
-        <script>
-    var siteMetaRoot = "/"
-    if (siteMetaRoot === "undefined") {
-        siteMetaRoot = '/'
-    }
-    var siteMeta = {
-        url: "https://Whuichenggong.github.io",
-        root: siteMetaRoot,
-        author: "赵忠赫"
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
     }
 </script>
+            <div class="main">
+                
+    <div class="container profile-container">
+    <div class="intro">
+        <div class="avatar">
+            <a href="/archives"><img src="/image/avatar.jpeg"></a>
+        </div>
+        <div class="nickname">Jeremy Bentham</div>
+        <div class="description"><p>Lorem ipsum dolor sit amet, <strong>consectetur adipiscing elit.</strong> <br>Fusce eget urna vitae velit <em>eleifend interdum at ac</em> nisi.</p>
+</div>
+        <div class="links">
+            
+                
+                    <a class="link-item" title="Blog" href="/archives">
+                        
+                        
+                            <i class="iconfont icon-blog"></i>
+                        
+                    </a>
+                
+                    <a class="link-item" title="ZhiHu" target="_blank" rel="noopener" href="https://www.zhihu.com/people/sirice">
+                        
+                        
+                            <i class="iconfont icon-zhihu"></i>
+                        
+                    </a>
+                
+                    <a class="link-item" title="Instagram" href="">
+                        
+                        
+                            <i class="iconfont icon-instagram"></i>
+                        
+                    </a>
+                
+                    <a class="link-item" title="Reddit" href="">
+                        
+                        
+                            <i class="iconfont icon-reddit"></i>
+                        
+                    </a>
+                
+                    <a class="link-item" title="Github" target="_blank" rel="noopener" href="https://github.com/Siricee">
+                        
+                        
+                            <i class="iconfont icon-github"></i>
+                        
+                    </a>
+                
+            
+        </div>
+    </div>
+</div>
 
-        <!-- import experimental options here -->
-        <!-- Custom Font -->
 
-        <!-- main func -->
-        <script src="/scripts/main.js"></script>
-        <!-- fancybox -->
-        <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.36/dist/fancybox/fancybox.umd.js" onload="window.Fancybox.bind('[data-fancybox]')" defer></script>
-        <!-- algolia -->
-        <!-- busuanzi -->
-            <script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
-        <!-- async load share.js -->
-        <!-- mermaid -->
-    </body>
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© 赵忠赫 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+
 </html>

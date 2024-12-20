@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="赵忠赫">
+
+
+
+
+
+<title>Go语法学习 | 赵忠赫的个人博客</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 7.3.0"><link rel="alternate" href="/atom.xml" title="赵忠赫的个人博客" type="application/atom+xml">
+</head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">赵忠赫&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tags">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">赵忠赫&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tags">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    <article class="post-wrap page">
+        
+        <h2 class="post-title">Go语法学习</h2>
+        
+        <section class="post-content">
+            <figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">whatAmI := <span class="function"><span class="keyword">func</span><span class="params">(i <span class="keyword">interface</span>&#123;&#125;)</span></span> &#123;</span><br><span class="line">    <span class="keyword">switch</span> t := i.(<span class="keyword">type</span>) &#123;</span><br><span class="line">    <span class="keyword">case</span> <span class="type">bool</span>:</span><br><span class="line">        fmt.Println(<span class="string">&quot;I&#x27;m a bool&quot;</span>)</span><br><span class="line">    <span class="keyword">case</span> <span class="type">int</span>:</span><br><span class="line">        fmt.Println(<span class="string">&quot;I&#x27;m an int&quot;</span>)</span><br><span class="line">    <span class="keyword">default</span>:</span><br><span class="line">        fmt.Printf(<span class="string">&quot;Don&#x27;t know type %T\n&quot;</span>, t)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">whatAmI(<span class="literal">true</span>)</span><br><span class="line">whatAmI(<span class="number">1</span>)</span><br><span class="line">whatAmI(<span class="string">&quot;hey&quot;</span>)</span><br></pre></td></tr></table></figure>
+<p>这是一个函数whatAmI，它接受一个interface{}类型的参数。interface{}是 Go 语言中的一种空接口，可以存储任何类型的值。<br>这个switch语句实际上是一个类型switch，它检查接口变量i的具体类型，而不是它的值。根据i的类型，switch将执行不同的case分支。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// If you specify the index with `:`, the elements in</span></span><br><span class="line">	<span class="comment">// between will be zeroed.</span></span><br><span class="line">	b = [...]<span class="type">int</span>&#123;<span class="number">100</span>, <span class="number">3</span>: <span class="number">400</span>, <span class="number">500</span>&#125;</span><br><span class="line">	fmt.Println(<span class="string">&quot;idx:&quot;</span>, b)</span><br></pre></td></tr></table></figure>
+
+<p>3: 400 指定了下标为 3 的位置的值是 400。<br>这意味着索引 1 和 2 的值将被初始化为 0（因为:操作符指定了一个新的下标，并初始化之前未指定的下标对应的元素为 0）。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> s []<span class="type">string</span></span><br><span class="line">	fmt.Println(<span class="string">&quot;uninit:&quot;</span>, s, s == <span class="literal">nil</span>, <span class="built_in">len</span>(s) == <span class="number">0</span>)</span><br></pre></td></tr></table></figure>
+<p>uninit: [] true true</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">twoD := <span class="built_in">make</span>([][]<span class="type">int</span>, <span class="number">3</span>)</span><br><span class="line">	<span class="keyword">for</span> i := <span class="number">0</span>; i &lt; <span class="number">3</span>; i++ &#123;</span><br><span class="line">		innerLen := i + <span class="number">1</span></span><br><span class="line">		twoD[i] = <span class="built_in">make</span>([]<span class="type">int</span>, innerLen)</span><br><span class="line">		<span class="keyword">for</span> j := <span class="number">0</span>; j &lt; innerLen; j++ &#123;</span><br><span class="line">			twoD[i][j] = i + j</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	fmt.Println(<span class="string">&quot;2d: &quot;</span>, twoD)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>2d:  [[0] [1 2] [2 3 4]]</p>
+<p>12.3日</p>
+<p>map操作：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">   m[<span class="string">&quot;k1&quot;</span>] = <span class="number">7</span></span><br><span class="line">m[<span class="string">&quot;k2&quot;</span>] = <span class="number">13</span></span><br><span class="line">fmt.Println(<span class="string">&quot;map:&quot;</span>, m)</span><br><span class="line">fmt.Println(<span class="string">&quot;len:&quot;</span>, <span class="built_in">len</span>(m))</span><br><span class="line"><span class="comment">//clear(m)</span></span><br><span class="line">val, prs := m[<span class="string">&quot;k2&quot;</span>] <span class="comment">//k2的值， 一个是判断k2是否存在于m中的bool值</span></span><br><span class="line">fmt.Println(<span class="string">&quot;val：&quot;</span>, val, <span class="string">&quot;prs:&quot;</span>, prs)</span><br><span class="line">n := <span class="keyword">map</span>[<span class="type">string</span>]<span class="type">int</span>&#123;<span class="string">&quot;foo&quot;</span>: <span class="number">1</span>, <span class="string">&quot;bar&quot;</span>: <span class="number">2</span>&#125;</span><br><span class="line">fmt.Println(<span class="string">&quot;&quot;</span>, n)</span><br><span class="line"><span class="keyword">if</span> maps.Equal(n, n2) &#123;</span><br><span class="line">	fmt.Println(<span class="string">&quot;n == n2&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>使用变长参数函数（variadic function），即可以接收任意数量参数的函数。<br>这里的 … 标记表示 nums 参数是可变长的，可以接收零个或多个 int 类型的参数</p>
+<p>nums 被当作切片使用，可以进行切片相关的操作，例如使用 len(nums) 获取长度，或者用 range 遍历切片元素。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">sum</span><span class="params">(nums ...<span class="type">int</span>)</span></span> &#123;</span><br><span class="line">	fmt.Print(nums, <span class="string">&quot; &quot;</span>)</span><br><span class="line">	total := <span class="number">0</span></span><br><span class="line">	<span class="comment">// Within the function, the type of `nums` is</span></span><br><span class="line">	<span class="comment">// equivalent to `[]int`. We can call `len(nums)`,</span></span><br><span class="line">	<span class="comment">// iterate over it with `range`, etc.</span></span><br><span class="line">	<span class="keyword">for</span> _, num := <span class="keyword">range</span> nums &#123;</span><br><span class="line">		total += num</span><br><span class="line">	&#125;</span><br><span class="line">	fmt.Println(total)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Variadic functions can be called in the usual way</span></span><br><span class="line">	<span class="comment">// with individual arguments.</span></span><br><span class="line">	sum(<span class="number">1</span>)</span><br><span class="line">	sum(<span class="number">1</span>, <span class="number">2</span>)</span><br><span class="line">	sum(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>)</span><br><span class="line"></span><br><span class="line">	<span class="comment">// If you already have multiple args in a slice,</span></span><br><span class="line">	<span class="comment">// apply them to a variadic function using</span></span><br><span class="line">	<span class="comment">// `func(slice...)` like this.</span></span><br><span class="line">	</span><br><span class="line">	<span class="comment">//第二种调用nums的方法使用 nums 切片，通过 sum(nums...) 的方式将切片中的每个元素作为单独的参数传递给 sum 函数。</span></span><br><span class="line">	nums := []<span class="type">int</span>&#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>&#125;</span><br><span class="line">	sum(nums...)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>错误示范</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">allArticles</span><span class="params">(w http.ResponseWriter, r *http.Request)</span></span> &#123;</span><br><span class="line">	articles := Articles&#123;</span><br><span class="line">		Title:   <span class="string">&quot;Test Title&quot;</span>,</span><br><span class="line">		Desc:    <span class="string">&quot;Test Descrption&quot;</span>,</span><br><span class="line">		Content: <span class="string">&quot;hello world&quot;</span>,</span><br><span class="line">	&#125;,</span><br><span class="line"></span><br><span class="line">fmt.Println(<span class="string">&quot;endpoint hit: allArticles&quot;</span>)</span><br><span class="line">	json.NewEncoder(w).Encode(articles)</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>这里的问题是 Articles 类型实际上是一个切片（[]Article），而你试图将一个单独的 Article 结构体实例赋值给 articles 变量。根据 Go 语言的语法，Articles 类型需要的是一个 Article 类型的切片。</p>
+<p>要解决这个问题，你需要将 Article 实例放入一个切片中。可以将你的代码修改为：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">articles := Articles&#123;</span><br><span class="line">&#123;</span><br><span class="line">Title:   <span class="string">&quot;Test Title&quot;</span>,</span><br><span class="line">Desc:    <span class="string">&quot;Test Descrption&quot;</span>,</span><br><span class="line">Content: <span class="string">&quot;hello world&quot;</span>,</span><br><span class="line">&#125;,</span><br><span class="line">&#125;</span><br><span class="line">CopyInsert</span><br><span class="line">这里的修改是把 Article 结构体实例用 &#123;&#125; 包围起来，表示这是一个切片中的一个元素。</span><br><span class="line"></span><br><span class="line">最终的 allArticles 函数应如下所示：</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>第二种方法：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 创建Article的实例</span></span><br><span class="line">    newArticle := Article&#123;</span><br><span class="line">        Title:   <span class="string">&quot;Test Title&quot;</span>,</span><br><span class="line">        Desc:    <span class="string">&quot;Test Description&quot;</span>,</span><br><span class="line">        Content: <span class="string">&quot;hello world&quot;</span>,</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 创建Articles切片并添加上面的实例</span></span><br><span class="line">    articles := Articles&#123;newArticle&#125;</span><br></pre></td></tr></table></figure>
+<hr>
+<p>go fmt </p>
+<p>包的导入者将使用名称来引用其内容，因此包中的导出名称可以使用该事实来避免重复。 （不要使用 import . 表示法，它可以简化必须在正在测试的包外部运行的测试，但应该避免。）<br>例如，bufio 包中的缓冲读取器类型称为 Reader，而不是 BufReader，因为用户将其视为 bufio.Reader，这是一个清晰、简洁的名称。此外，由于导入的实体始终使用其包名称进行寻址，<br>因此 bufio.Reader 不会与 io.Reader 冲突。类似地，<br>创建ring.Ring新实例的函数（Go中构造函数的定义）通常被称为NewRing，但由于Ring是包导出的唯一类型，并且由于包被称为ring，所以它是称为“New”，包的客户端将其视为“ring.New”。使用包结构来帮助您选择好的名称。</p>
+<p>另一个简短的例子是once.Do; Once.Do(setup) 读起来很好，<br>并且不会通过编写 Once.DoOrWaitUntilDone(setup) 来改进。长名称不会自动使内容更具可读性。有用的文档注释通常比超长的名称更有价值。</p>
+<h2 id="闭包"><a href="#闭包" class="headerlink" title="闭包"></a>闭包</h2><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">intSeq</span><span class="params">()</span></span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> <span class="type">int</span> &#123;</span><br><span class="line">    i := <span class="number">0</span> <span class="comment">// i 是一个局部变量，用于 intSeq 函数。</span></span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> <span class="type">int</span> &#123; <span class="comment">// 返回一个匿名函数，这个函数可以访问 intSeq 函数的局部变量 i。</span></span><br><span class="line">        i++    <span class="comment">// 每次调用这个匿名函数时，i 的值都会增加。</span></span><br><span class="line">        <span class="keyword">return</span> i <span class="comment">// 返回增加后的 i 的值。</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>返回结果 ：<br>1<br>2<br>3<br>1</p>
+<p>这是因为闭包允许匿名函数捕获并记住 i 变量的状态。<br>这就是闭包的 “魔力” 所在，即使外部函数已经返回，内部函数仍然能够访问和修改外部函数的变量。</p>
+<p>stack :&#x3D; []rune{} 与 make :&#x3D; []string{} 的区别：<br>stack :&#x3D; []rune{}：这段代码创建了一个 rune 类型的切片（空切片）。rune 是 Go 中专门用来表示单个字符的类型，适用于你处理字符（尤其是 Unicode 字符）时，能够确保每个元素是一个完整的 Unicode 字符。</p>
+<p>make :&#x3D; []string{}：这段代码创建了一个 string 类型的切片。每个元素是一个字符串，字符串通常用于表示一系列字符构成的文本数据。</p>
+<hr>
+<p>在 Go 程序中，通过 <code>os.Args</code> 可以访问命令行参数，而 <code>go run main.go file1.txt file2.txt</code> 的执行过程如下：</p>
+<hr>
+<p>为什么·go语言 &gt; go run main.go file1.txt file2.txt 在这里执行之后可以读取到文件1 2</p>
+<h3 id="1-命令行参数的解析"><a href="#1-命令行参数的解析" class="headerlink" title="1. 命令行参数的解析"></a><strong>1. 命令行参数的解析</strong></h3><ul>
+<li><p><strong>命令：</strong> <code>go run main.go file1.txt file2.txt</code></p>
+<ul>
+<li><code>go run</code> 会编译并执行 <code>main.go</code>。</li>
+<li>命令行中，<code>main.go</code> 后面的 <code>file1.txt</code> 和 <code>file2.txt</code> 被传递给程序作为命令行参数。</li>
+</ul>
+</li>
+<li><p>在程序中，<code>os.Args</code> 是一个字符串切片（<code>[]string</code>），包含了命令行中的参数：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">os.Args[<span class="number">0</span>] <span class="comment">// 包含程序的名字，如 &quot;main.go&quot;</span></span><br><span class="line">os.Args[<span class="number">1</span>] <span class="comment">// 第一个参数 &quot;file1.txt&quot;</span></span><br><span class="line">os.Args[<span class="number">2</span>] <span class="comment">// 第二个参数 &quot;file2.txt&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>例子：</strong><br>假如命令为：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">go run main.go file1.txt file2.txt</span><br></pre></td></tr></table></figure>
+<p>则：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fmt.Println(os.Args) </span><br></pre></td></tr></table></figure>
+<p>输出：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[main file1.txt file2.txt]</span><br></pre></td></tr></table></figure></li>
+</ul>
+<hr>
+<h3 id="2-打开文件进行读取"><a href="#2-打开文件进行读取" class="headerlink" title="2. 打开文件进行读取"></a><strong>2. 打开文件进行读取</strong></h3><p>你的代码解析命令行参数后，会尝试打开这些文件：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">files := os.Args[<span class="number">1</span>:] <span class="comment">// 获取命令行参数列表（除程序本身外的部分）</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>files</code> 现在是一个切片：<code>[&quot;file1.txt&quot;, &quot;file2.txt&quot;]</code>。</li>
+</ul>
+<p>然后通过循环处理每个文件：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> _, arg := <span class="keyword">range</span> files &#123;</span><br><span class="line">    f, err := os.Open(arg) <span class="comment">// 打开文件</span></span><br><span class="line">    <span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">        fmt.Fprintf(os.Stderr, <span class="string">&quot;dup2: %v\n&quot;</span>, err) <span class="comment">// 错误处理</span></span><br><span class="line">        <span class="keyword">continue</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">defer</span> f.Close() <span class="comment">// 确保文件被正确关闭</span></span><br><span class="line">    countLines(f, counts)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这段代码中：</p>
+<ol>
+<li><p>**<code>os.Open(arg)</code>**：</p>
+<ul>
+<li>打开文件（如 <code>file1.txt</code>），返回一个文件指针 <code>*os.File</code>。</li>
+<li>如果文件打开失败（文件不存在或权限问题），返回错误并跳过。</li>
+</ul>
+</li>
+<li><p>**<code>countLines(f, counts)</code>**：</p>
+<ul>
+<li>将文件指针传递给 <code>countLines</code>，扫描文件的内容并统计每行的出现次数。</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h3 id="3-执行结果的输出"><a href="#3-执行结果的输出" class="headerlink" title="3. 执行结果的输出"></a><strong>3. 执行结果的输出</strong></h3><p>统计完成后，程序会输出所有出现次数大于 1 的行：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> line, n := <span class="keyword">range</span> counts &#123;</span><br><span class="line">    <span class="keyword">if</span> n &gt; <span class="number">1</span> &#123;</span><br><span class="line">        fmt.Printf(<span class="string">&quot;%d\t%s\n&quot;</span>, n, line)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这会将文件中所有重复的行及其出现次数打印到控制台。</p>
+<hr>
+<h3 id="4-为什么能够读取多个文件"><a href="#4-为什么能够读取多个文件" class="headerlink" title="4. 为什么能够读取多个文件"></a><strong>4. 为什么能够读取多个文件</strong></h3><p>这是因为你的代码通过 <code>for _, arg := files</code> 遍历了 <code>os.Args[1:]</code> 中的所有文件，并依次处理它们。程序对每个文件重复以下流程：</p>
+<ol>
+<li>打开文件。</li>
+<li>按行扫描内容，统计出现次数。</li>
+<li>将结果合并到 <code>counts</code> 映射中。</li>
+</ol>
+<p>这样，即使你提供多个文件，程序依然可以逐个读取并处理它们。</p>
+<hr>
+<h3 id="运行流程示例"><a href="#运行流程示例" class="headerlink" title="运行流程示例"></a><strong>运行流程示例</strong></h3><p>假设有以下文件内容：</p>
+<h4 id="file1-txt"><a href="#file1-txt" class="headerlink" title="file1.txt:"></a><code>file1.txt</code>:</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">hello</span><br><span class="line">world</span><br><span class="line">hello</span><br></pre></td></tr></table></figure>
+
+<h4 id="file2-txt"><a href="#file2-txt" class="headerlink" title="file2.txt:"></a><code>file2.txt</code>:</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">world</span><br><span class="line">hello</span><br><span class="line">go</span><br></pre></td></tr></table></figure>
+
+<p>执行命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">go run main.go file1.txt file2.txt</span><br></pre></td></tr></table></figure>
+
+<p>程序会：</p>
+<ol>
+<li>读取 <code>file1.txt</code>：<ul>
+<li>统计结果：<code>&#123;&quot;hello&quot;: 2, &quot;world&quot;: 1&#125;</code>。</li>
+</ul>
+</li>
+<li>读取 <code>file2.txt</code>，继续更新 <code>counts</code>：<ul>
+<li>最终统计结果：<code>&#123;&quot;hello&quot;: 3, &quot;world&quot;: 2, &quot;go&quot;: 1&#125;</code>。</li>
+</ul>
+</li>
+<li>打印重复行：<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">3   hello</span><br><span class="line">2   world</span><br></pre></td></tr></table></figure></li>
+</ol>
+<hr>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a><strong>总结</strong></h3><p>你可以读取多个文件是因为程序通过 <code>os.Args</code> 获取了命令行中的文件名列表，并通过循环逐个打开和读取文件的内容。这种设计使得你的程序能够动态处理任意数量的文件，而无需修改代码。</p>
+<hr>
+<h3 id="12-14-日-更考完4级"><a href="#12-14-日-更考完4级" class="headerlink" title="12.14 日 更考完4级"></a>12.14 日 更考完4级</h3><h4 id="一-Errors"><a href="#一-Errors" class="headerlink" title="一.Errors"></a>一.Errors</h4><ol>
+<li>“errors” 包  使用给定的错误消息构造一个基本错误值。</li>
+</ol>
+<p>errors.New(“can’t work with 42”)</p>
+<p>nil 表示没有错误</p>
+<ol start="2">
+<li>哨兵错误是一个预先声明的变量，用于表示特定的错误情况。</li>
+</ol>
+<p>var ErrOutOfTea &#x3D; fmt.Errorf(“no more tea available”)<br>var ErrPower &#x3D; fmt.Errorf(“can’t boil water”)</p>
+<ol start="3">
+<li>更高级别的错误来包装错误以添加上下文</li>
+</ol>
+<p>最简单的方法是使用 fmt.Errorf 中的 %w 动词。包装错误创建一个逻辑链（A 包装 B，B 包装 C 等），可以使用 error.Is 和 error.As 等函数进行查询。</p>
+<p>return fmt.Errorf(“making tea: %w”, ErrPower)</p>
+<ol start="4">
+<li>if 行中使用内联错误检查</li>
+</ol>
+<p>if r, e :&#x3D; f(i); e !&#x3D; nil {<br>fmt.Println(“f failed:”, e)<br>} else {<br>fmt.Println(“f worked:”, r)<br>}</p>
+<ol start="5">
+<li>error.Is 检查给定错误（或其链中的任何错误）是否与特定错误值匹配。</li>
+</ol>
+<p>if errors.Is(err, ErrOutOfTea) {<br>fmt.Println(“We should buy new tea!”)<br>} else if errors.Is(err, ErrPower) {<br>fmt.Println(“Now it is dark.”)<br>} else {<br>fmt.Printf(“unknown error: %s\n”, err)<br>}</p>
+<p>将err和我们自定义的哨兵错误或者特定错误做对比</p>
+<p>二.自定义错误</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> argError <span class="keyword">struct</span> &#123;</span><br><span class="line">    arg     <span class="type">int</span></span><br><span class="line">    message <span class="type">string</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(e *argError)</span></span> Error() <span class="type">string</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> fmt.Sprintf(<span class="string">&quot;%d - %s&quot;</span>, e.arg, e.message)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>Error 方法并没有直接调用，但 &amp;argError{arg, “can’t work with it”} 被返回为 error 类型时，Error 方法已经在幕后实现了对错误消息的封装。</p>
+<p>error.As 是errors.Is 的更高级版本。它检查给定错误（或其链中的任何错误）是否与特定错误类型匹配，并转换为该类型的值，返回 true。如果没有匹配，则返回 false。</p>
+<h4 id="Goroutines"><a href="#Goroutines" class="headerlink" title="Goroutines"></a>Goroutines</h4><p>轻量级的执行线程</p>
+<p>go f(s)。这个新的 goroutine 将与调用的 goroutine 同时执行。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">f</span><span class="params">(from <span class="type">string</span>)</span></span> &#123;</span><br><span class="line">    <span class="keyword">for</span> i := <span class="number">0</span>; i &lt; <span class="number">3</span>; i++ &#123;</span><br><span class="line">        fmt.Println(from, <span class="string">&quot;:&quot;</span>, i)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">go</span> f(<span class="string">&quot;goroutine&quot;</span>)</span><br><span class="line">  </span><br></pre></td></tr></table></figure>
+
+<p>启动一个 goroutine 来进行匿名函数调用。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">(msg <span class="type">string</span>)</span></span> &#123;</span><br><span class="line">        fmt.Println(msg)</span><br><span class="line">    &#125;(<span class="string">&quot;going&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>goroutine 是由 Go 运行时同时运行的。</p>
+<h4 id="通道"><a href="#通道" class="headerlink" title="通道"></a>通道</h4><p>通道是连接并发 goroutine 的管道。您可以将值从一个 Goroutine 发送到通道，并将这些值接收到另一个 Goroutine。</p>
+<p>messages :&#x3D; make(chan string)</p>
+<p>通道 &lt;- 语法将值发送到通道</p>
+<p>go func() { messages &lt;- “ping” }()</p>
+<p>msg :&#x3D; &lt;-messages</p>
+<p>&lt;-channel 语法从通道接收值。在这里，我们将收到上面发送的“ping”消息并将其打印出来。</p>
+<p>发送和接收会阻塞，直到发送者和接收者都准备好为止。此属性允许我们在程序结束时等待“ping”消息，而无需使用任何其他同步。</p>
+<p>通道缓冲：</p>
+<p>messages :&#x3D; make(chan string, 2) 字符串通道，最多缓冲 2 个值 因此我们可以将这些值发送到通道中，而无需相应的并发接收。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"> messages := <span class="built_in">make</span>(<span class="keyword">chan</span> <span class="type">string</span>, <span class="number">2</span>)</span><br><span class="line"></span><br><span class="line">messages &lt;- <span class="string">&quot;buffered&quot;</span></span><br><span class="line">messages &lt;- <span class="string">&quot;channel&quot;</span></span><br><span class="line"></span><br><span class="line"> fmt.Println(&lt;-messages)</span><br><span class="line"> fmt.Println(&lt;-messages)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+
+<h4 id="断言和switch用法"><a href="#断言和switch用法" class="headerlink" title="断言和switch用法:"></a>断言和switch用法:</h4><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> t <span class="keyword">interface</span>&#123;&#125;</span><br><span class="line">t = functionOfSomeType()</span><br><span class="line"><span class="keyword">switch</span> t := t.(<span class="keyword">type</span>) &#123;</span><br><span class="line"><span class="keyword">default</span>:</span><br><span class="line">    fmt.Printf(<span class="string">&quot;unexpected type %T\n&quot;</span>, t)     <span class="comment">// %T prints whatever type t has</span></span><br><span class="line"><span class="keyword">case</span> <span class="type">bool</span>:</span><br><span class="line">    fmt.Printf(<span class="string">&quot;boolean %t\n&quot;</span>, t)             <span class="comment">// t has type bool</span></span><br><span class="line"><span class="keyword">case</span> <span class="type">int</span>:</span><br><span class="line">    fmt.Printf(<span class="string">&quot;integer %d\n&quot;</span>, t)             <span class="comment">// t has type int</span></span><br><span class="line"><span class="keyword">case</span> *<span class="type">bool</span>:</span><br><span class="line">    fmt.Printf(<span class="string">&quot;pointer to boolean %t\n&quot;</span>, *t) <span class="comment">// t has type *bool</span></span><br><span class="line"><span class="keyword">case</span> *<span class="type">int</span>:</span><br><span class="line">    fmt.Printf(<span class="string">&quot;pointer to integer %d\n&quot;</span>, *t) <span class="comment">// t has type *int</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>类型断言用于从接口类型值中提取其底层的具体类型。如果断言成功，程序可以安全地将该接口值转换为目标类型并使用。</p>
+<p>value, ok :&#x3D; x.(T)</p>
+<p>x 是一个接口类型的变量。<br>T 是目标类型（可以是具体类型或其他接口类型）。<br>如果 x 的动态类型是 T：<br>value 是 x 转换为 T 后的值。<br>ok 为 true。<br>如果 x 的动态类型不是 T：<br>value 是 T 的零值。<br>ok 为 false，表示断言失败。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> x <span class="keyword">interface</span>&#123;&#125; = <span class="number">42</span> <span class="comment">// 空接口存储了一个 int 值</span></span><br><span class="line"></span><br><span class="line">value, ok := x.(<span class="type">int</span>) <span class="comment">// 断言 x 是 int 类型</span></span><br><span class="line"><span class="keyword">if</span> ok &#123;</span><br><span class="line">    fmt.Printf(<span class="string">&quot;x is an int, value: %d\n&quot;</span>, value)</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    fmt.Println(<span class="string">&quot;x is not an int&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>空interface<br>空interface(interface{})不包含任何的method，正因为如此，所有的类型都实现了空interface。空interface对于描述起不到任何的作用(因为它不包含任何的method），但是空interface在我们需要存储任意类型的数值的时候相当有用，因为它可以存储任意类型的数值。它有点类似于C语言的void*类型。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 定义a为空接口</span></span><br><span class="line"><span class="keyword">var</span> a <span class="keyword">interface</span>&#123;&#125;</span><br><span class="line"><span class="keyword">var</span> i <span class="type">int</span> = <span class="number">5</span></span><br><span class="line">s := <span class="string">&quot;Hello world&quot;</span></span><br><span class="line"><span class="comment">// a可以存储任意类型的数值</span></span><br><span class="line">a = i</span><br><span class="line">a = s</span><br></pre></td></tr></table></figure>
+<p>一个函数把interface{}作为参数，那么他可以接受任意类型的值作为参数，如果一个函数返回interface{},那么也就可以返回任意类型的值。是不是很有用啊！</p>
+<p>Go并发</p>
+
+        </section>
+    </article>
+</div>
+
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© 赵忠赫 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+
+</html>
