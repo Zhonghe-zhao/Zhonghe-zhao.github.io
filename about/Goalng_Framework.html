@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <!-- title -->
+<!-- keywords -->
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="author" content="赵忠赫">
+    <meta name="renderer" content="webkit">
+    <meta name="copyright" content="赵忠赫">
+        <meta name="keywords" content="hexo,hexo-theme,hexo-blog">
+    <meta name="description" content="">
+    <meta name="description" content="通过学习项目 7_days_golang搭建各种自己的框架了解一些网络工作原理和知识学习geektutu源代码：https:&#x2F;&#x2F;github.com&#x2F;geektutu&#x2F;7days-golang 跟着学习的项目代码已经放在: https:&#x2F;&#x2F;github.com&#x2F;Whuichenggong&#x2F;Study_Go 1.gee.go关键代码 123456789101112131415161718192021">
+<meta property="og:type" content="website">
+<meta property="og:title" content="7_days_golang学习">
+<meta property="og:url" content="https://whuichenggong.github.io/about/Goalng_Framework.html">
+<meta property="og:site_name" content="赵忠赫的个人博客">
+<meta property="og:description" content="通过学习项目 7_days_golang搭建各种自己的框架了解一些网络工作原理和知识学习geektutu源代码：https:&#x2F;&#x2F;github.com&#x2F;geektutu&#x2F;7days-golang 跟着学习的项目代码已经放在: https:&#x2F;&#x2F;github.com&#x2F;Whuichenggong&#x2F;Study_Go 1.gee.go关键代码 123456789101112131415161718192021">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-11-27T12:47:04.152Z">
+<meta property="article:modified_time" content="2024-11-27T12:47:04.152Z">
+<meta property="article:author" content="赵忠赫">
+<meta name="twitter:card" content="summary">
+    <meta http-equiv="Cache-control" content="no-cache">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <link rel="icon" href="/assets/favicon.ico">
+    <title>7_days_golang学习 · fi3ework&#39;s Studio</title>
+    <!-- /*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
+/* This file is meant as a standalone workflow for
+- testing support for link[rel=preload]
+- enabling async CSS loading in browsers that do not support rel=preload
+- applying rel preload css once loaded, whether supported or not.
+*/ -->
+<script>
+    (function (w) {
+        'use strict'
+        // rel=preload support test
+        if (!w.loadCSS) {
+            w.loadCSS = function () {}
+        }
+        // define on the loadCSS obj
+        var rp = (loadCSS.relpreload = {})
+        // rel=preload feature support test
+        // runs once and returns a function for compat purposes
+        rp.support = (function () {
+            var ret
+            try {
+                ret = w.document.createElement('link').relList.supports('preload')
+            } catch (e) {
+                ret = false
+            }
+            return function () {
+                return ret
+            }
+        })()
+
+        // if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+        // then change that media back to its intended value on load
+        rp.bindMediaToggle = function (link) {
+            // remember existing media attr for ultimate state, or default to 'all'
+            var finalMedia = link.media || 'all'
+
+            function enableStylesheet() {
+                link.media = finalMedia
+            }
+
+            // bind load handlers to enable media
+            if (link.addEventListener) {
+                link.addEventListener('load', enableStylesheet)
+            } else if (link.attachEvent) {
+                link.attachEvent('onload', enableStylesheet)
+            }
+
+            // Set rel and non-applicable media type to start an async request
+            // note: timeout allows this to happen async to let rendering continue in IE
+            setTimeout(function () {
+                link.rel = 'stylesheet'
+                link.media = 'only x'
+            })
+            // also enable media after 3 seconds,
+            // which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+            setTimeout(enableStylesheet, 3000)
+        }
+
+        // loop through link elements in DOM
+        rp.poly = function () {
+            // double check this to prevent external calls from running
+            if (rp.support()) {
+                return
+            }
+            var links = w.document.getElementsByTagName('link')
+            for (var i = 0; i < links.length; i++) {
+                var link = links[i]
+                // qualify links to those with rel=preload and as=style attrs
+                if (
+                    link.rel === 'preload' &&
+                    link.getAttribute('as') === 'style' &&
+                    !link.getAttribute('data-loadcss')
+                ) {
+                    // prevent rerunning on link
+                    link.setAttribute('data-loadcss', true)
+                    // bind listeners to toggle media back
+                    rp.bindMediaToggle(link)
+                }
+            }
+        }
+
+        // if unsupported, run the polyfill
+        if (!rp.support()) {
+            // run once at least
+            rp.poly()
+
+            // rerun poly on an interval until onload
+            var run = w.setInterval(rp.poly, 500)
+            if (w.addEventListener) {
+                w.addEventListener('load', function () {
+                    rp.poly()
+                    w.clearInterval(run)
+                })
+            } else if (w.attachEvent) {
+                w.attachEvent('onload', function () {
+                    rp.poly()
+                    w.clearInterval(run)
+                })
+            }
+        }
+
+        // commonjs
+        if (typeof exports !== 'undefined') {
+            exports.loadCSS = loadCSS
+        } else {
+            w.loadCSS = loadCSS
+        }
+    })(typeof global !== 'undefined' ? global : this)
+</script>
+
+    <style type="text/css">
+    @font-face {
+        font-family: 'Oswald-Regular';
+        src: url("/font/Oswald-Regular.ttf");
+    }
+
+    body {
+        margin: 0;
+    }
+
+    header,
+    footer,
+    .footer-fixed-btn,
+    .sidebar,
+    .container,
+    .site-intro-meta,
+    .toc-wrapper {
+        display: none;
+    }
+
+    .site-intro {
+        position: relative;
+        z-index: 3;
+        width: 100%;
+        /* height: 50vh; */
+        overflow: hidden;
+    }
+
+    .site-intro-placeholder {
+        position: absolute;
+        z-index: -2;
+        top: 0;
+        left: 0;
+        width: calc(100% + 300px);
+        height: 100%;
+        background: repeating-linear-gradient(
+            -45deg,
+            #444 0,
+            #444 80px,
+            #333 80px,
+            #333 160px
+        );
+        background-position: center center;
+        transform: translate3d(-226px, 0, 0);
+        animation: gradient-move 2.5s ease-out 0s infinite;
+    }
+
+    @keyframes gradient-move {
+        0% {
+            transform: translate3d(-226px, 0, 0);
+        }
+        100% {
+            transform: translate3d(0, 0, 0);
+        }
+    }
+</style>
+
+    <link id="stylesheet-fancybox" rel="preload" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.36/dist/fancybox/fancybox.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link id="stylesheet-base" rel="preload" href="/css/style.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link id="stylesheet-mobile" rel="preload" href="/css/mobile.css" as="style" onload="this.onload=null;this.rel='stylesheet';this.media='screen and (max-width: 960px)'">
+    <link id="stylesheet-theme-dark" rel="preload" href="/css/dark.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" as="script">
+    <link rel="preload" href="/scripts/main.js" as="script">
+    <link rel="preload" href="/font/Oswald-Regular.ttf" as="font" crossorigin>
+    <link rel="preload" href="https://at.alicdn.com/t/font_327081_1dta1rlogw17zaor.woff" as="font" crossorigin>
+    <!-- algolia -->
+    <!-- 百度统计  -->
+    <!-- 谷歌统计  -->
+    <!-- Google tag (gtag.js) -->
+<meta name="generator" content="Hexo 7.3.0"><link rel="alternate" href="/atom.xml" title="赵忠赫的个人博客" type="application/atom+xml">
+</head>
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+    <script type="text/javascript">
+        if (typeof window.$ == undefined) {
+            console.warn('jquery load from jsdelivr failed, will load local script')
+            document.write('<script src="/lib/jquery.min.js" />')
+        }
+    </script>
+        <!-- header -->
+        <header class="header header-mobile">
+    <!-- top read progress line -->
+    <div class="header-element">
+        <div class="read-progress"></div>
+    </div>
+    <!-- sidebar menu button -->
+    <div class="header-element">
+        <div class="header-sidebar-menu">
+            <div style="padding-left: 1px;">&#xe775;</div>
+        </div>
+    </div>
+    <!-- header actions -->
+    <div class="header-actions">
+        <!-- theme mode switch button -->
+        <span class="header-theme-btn header-element">
+            <i class="fas fa-adjust"></i>
+        </span>
+        <!-- back to home page text -->
+        <span class="home-link header-element">
+            <a href="/">fi3ework's Studio.</a>
+        </span>
+    </div>
+    <!-- toggle banner -->
+    <div class="banner">
+        <div class="blog-title header-element">
+            <a href="/">fi3ework&#39;s Studio.</a>
+        </div>
+        <div class="post-title header-element">
+            <a href="#" class="post-name">7_days_golang学习</a>
+        </div>
+    </div>
+</header>
+
+        <!-- fixed footer -->
+        <footer class="footer-fixed">
+    <!-- donate button -->
+
+    <!-- back to top button -->
+    <div class="footer-fixed-btn footer-fixed-btn--hidden back-top">
+        <div>&#xe639;</div>
+    </div>
+</footer>
+
+        <!-- wrapper -->
+        <div class="wrapper">
+            <div class="site-intro" style="">
+    <!-- 主页  -->
+    <div class="site-intro-placeholder"></div>
+    <div class="site-intro-img" style="background-image: url(/)"></div>
+    <div class="site-intro-meta">
+        <!-- 标题  -->
+        <h1 class="intro-title">
+            <!-- 主页  -->
+        </h1>
+        <!-- 副标题 -->
+        <p class="intro-subtitle">
+            <!-- 主页副标题  -->
+        </p>
+        <!-- 文章页 meta -->
+    </div>
+</div>
+
+            <script>
+  // get user agent
+  function getBrowserVersions() {
+    var u = window.navigator.userAgent
+    return {
+      userAgent: u,
+      trident: u.indexOf('Trident') > -1, //IE内核
+      presto: u.indexOf('Presto') > -1, //opera内核
+      webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+      gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+      mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
+      ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+      android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+      iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者安卓QQ浏览器
+      iPad: u.indexOf('iPad') > -1, //是否为iPad
+      webApp: u.indexOf('Safari') == -1, //是否为web应用程序，没有头部与底部
+      weixin: u.indexOf('MicroMessenger') == -1, //是否为微信浏览器
+      uc: u.indexOf('UCBrowser') > -1, //是否为android下的UC浏览器
+    }
+  }
+  var browser = {
+    versions: getBrowserVersions(),
+  }
+  console.log('userAgent: ' + browser.versions.userAgent)
+
+  // callback
+  function fontLoaded() {
+    console.log('font loaded')
+    if (document.getElementsByClassName('site-intro-meta')) {
+      document
+        .getElementsByClassName('intro-title')[0]
+        .classList.add('intro-fade-in')
+      document
+        .getElementsByClassName('intro-subtitle')[0]
+        .classList.add('intro-fade-in')
+      var postIntros = document.getElementsByClassName('post-intros')[0]
+      if (postIntros) {
+        postIntros.classList.add('post-fade-in')
+      }
+    }
+  }
+
+  // UC不支持跨域，所以直接显示
+  function asyncCb() {
+    if (browser.versions.uc) {
+      console.log('UCBrowser')
+      fontLoaded()
+    } else {
+      WebFont.load({
+        custom: {
+          families: ['Oswald-Regular'],
+        },
+        loading: function () {
+          // 所有字体开始加载
+          // console.log('font loading');
+        },
+        active: function () {
+          // 所有字体已渲染
+          fontLoaded()
+        },
+        inactive: function () {
+          // 字体预加载失败，无效字体或浏览器不支持加载
+          console.log('inactive: timeout')
+          fontLoaded()
+        },
+        timeout: 5000, // Set the timeout to two seconds
+      })
+    }
+  }
+
+  function asyncErr() {
+    console.warn('script load from CDN failed, will load local script')
+  }
+
+  // load webfont-loader async, and add callback function
+  function async(u, cb, err) {
+    var d = document,
+      t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0]
+    o.src = u
+    if (cb) {
+      o.addEventListener(
+        'load',
+        function (e) {
+          cb(null, e)
+        },
+        false
+      )
+    }
+    if (err) {
+      o.addEventListener(
+        'error',
+        function (e) {
+          err(null, e)
+        },
+        false
+      )
+    }
+    s.parentNode.insertBefore(o, s)
+  }
+
+  var asyncLoadWithFallBack = function (arr, success, reject) {
+    var currReject = function () {
+      reject()
+      arr.shift()
+      if (arr.length) async(arr[0], success, currReject)
+    }
+
+    async(arr[0], success, currReject)
+  }
+
+  asyncLoadWithFallBack(
+    [
+      'https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js',
+      'https://cdn.bootcss.com/webfont/1.6.28/webfontloader.js',
+      "/lib/webfontloader.min.js",
+    ],
+    asyncCb,
+    asyncErr
+  )
+</script>
+
+            <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" alt="loading">
+            <div class="container container-unloaded">
+                <main class="main post-page">
+    <article class="article-entry">
+        <h2 id="通过学习项目-7-days-golang搭建各种自己的框架了解一些网络工作原理和知识"><a href="#通过学习项目-7-days-golang搭建各种自己的框架了解一些网络工作原理和知识" class="headerlink" title="通过学习项目 7_days_golang搭建各种自己的框架了解一些网络工作原理和知识"></a>通过学习项目 7_days_golang搭建各种自己的框架了解一些网络工作原理和知识</h2><p>学习geektutu源代码：<a target="_blank" rel="noopener" href="https://github.com/geektutu/7days-golang">https://github.com/geektutu/7days-golang</a></p>
+<p>跟着学习的项目代码已经放在: <a target="_blank" rel="noopener" href="https://github.com/Whuichenggong/Study_Go">https://github.com/Whuichenggong/Study_Go</a></p>
+<h3 id="1-gee-go"><a href="#1-gee-go" class="headerlink" title="1.gee.go"></a>1.gee.go</h3><p>关键代码</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> gee</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">&quot;fmt&quot;</span></span><br><span class="line">	<span class="string">&quot;net/http&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="comment">//首先定义了类型HandlerFunc，这是提供给框架用户的，用来定义路由映射的处理方法</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> HandlerFunc <span class="function"><span class="keyword">func</span><span class="params">(http.ResponseWriter, *http.Request)</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 在Engine中，添加了一张路由映射表router</span></span><br><span class="line"><span class="comment">// key 由请求方法和静态路由地址构成，例如GET-/、GET-/hello、POST-/hello</span></span><br><span class="line"><span class="comment">// 如果请求方法不同,可以映射不同的处理方法(Handler)，value 是用户映射的处理方法</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> Engine <span class="keyword">struct</span> &#123;</span><br><span class="line">	router <span class="keyword">map</span>[<span class="type">string</span>]HandlerFunc</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// New is the constructor of gee.Engine</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">New</span><span class="params">()</span></span> *Engine &#123;</span><br><span class="line">	<span class="keyword">return</span> &amp;Engine&#123;router: <span class="built_in">make</span>(<span class="keyword">map</span>[<span class="type">string</span>]HandlerFunc)&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(engine *Engine)</span></span> addRoute(method <span class="type">string</span>, pattern <span class="type">string</span>, handler HandlerFunc) &#123;</span><br><span class="line">	key := method + pattern</span><br><span class="line">	engine.router[key] = handler</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 用户调用(*Engine).GET()方法时，会将路由和处理方法注册到映射表 router 中，(*Engine).Run()方法，是 ListenAndServe 的包装。</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(engine *Engine)</span></span> GET(pattern <span class="type">string</span>, handler HandlerFunc) &#123;</span><br><span class="line">	engine.addRoute(<span class="string">&quot;GET&quot;</span>, pattern, handler)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(engine *Engine)</span></span> POST(pattern <span class="type">string</span>, handler HandlerFunc) &#123;</span><br><span class="line">	engine.addRoute(<span class="string">&quot;POST&quot;</span>, pattern, handler)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(engine *Engine)</span></span> Run(addr <span class="type">string</span>) (err <span class="type">error</span>) &#123;</span><br><span class="line">	<span class="keyword">return</span> http.ListenAndServe(addr, engine)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Engine实现的 ServeHTTP 方法的作用就是，解析请求的路径，查找路由映射表，如果查到，就执行注册的处理方法。如果查不到，就返回 404 NOT FOUND 。</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(engine *Engine)</span></span> ServeHTTP(w http.ResponseWriter, req *http.Request) &#123;</span><br><span class="line">	key := req.URL.Path</span><br><span class="line">	<span class="keyword">if</span> handler, ok := engine.router[key]; ok &#123;</span><br><span class="line">		handler(w, req)</span><br><span class="line">	&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">		fmt.Fprintf(w, <span class="string">&quot;404 Not Found: %s\n&quot;</span>, req.URL)</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+<h3 id="2-go-mod代码"><a href="#2-go-mod代码" class="headerlink" title="2.go.mod代码"></a>2.go.mod代码</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">module github.com/Whuichenggong</span><br><span class="line"></span><br><span class="line">go 1.22.1</span><br><span class="line"></span><br><span class="line">require gee v0.0.0</span><br><span class="line"></span><br><span class="line">replace gee =&gt; ./gee</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>replace gee &#x3D;&gt; .&#x2F;gee</p>
+<p>这是一个替换指令，它告诉 Go 工具链用本地相对路径 .&#x2F;gee 中的 gee 包替换远程需要的 gee 包。<br>这意味着，尽管 require 指令可能指向一个特定的远程版本或分支，<br>这个 replace 指令实际上将使用当前目录下的 gee 文件夹中的代码。</p>
+<h4 id="2-1初始化-Go-模块："><a href="#2-1初始化-Go-模块：" class="headerlink" title="2.1初始化 Go 模块："></a>2.1初始化 Go 模块：</h4><p>如果你的项目还没有被初始化为 Go 模块，你需要先在项目的根目录下运行以下命令来初始化它：</p>
+<p><code>go mod init &lt;module-name&gt;</code></p>
+<p>替换 <module-name> 为你的模块名称。例如，如果你的项目名称是 example，你会运行：</p>
+<p><code>go mod init example</code></p>
+<h3 id="3-main-go"><a href="#3-main-go" class="headerlink" title="3.main.go"></a>3.main.go</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">package main</span><br><span class="line"></span><br><span class="line">import (</span><br><span class="line">	&quot;fmt&quot;</span><br><span class="line">	&quot;net/http&quot;</span><br><span class="line"></span><br><span class="line">	&quot;gee&quot;</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">func main() &#123;</span><br><span class="line">	r := gee.New()</span><br><span class="line">	r.GET(&quot;/&quot;, func(w http.ResponseWriter, req *http.Request) &#123;</span><br><span class="line">		fmt.Fprintf(w, &quot;URL.Path = %q\n&quot;, req.URL.Path)</span><br><span class="line">	&#125;)</span><br><span class="line"></span><br><span class="line">	r.GET(&quot;/hello&quot;, func(w http.ResponseWriter, req *http.Request) &#123;</span><br><span class="line">		for k, v := range req.Header &#123;</span><br><span class="line">			fmt.Fprintf(w, &quot;Header[%q] = %q\n&quot;, k, v)</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;)</span><br><span class="line"></span><br><span class="line">	r.Run(&quot;:9999&quot;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h5 id="新增："><a href="#新增：" class="headerlink" title="新增："></a>新增：</h5><p>测试 POST 请求<br>启动服务器后，测试 POST 请求可以使用以下工具：</p>
+<p>方法 1: 使用 curl<br>执行以下命令发送 POST 请求：</p>
+<p>curl -X POST <a target="_blank" rel="noopener" href="http://localhost:8080/submit">http://localhost:8080/submit</a></p>
+<hr>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line"><span class="string">&quot;fmt&quot;</span></span><br><span class="line"><span class="string">&quot;io/ioutil&quot;</span></span><br><span class="line"><span class="string">&quot;net/http&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> HandlerFunc <span class="function"><span class="keyword">func</span><span class="params">(http.ResponseWriter, *http.Request)</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> Engine <span class="keyword">struct</span> &#123;</span><br><span class="line">router <span class="keyword">map</span>[<span class="type">string</span>]HandlerFunc</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">New</span><span class="params">()</span></span> *Engine &#123;</span><br><span class="line"><span class="keyword">return</span> &amp;Engine&#123;router: <span class="built_in">make</span>(<span class="keyword">map</span>[<span class="type">string</span>]HandlerFunc)&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(engine *Engine)</span></span> addRoute(method <span class="type">string</span>, pattern <span class="type">string</span>, handler HandlerFunc) &#123;</span><br><span class="line">key := method + pattern</span><br><span class="line">engine.router[key] = handler</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(engine *Engine)</span></span> POST(pattern <span class="type">string</span>, handler HandlerFunc) &#123;</span><br><span class="line">engine.addRoute(<span class="string">&quot;POST&quot;</span>, pattern, handler)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(engine *Engine)</span></span> Run(addr <span class="type">string</span>) <span class="type">error</span> &#123;</span><br><span class="line"><span class="keyword">return</span> http.ListenAndServe(addr, engine)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(engine *Engine)</span></span> ServeHTTP(w http.ResponseWriter, req *http.Request) &#123;</span><br><span class="line">key := req.Method + req.URL.Path</span><br><span class="line"><span class="keyword">if</span> handler, ok := engine.router[key]; ok &#123;</span><br><span class="line">handler(w, req)</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">http.NotFound(w, req)</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+<p>func main() {<br>engine :&#x3D; New()</p>
+<pre><code>// 注册一个 POST 路由
+engine.POST(&quot;/submit&quot;, func(w http.ResponseWriter, req *http.Request) &#123;
+    // 读取请求体数据
+    body, err := ioutil.ReadAll(req.Body)
+    if err != nil &#123;
+        http.Error(w, &quot;Failed to read request body&quot;, http.StatusInternalServerError)
+        return
+    &#125;
+    // 响应请求体内容
+    fmt.Fprintf(w, &quot;Received: %s&quot;, string(body))
+&#125;)
+
+// 启动服务器
+engine.Run(&quot;:8080&quot;)
+</code></pre>
+<p>}<br>测试：<br>启动程序后，用 curl 发送 POST 请求并附带数据：</p>
+<p>b<br>curl -X POST -d “data&#x3D;HelloWorld” <a target="_blank" rel="noopener" href="http://localhost:8080/submit">http://localhost:8080/submit</a><br>服务器返回：</p>
+<p>kotlin</p>
+<p>Received: data&#x3D;HelloWorld</p>
+<h4 id="ServeHTTP好像有点问题"><a href="#ServeHTTP好像有点问题" class="headerlink" title="ServeHTTP好像有点问题"></a>ServeHTTP好像有点问题</h4><p>main.go<br>附带了对代码的理解</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> gee</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">&quot;fmt&quot;</span></span><br><span class="line">	<span class="string">&quot;net/http&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="comment">//首先定义了类型HandlerFunc，这是提供给框架用户的，用来定义路由映射的处理方法</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> HandlerFunc <span class="function"><span class="keyword">func</span><span class="params">(http.ResponseWriter, *http.Request)</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 在Engine中，添加了一张路由映射表router</span></span><br><span class="line"><span class="comment">// key 由请求方法和静态路由地址构成，例如GET-/、GET-/hello、POST-/hello</span></span><br><span class="line"><span class="comment">// 如果请求方法不同,可以映射不同的处理方法(Handler)，value 是用户映射的处理方法</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> Engine <span class="keyword">struct</span> &#123;</span><br><span class="line">	router <span class="keyword">map</span>[<span class="type">string</span>]HandlerFunc</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// New is the constructor of gee.Engine</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">New</span><span class="params">()</span></span> *Engine &#123;</span><br><span class="line">	<span class="keyword">return</span> &amp;Engine&#123;router: <span class="built_in">make</span>(<span class="keyword">map</span>[<span class="type">string</span>]HandlerFunc)&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 这段代码的作用将HTTP请求的路由和对应的处理函数注册到路由表中的核心方法</span></span><br><span class="line"><span class="comment">// pattern路由路径</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(engine *Engine)</span></span> addRoute(method <span class="type">string</span>, pattern <span class="type">string</span>, handler HandlerFunc) &#123;</span><br><span class="line">	<span class="comment">//将HTTp方法和路径拼接成唯一一个键 作为路由表的router的键</span></span><br><span class="line">	key := method + pattern</span><br><span class="line">	<span class="comment">//将处理函数 handler 存入路由表中，关联到对应的路由键。</span></span><br><span class="line">	engine.router[key] = handler</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 用户调用 addRoute(&quot;GET&quot;, &quot;/home&quot;, someHandlerFunc) 在 engine.router 映射表中，会存储一个键值对：</span></span><br><span class="line"><span class="comment">// 调用engine.GET(&quot;/home&quot;, someHandlerFunc)： 实际是 等价 engine.addRoute(&quot;GET&quot;, &quot;/home&quot;, someHandlerFunc)</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(engine *Engine)</span></span> GET(pattern <span class="type">string</span>, handler HandlerFunc) &#123;</span><br><span class="line">	engine.addRoute(<span class="string">&quot;GET&quot;</span>, pattern, handler)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(engine *Engine)</span></span> POST(pattern <span class="type">string</span>, handler HandlerFunc) &#123;</span><br><span class="line">	engine.addRoute(<span class="string">&quot;POST&quot;</span>, pattern, handler)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 这段代码隐藏了调用ServeHTTP</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(engine *Engine)</span></span> Run(addr <span class="type">string</span>) (err <span class="type">error</span>) &#123;</span><br><span class="line">	<span class="keyword">return</span> http.ListenAndServe(addr, engine)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Engine实现的 ServeHTTP 方法的作用就是，解析请求的路径，查找路由映射表，如果查到，就执行注册的处理方法。如果查不到，就返回 404 NOT FOUND 。</span></span><br><span class="line"><span class="comment">// 不需要显式调用 ServeHTTP</span></span><br><span class="line"><span class="comment">// 在 Go 的 HTTP 框架中，ServeHTTP 是 http.Handler 接口的约定方法。当你把 Engine 作为服务器的处理器传递时，它会被 ListenAndServe 自动调用。</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(engine *Engine)</span></span> ServeHTTP(w http.ResponseWriter, req *http.Request) &#123;</span><br><span class="line">	key := req.URL.Path</span><br><span class="line">	<span class="keyword">if</span> handler, ok := engine.router[key]; ok &#123;</span><br><span class="line">		handler(w, req)</span><br><span class="line">	&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">		fmt.Fprintf(w, <span class="string">&quot;404 Not Found: %s\n&quot;</span>, req.URL)</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h5 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h5><p>在 ServeHTTP 中，当前只从 req.URL.Path 获取路径，<br>而没有结合 req.Method，会导致不同的 HTTP 方法（如 GET 和 POST）冲突或无法正确匹配。<br>addRoute 方法仅使用了路径（pattern）和方法（method）拼接为路由键，例如：GET&#x2F;home。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(engine *Engine)</span></span> addRoute(method <span class="type">string</span>, pattern <span class="type">string</span>, handler HandlerFunc) &#123;</span><br><span class="line">    key := method + <span class="string">&quot;-&quot;</span> + pattern <span class="comment">// 区分 HTTP 方法和路径</span></span><br><span class="line">    engine.router[key] = handler</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>修改的这段代码<br>原来只使用了路径（req.URL.Path）作为路由键。例如：</p>
+<p>请求路径 &#x2F;hello 的键为 &#x2F;hello。<br>不区分 GET &#x2F;hello 和 POST &#x2F;hello，它们会共用同一个路由键 &#x2F;hello。<br>建议的代码<br>使用 HTTP 方法和路径 拼接成路由键。例如：</p>
+<p>GET &#x2F;hello 的键为 GET-&#x2F;hello。<br>POST &#x2F;hello 的键为 POST-&#x2F;hello。<br>这样可以区分不同方法对应的路由处理函数。</p>
+<p>与gin框架启动很相似</p>
+<hr>
+<p>对Web服务来说，无非是根据请求*http.Request，构造响应http.ResponseWriter。<br>但是这两个对象提供的接口粒度太细，比如我们要构造一个完整的响应，需要考虑消息头(Header)和消息体(Body)，而 Header 包含了状态码(StatusCode)，<br>消息类型(ContentType)等几乎每次请求都需要设置的信息。因此，如果不进行有效的封装， 那么框架的用户将需要写大量重复，繁杂的代码<br>且容易出错。针对常用场景，能够高效地构造出 HTTP 响应是一个好的框架必须考虑的点。</p>
+<p>代码要学会封装 否则代码整洁度看起来还是会差很多的 对于别人理解一会更方便</p>
+<p>为什么要添加context  对于框架来说，还需要支撑额外的功能。例如，将来解析动态路由&#x2F;hello&#x2F;:name，参数:name的值放在哪呢？<br>再比如，框架需要支持中间件，那中间件产生的信息放在哪呢？</p>
+<p>contxet保留了你想寻找的一些东西<br>拓展性和复杂性留在内部<br>对外简化了接口。</p>
+<p>Context 的作用是为每个 HTTP 请求提供一个上下文对象，<br>方便操作请求和响应，并提供了一些简化开发的工具方法。<br>通过 Context 统一管理 HTTP 请求和响应的逻辑。</p>
+<p>可以把 Context 看作是：</p>
+<p>一个请求的容器： 它封装了与 HTTP 请求相关的所有信息，并提供了一些方法让你更轻松地操作这些信息。</p>
+<p>开发者和 HTTP 请求的桥梁： 开发者通过 Context 与客户端通信，包括读取请求信息和发送响应。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">handler</span><span class="params">(c *Context)</span></span> &#123;</span><br><span class="line"><span class="comment">// 获取查询参数</span></span><br><span class="line">name := c.Query(<span class="string">&quot;name&quot;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 构造 JSON 响应</span></span><br><span class="line">    <span class="keyword">if</span> name != <span class="string">&quot;&quot;</span> &#123;</span><br><span class="line">        c.JSON(http.StatusOK, H&#123;<span class="string">&quot;message&quot;</span>: <span class="string">&quot;Hello &quot;</span> + name&#125;)</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        c.String(http.StatusBadRequest, <span class="string">&quot;Name is required&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<ol>
+<li>深入框架原理：<br>阅读 Gin、Echo 等框架的源码，了解它们如何设计和扩展 Context。</li>
+</ol>
+<p>尝试扩展功能：<br>在 Context 上添加自定义方法，比如记录日志、追踪请求 ID 等。</p>
+<ol start="2">
+<li>http.ResponseWriter 和 *http.Request 的实际意义<br>http.ResponseWriter</li>
+</ol>
+<p>作用：<br>代表服务端用来写入 HTTP 响应的接口。开发者通过它向客户端返回数据（如响应头、响应状态码、响应体等）。<br>实际应用：<br>在服务端，http.ResponseWriter 将生成的 HTTP 响应数据写入 TCP 连接的输出流，客户端会接收到这些数据并解析呈现。<br>*http.Request</p>
+<p>作用：<br>表示客户端发来的 HTTP 请求，包含了所有请求相关的信息（如 URL、方法、头部、表单数据、Cookie、Body 等）。<br>实际应用：<br>服务端根据 *http.Request 的内容（路径、方法等），判断客户端的需求并生成相应的响应。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">&quot;fmt&quot;</span></span><br><span class="line">	<span class="string">&quot;net/http&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">handler</span><span class="params">(w http.ResponseWriter, req *http.Request)</span></span> &#123;</span><br><span class="line">	<span class="comment">// 设置响应头</span></span><br><span class="line">	w.Header().Set(<span class="string">&quot;Content-Type&quot;</span>, <span class="string">&quot;text/plain&quot;</span>)</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 设置状态码</span></span><br><span class="line">	w.WriteHeader(http.StatusOK)</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 写入响应体</span></span><br><span class="line">	fmt.Fprintf(w, <span class="string">&quot;Hello, %s!\n&quot;</span>, req.URL.Query().Get(<span class="string">&quot;name&quot;</span>))</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	http.HandleFunc(<span class="string">&quot;/&quot;</span>, handler)</span><br><span class="line">	http.ListenAndServe(<span class="string">&quot;:8080&quot;</span>, <span class="literal">nil</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>客户端请求示例：</p>
+<p>浏览器访问 <a target="_blank" rel="noopener" href="http://localhost:8080/?name=zhaozhonghe">http://localhost:8080/?name=zhaozhonghe</a></p>
+<p>服务端响应：</p>
+<p>HTTP&#x2F;1.1 200 OK &#x2F;&#x2F;设置的状态码 200<br>Content-Type: text&#x2F;plain &#x2F;&#x2F;设置的请求头 响应过来了 并且返回到了 客户端页面<br>Content-Length: 12</p>
+<p>Hello, zhaozhonghe! &#x2F;&#x2F; 读取 HTTP 请求 将数据写入响应体，通过 w 发送给客户端。</p>
+<hr>
+<h3 id="第二天"><a href="#第二天" class="headerlink" title="第二天"></a>第二天</h3><h4 id="1-添加context"><a href="#1-添加context" class="headerlink" title="1.添加context"></a>1.添加context</h4><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> gee</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">&quot;encoding/json&quot;</span></span><br><span class="line">	<span class="string">&quot;fmt&quot;</span></span><br><span class="line">	<span class="string">&quot;net/http&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="comment">//对Web服务来说，无非是根据请求*http.Request，构造响应http.ResponseWriter</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 给map[string]interface&#123;&#125;起了一个别名gee.H，构建JSON数据时，显得更简洁。</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> H <span class="keyword">map</span>[<span class="type">string</span>]<span class="keyword">interface</span>&#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Context目前只包含了http.ResponseWriter和*http.Request，另外提供了对 Method 和 Path 这两个常用属性的直接访问。</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> Context <span class="keyword">struct</span> &#123;</span><br><span class="line">	Writer http.ResponseWriter</span><br><span class="line">	Req    *http.Request</span><br><span class="line"></span><br><span class="line">	Path   <span class="type">string</span></span><br><span class="line">	Method <span class="type">string</span></span><br><span class="line"></span><br><span class="line">	StatusCode <span class="type">int</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">newContext</span><span class="params">(w http.ResponseWriter, req *http.Request)</span></span> *Context &#123;</span><br><span class="line">	<span class="keyword">return</span> &amp;Context&#123;</span><br><span class="line">		Writer: w,</span><br><span class="line">		Req:    req,</span><br><span class="line">		Path:   req.URL.Path,</span><br><span class="line">		Method: req.Method,</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 提供了访问Query和PostForm参数的方法。</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(c *Context)</span></span> PostForm(key <span class="type">string</span>) <span class="type">string</span> &#123;</span><br><span class="line">	<span class="keyword">return</span> c.Req.FormValue(key)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(c *Context)</span></span> Query(key <span class="type">string</span>) <span class="type">string</span> &#123;</span><br><span class="line">	<span class="keyword">return</span> c.Req.URL.Query().Get(key)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(c *Context)</span></span> Status(code <span class="type">int</span>) &#123;</span><br><span class="line">	c.StatusCode = code</span><br><span class="line">	c.Writer.WriteHeader(code)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(c *Context)</span></span> SetHeader(key <span class="type">string</span>, value <span class="type">string</span>) &#123;</span><br><span class="line">	c.Writer.Header().Set(key, value)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 提供了快速构造String/Data/JSON/HTML响应的方法。</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(c *Context)</span></span> String(code <span class="type">int</span>, format <span class="type">string</span>, values ...<span class="keyword">interface</span>&#123;&#125;) &#123;</span><br><span class="line">	c.SetHeader(<span class="string">&quot;Content-Type&quot;</span>, <span class="string">&quot;text/plain&quot;</span>)</span><br><span class="line">	c.Status(code)</span><br><span class="line">	c.Writer.Write([]<span class="type">byte</span>(fmt.Sprintf(format, values...)))</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(c *Context)</span></span> JSON(code <span class="type">int</span>, obj <span class="keyword">interface</span>&#123;&#125;) &#123;</span><br><span class="line">	c.SetHeader(<span class="string">&quot;Content-Type&quot;</span>, <span class="string">&quot;application/json&quot;</span>)</span><br><span class="line">	c.Status(code)</span><br><span class="line">	encoder := json.NewEncoder(c.Writer)</span><br><span class="line">	<span class="keyword">if</span> err := encoder.Encode(obj); err != <span class="literal">nil</span> &#123;</span><br><span class="line">		http.Error(c.Writer, err.Error(), <span class="number">500</span>)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(c *Context)</span></span> Data(code <span class="type">int</span>, data []<span class="type">byte</span>) &#123;</span><br><span class="line">	c.Status(code)</span><br><span class="line">	c.Writer.Write(data)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(c *Context)</span></span> HTML(code <span class="type">int</span>, html <span class="type">string</span>) &#123;</span><br><span class="line">	c.SetHeader(<span class="string">&quot;Content-Type&quot;</span>, <span class="string">&quot;text/html&quot;</span>)</span><br><span class="line">	c.Status(code)</span><br><span class="line">	c.Writer.Write([]<span class="type">byte</span>(html))</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="2-添加router"><a href="#2-添加router" class="headerlink" title="2.添加router"></a>2.添加router</h4><p>想 路由需要的参数 路径 方法 处理函数</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> gee</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">&quot;log&quot;</span></span><br><span class="line">	<span class="string">&quot;net/http&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> router <span class="keyword">struct</span> &#123;</span><br><span class="line">	handlers <span class="keyword">map</span>[<span class="type">string</span>]HandlerFunc</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">newRouter</span><span class="params">()</span></span> *router &#123;</span><br><span class="line">	<span class="keyword">return</span> &amp;router&#123;handlers: <span class="built_in">make</span>(<span class="keyword">map</span>[<span class="type">string</span>]HandlerFunc)&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(r *router)</span></span> addRoute(method <span class="type">string</span>, pattern <span class="type">string</span>, handler HandlerFunc) &#123;</span><br><span class="line">	log.Printf(<span class="string">&quot;Route %4s - %s&quot;</span>, method, pattern)</span><br><span class="line">	key := method + <span class="string">&quot;-&quot;</span> + pattern</span><br><span class="line">	r.handlers[key] = handler</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(r *router)</span></span> handle(c *Context) &#123;</span><br><span class="line">	key := c.Method + <span class="string">&quot;-&quot;</span> + c.Path</span><br><span class="line">	<span class="keyword">if</span> handler, ok := r.handlers[key]; ok &#123;</span><br><span class="line">		handler(c)</span><br><span class="line">	&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">		c.String(http.StatusNotFound, <span class="string">&quot;404 NOT FOUND: %s\n&quot;</span>, c.Path)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>r.handlers[key] &#x3D; handler 这段代码将key也就是路径 和 处理函数关连到了一起</p>
+<p>post用终端请求<br>1.<br>Invoke-WebRequest -Uri “<a target="_blank" rel="noopener" href="http://localhost:9999/login">http://localhost:9999/login</a>“ -Method POST -Body “username&#x3D;zhaozhonghe&amp;password&#x3D;zzh123456”</p>
+<ol start="2">
+<li>curl.exe -X POST -d “username&#x3D;zhaozhonghe&amp;password&#x3D;zzh123456” <a target="_blank" rel="noopener" href="http://localhost:9999/login">http://localhost:9999/login</a><br>返回结果<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;&quot;password&quot;:&quot;zzh123456&quot;,&quot;username&quot;:&quot;zhaozhonghe&quot;&#125;</span><br></pre></td></tr></table></figure></li>
+</ol>
+<p>测试第二天的gee<br>第一种返回结果</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">StatusCode        : 200</span><br><span class="line">StatusDescription : OK</span><br><span class="line">Content           : &#123;&quot;password&quot;:&quot;zzh123456&quot;,&quot;username&quot;:&quot;zhaozhonghe&quot;&#125;</span><br><span class="line"></span><br><span class="line">RawContent        : HTTP/1.1 200 OK</span><br><span class="line">Content-Length: 50</span><br><span class="line">Content-Type: application/json</span><br><span class="line">Date: Tue, 26 Nov 2024 13:43:37 GMT</span><br><span class="line"></span><br><span class="line">                    &#123;&quot;password&quot;:&quot;zzh123456&quot;,&quot;username&quot;:&quot;zhaozhonghe&quot;&#125;</span><br><span class="line"></span><br><span class="line">Forms             : &#123;&#125;</span><br><span class="line">Headers           : &#123;[Content-Length, 50], [Content-Type, application/json], [Date, Tue, 26 Nov 2024 13:43:37 GMT]&#125;</span><br><span class="line">Images            : &#123;&#125;</span><br><span class="line">InputFields       : &#123;&#125;</span><br><span class="line">Links             : &#123;&#125;</span><br><span class="line">ParsedHtml        : mshtml.HTMLDocumentClass</span><br><span class="line">RawContentLength  : 50</span><br></pre></td></tr></table></figure>
+
+
+<h4 id="gee-go"><a href="#gee-go" class="headerlink" title="gee.go"></a>gee.go</h4><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> gee</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="string">&quot;net/http&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// HandlerFunc defines the request handler used by gee</span></span><br><span class="line"><span class="keyword">type</span> HandlerFunc <span class="function"><span class="keyword">func</span><span class="params">(*Context)</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">// Engine implement the interface of ServeHTTP</span></span><br><span class="line"><span class="keyword">type</span> Engine <span class="keyword">struct</span> &#123;</span><br><span class="line">	router *router</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// New is the constructor of gee.Engine</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">New</span><span class="params">()</span></span> *Engine &#123;</span><br><span class="line">	<span class="keyword">return</span> &amp;Engine&#123;router: newRouter()&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(engine *Engine)</span></span> addRoute(method <span class="type">string</span>, pattern <span class="type">string</span>, handler HandlerFunc) &#123;</span><br><span class="line">	engine.router.addRoute(method, pattern, handler)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// GET defines the method to add GET request</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(engine *Engine)</span></span> GET(pattern <span class="type">string</span>, handler HandlerFunc) &#123;</span><br><span class="line">	engine.addRoute(<span class="string">&quot;GET&quot;</span>, pattern, handler)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// POST defines the method to add POST request</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(engine *Engine)</span></span> POST(pattern <span class="type">string</span>, handler HandlerFunc) &#123;</span><br><span class="line">	engine.addRoute(<span class="string">&quot;POST&quot;</span>, pattern, handler)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Run defines the method to start a http server</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(engine *Engine)</span></span> Run(addr <span class="type">string</span>) (err <span class="type">error</span>) &#123;</span><br><span class="line">	<span class="keyword">return</span> http.ListenAndServe(addr, engine)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(engine *Engine)</span></span> ServeHTTP(w http.ResponseWriter, req *http.Request) &#123;</span><br><span class="line">	c := newContext(w, req)</span><br><span class="line">	engine.router.handle(c)</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+
+<h2 id="第三天"><a href="#第三天" class="headerlink" title="第三天"></a>第三天</h2><p>我们用了一个非常简单的map结构存储了路由表，使用map存储键值对，索引非常高效，但是有一个弊端，键值对的存储的方式，只能用来索引静态路由。<br>那如果我们想支持类似于&#x2F;hello&#x2F;:name这样的动态路由怎么办呢？<br>所谓动态路由，即一条路由规则可以匹配某一类型而非某一条固定的路由。<br>例如&#x2F;hello&#x2F;:name，可以匹配&#x2F;hello&#x2F;geektutu、hello&#x2F;jack等。<br>请等待~~~</p>
+<p>11.21日看到了字节的课 是关于动态路由的设计 前缀匹配树</p>
+<h4 id="router-go"><a href="#router-go" class="headerlink" title="router.go"></a>router.go</h4><p>前缀树路由： 重点学习这个数据结构</p>
+<p>bilibili: <a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1wT4y1x7xm?t=45.6">https://www.bilibili.com/video/BV1wT4y1x7xm?t=45.6</a></p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> gee</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">&quot;net/http&quot;</span></span><br><span class="line">	<span class="string">&quot;strings&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> router <span class="keyword">struct</span> &#123;</span><br><span class="line">	roots    <span class="keyword">map</span>[<span class="type">string</span>]*node <span class="comment">//增加的</span></span><br><span class="line">	handlers <span class="keyword">map</span>[<span class="type">string</span>]HandlerFunc</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">newRouter</span><span class="params">()</span></span> *router &#123;</span><br><span class="line">	<span class="keyword">return</span> &amp;router&#123;</span><br><span class="line">		roots:    <span class="built_in">make</span>(<span class="keyword">map</span>[<span class="type">string</span>]*node),</span><br><span class="line">		handlers: <span class="built_in">make</span>(<span class="keyword">map</span>[<span class="type">string</span>]HandlerFunc),</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Only one * is allowed</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">parsePattern</span><span class="params">(pattern <span class="type">string</span>)</span></span> []<span class="type">string</span> &#123;</span><br><span class="line">	vs := strings.Split(pattern, <span class="string">&quot;/&quot;</span>)</span><br><span class="line"></span><br><span class="line">	parts := <span class="built_in">make</span>([]<span class="type">string</span>, <span class="number">0</span>)</span><br><span class="line">	<span class="keyword">for</span> _, item := <span class="keyword">range</span> vs &#123;</span><br><span class="line">		<span class="keyword">if</span> item != <span class="string">&quot;&quot;</span> &#123;</span><br><span class="line">			parts = <span class="built_in">append</span>(parts, item)</span><br><span class="line">			<span class="keyword">if</span> item[<span class="number">0</span>] == <span class="string">&#x27;*&#x27;</span> &#123;</span><br><span class="line">				<span class="keyword">break</span></span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> parts</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(r *router)</span></span> addRoute(method <span class="type">string</span>, pattern <span class="type">string</span>, handler HandlerFunc) &#123;</span><br><span class="line">	parts := parsePattern(pattern)</span><br><span class="line"></span><br><span class="line">	key := method + <span class="string">&quot;-&quot;</span> + pattern</span><br><span class="line">	_, ok := r.roots[method]</span><br><span class="line">	<span class="keyword">if</span> !ok &#123;</span><br><span class="line">		r.roots[method] = &amp;node&#123;&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	r.roots[method].insert(pattern, parts, <span class="number">0</span>)</span><br><span class="line">	r.handlers[key] = handler</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(r *router)</span></span> getRoute(method <span class="type">string</span>, path <span class="type">string</span>) (*node, <span class="keyword">map</span>[<span class="type">string</span>]<span class="type">string</span>) &#123;</span><br><span class="line">	searchParts := parsePattern(path)</span><br><span class="line">	params := <span class="built_in">make</span>(<span class="keyword">map</span>[<span class="type">string</span>]<span class="type">string</span>)</span><br><span class="line">	root, ok := r.roots[method]</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> !ok &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">nil</span>, <span class="literal">nil</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	n := root.search(searchParts, <span class="number">0</span>)</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> n != <span class="literal">nil</span> &#123;</span><br><span class="line">		parts := parsePattern(n.pattern)</span><br><span class="line">		<span class="keyword">for</span> index, part := <span class="keyword">range</span> parts &#123;</span><br><span class="line">			<span class="keyword">if</span> part[<span class="number">0</span>] == <span class="string">&#x27;:&#x27;</span> &#123;</span><br><span class="line">				params[part[<span class="number">1</span>:]] = searchParts[index]</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">if</span> part[<span class="number">0</span>] == <span class="string">&#x27;*&#x27;</span> &amp;&amp; <span class="built_in">len</span>(part) &gt; <span class="number">1</span> &#123;</span><br><span class="line">				params[part[<span class="number">1</span>:]] = strings.Join(searchParts[index:], <span class="string">&quot;/&quot;</span>)</span><br><span class="line">				<span class="keyword">break</span></span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> n, params</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> <span class="literal">nil</span>, <span class="literal">nil</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(r *router)</span></span> getRoutes(method <span class="type">string</span>) []*node &#123;</span><br><span class="line">	root, ok := r.roots[method]</span><br><span class="line">	<span class="keyword">if</span> !ok &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">	&#125;</span><br><span class="line">	nodes := <span class="built_in">make</span>([]*node, <span class="number">0</span>)</span><br><span class="line">	root.travel(&amp;nodes)</span><br><span class="line">	<span class="keyword">return</span> nodes</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(r *router)</span></span> handle(c *Context) &#123;</span><br><span class="line">	n, params := r.getRoute(c.Method, c.Path)</span><br><span class="line">	<span class="keyword">if</span> n != <span class="literal">nil</span> &#123;</span><br><span class="line">		c.Params = params</span><br><span class="line">		key := c.Method + <span class="string">&quot;-&quot;</span> + n.pattern</span><br><span class="line">		r.handlers[key](c)</span><br><span class="line">	&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">		c.String(http.StatusNotFound, <span class="string">&quot;404 NOT FOUND: %s\n&quot;</span>, c.Path)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>parsePattern 函数的作用是解析路由路径，将路径按 &#x2F; 分隔成各个部分。比如 &#x2F;user&#x2F;:id 会被分解成 [“user”, “:id”]。<br>如果路径中出现了 *（通常用于匹配任意多的路径部分），解析会在遇到 * 时停止。比如 &#x2F;files&#x2F;*filepath 会解析成 [“files”, “*filepath”]。<br>parts 数组存储了路由路径的各个部分（如静态部分、动态部分、通配符部分）</p>
+<h5 id="tire-go"><a href="#tire-go" class="headerlink" title="tire.go"></a>tire.go</h5><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> gee</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">&quot;fmt&quot;</span></span><br><span class="line">	<span class="string">&quot;strings&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> node <span class="keyword">struct</span> &#123;</span><br><span class="line">	pattern  <span class="type">string</span></span><br><span class="line">	part     <span class="type">string</span></span><br><span class="line">	children []*node</span><br><span class="line">	isWild   <span class="type">bool</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(n *node)</span></span> String() <span class="type">string</span> &#123;</span><br><span class="line">	<span class="keyword">return</span> fmt.Sprintf(<span class="string">&quot;node&#123;pattern=%s, part=%s, isWild=%t&#125;&quot;</span>, n.pattern, n.part, n.isWild)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(n *node)</span></span> insert(pattern <span class="type">string</span>, parts []<span class="type">string</span>, height <span class="type">int</span>) &#123;</span><br><span class="line">	<span class="keyword">if</span> <span class="built_in">len</span>(parts) == height &#123;</span><br><span class="line">		n.pattern = pattern</span><br><span class="line">		<span class="keyword">return</span></span><br><span class="line">	&#125;</span><br><span class="line">	part := parts[height]</span><br><span class="line">	children := n.matchChildren(part)</span><br><span class="line">	<span class="keyword">var</span> child *node</span><br><span class="line">	<span class="keyword">if</span> <span class="built_in">len</span>(children) == <span class="number">0</span> &#123;</span><br><span class="line">		child = &amp;node&#123;part: part, isWild: part[<span class="number">0</span>] == <span class="string">&#x27;:&#x27;</span> || part[<span class="number">0</span>] == <span class="string">&#x27;*&#x27;</span>&#125;</span><br><span class="line">		n.children = <span class="built_in">append</span>(n.children, child)</span><br><span class="line">	&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">		child = children[<span class="number">0</span>] <span class="comment">// 假设我们总是取第一个匹配的子节点</span></span><br><span class="line">	&#125;</span><br><span class="line">	child.insert(pattern, parts, height+<span class="number">1</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(n *node)</span></span> search(parts []<span class="type">string</span>, height <span class="type">int</span>) *node &#123;</span><br><span class="line">	<span class="keyword">if</span> <span class="built_in">len</span>(parts) == height || strings.HasPrefix(n.part, <span class="string">&quot;*&quot;</span>) &#123;</span><br><span class="line">		<span class="keyword">if</span> n.pattern == <span class="string">&quot;&quot;</span> &#123;</span><br><span class="line">			<span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> n</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	part := parts[height]</span><br><span class="line">	children := n.matchChildren(part)</span><br><span class="line"></span><br><span class="line">	<span class="keyword">for</span> _, child := <span class="keyword">range</span> children &#123;</span><br><span class="line">		result := child.search(parts, height+<span class="number">1</span>)</span><br><span class="line">		<span class="keyword">if</span> result != <span class="literal">nil</span> &#123;</span><br><span class="line">			<span class="keyword">return</span> result</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(n *node)</span></span> travel(list *([]*node)) &#123;</span><br><span class="line">	<span class="keyword">if</span> n.pattern != <span class="string">&quot;&quot;</span> &#123;</span><br><span class="line">		*list = <span class="built_in">append</span>(*list, n)</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">for</span> _, child := <span class="keyword">range</span> n.children &#123;</span><br><span class="line">		child.travel(list)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(n *node)</span></span> matchChild(part <span class="type">string</span>) *node &#123;</span><br><span class="line">	<span class="keyword">for</span> _, child := <span class="keyword">range</span> n.children &#123;</span><br><span class="line">		<span class="keyword">if</span> child.part == part || child.isWild &#123;</span><br><span class="line">			<span class="keyword">return</span> child</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(n *node)</span></span> matchChildren(part <span class="type">string</span>) []*node &#123;</span><br><span class="line">	nodes := <span class="built_in">make</span>([]*node, <span class="number">0</span>)</span><br><span class="line">	<span class="keyword">for</span> _, child := <span class="keyword">range</span> n.children &#123;</span><br><span class="line">		<span class="keyword">if</span> child.part == part || child.isWild &#123;</span><br><span class="line">			nodes = <span class="built_in">append</span>(nodes, child)</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> nodes</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>先学习一下前缀树</p>
+<h5 id="定义树结点结构体"><a href="#定义树结点结构体" class="headerlink" title="定义树结点结构体"></a>定义树结点结构体</h5><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> trieNode <span class="keyword">struct</span> &#123;</span><br><span class="line">    nexts [<span class="number">26</span>]*trieNode</span><br><span class="line">    PassCnt <span class="type">int</span> <span class="comment">//用来记录中途是否有途径某个节点的个数</span></span><br><span class="line">    end <span class="type">bool</span> <span class="comment">//匹配某个单词是否是结尾 比如seat的结尾是t</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>树</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> Trie <span class="keyword">struct</span> &#123;</span><br><span class="line">    root *trieNode</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">Newtrie</span> *<span class="title">Trie</span></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> &amp;Trie&#123;</span><br><span class="line">    root: &amp;trieNode&#123;&#125;,</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="查询"><a href="#查询" class="headerlink" title="查询"></a>查询</h5><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">    <span class="function"><span class="keyword">func</span> <span class="params">(t *Trie)</span></span> Search(word <span class="type">string</span>) <span class="type">bool</span> &#123;</span><br><span class="line">    <span class="comment">//查找目标节点，使根节点开始抵达目标节点沿路跟字符串恰好等于word</span></span><br><span class="line">    node := t.search(word)</span><br><span class="line">    <span class="keyword">return</span> node != <span class="literal">nil</span> &amp;&amp; node.end</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="Tire-search-方法源码"><a href="#Tire-search-方法源码" class="headerlink" title="Tire.search 方法源码"></a>Tire.search 方法源码</h5><p>字符➖a<br>如果返回的单词是 前缀树中的别的单词的前缀判断</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(t *Trie)</span></span>search(target <span class="type">string</span>)*trieNode&#123;</span><br><span class="line"><span class="comment">//移动指针从根节点出发</span></span><br><span class="line">move :t.root</span><br><span class="line">/依次追历target中的每个字符</span><br><span class="line">for_, ch:<span class="keyword">range</span> target&#123;</span><br><span class="line"><span class="comment">//倘若nexts中不存在对应于这个字符的节点，说明该单词没插入过，返回ni1</span></span><br><span class="line"><span class="keyword">if</span> move.nexts[ch-<span class="string">&#x27;a&#x27;</span>]==<span class="literal">nil</span>&#123;</span><br><span class="line"></span><br><span class="line"><span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//指针向着子节点移动</span></span><br><span class="line">movemove.nexts [ch-<span class="string">&#x27;a&#x27;</span>]</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//来到末尾，说明已经完全匹配好单词，直接返回这个节点</span></span><br><span class="line"><span class="comment">//需要注意，找到目标节点不一定代表单词存在，因为该节点的end标识未必为true</span></span><br><span class="line"><span class="comment">//比如我们之前往trie中插入了apple这个单词，但是查找app这个单词时，预期的返回</span></span><br><span class="line"><span class="keyword">return</span> move</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h5 id="前缀匹配"><a href="#前缀匹配" class="headerlink" title="前缀匹配"></a>前缀匹配</h5><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//前缀树做前缀匹配很简单</span></span><br><span class="line">    <span class="function"><span class="keyword">func</span> <span class="params">(t *Trie)</span></span> StartWith(prefix(<span class="type">string</span>)) <span class="type">bool</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> t.search(prefix) != <span class="literal">nil</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="前缀统计"><a href="#前缀统计" class="headerlink" title="前缀统计"></a>前缀统计</h5><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(t *Trie)</span></span> PassCnt(prefix <span class="type">string</span>) <span class="type">int</span>&#123;</span><br><span class="line">    node := t.search(prefix)</span><br><span class="line">    <span class="keyword">if</span> node == <span class="literal">nil</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>  </span><br><span class="line">&#125;</span><br><span class="line">    <span class="keyword">return</span> node.PassCnt</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h5 id="插入单词"><a href="#插入单词" class="headerlink" title="插入单词"></a>插入单词</h5><p>例子： 要插入apple 树中app可以复用<br>    则插入 l e</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">    <span class="function"><span class="keyword">func</span> <span class="params">(t *Trie)</span></span> Insert(word <span class="type">string</span>) &#123;</span><br><span class="line"><span class="comment">//如果单词存在直接返回</span></span><br><span class="line">    <span class="keyword">if</span> t.Search(word)&#123;</span><br><span class="line">    <span class="keyword">return</span></span><br><span class="line">&#125;</span><br><span class="line">        </span><br><span class="line">        move := t.root</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> _,ch := <span class="keyword">range</span> word &#123;</span><br><span class="line"><span class="comment">//如果不存在创建出来</span></span><br><span class="line">    <span class="keyword">if</span> move.nexts[ch-<span class="string">&#x27;a&#x27;</span>] == <span class="literal">nil</span> &#123;</span><br><span class="line">    move.nexts[ch-<span class="string">&#x27;a&#x27;</span>] = &amp;trieNode&#123;&#125;</span><br><span class="line">&#125;</span><br><span class="line">    move.nexts[ch-<span class="string">&#x27;a&#x27;</span>].passCnt++</span><br><span class="line">    move = move.nexts[ch-<span class="string">&#x27;a&#x27;</span>]</span><br><span class="line"></span><br><span class="line">move.end =<span class="literal">true</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h5 id="删除流程"><a href="#删除流程" class="headerlink" title="删除流程"></a>删除流程</h5><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(t *Trie)</span></span> Erase(word <span class="type">string</span>) <span class="type">bool</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> !t.Search(word)&#123;</span><br><span class="line"><span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">  move := t.root</span><br><span class="line">    <span class="keyword">for</span> _, ch := <span class="keyword">range</span> word &#123;</span><br><span class="line">    move.nexts[ch-<span class="string">&#x27;a&#x27;</span>].passCnt --</span><br><span class="line"><span class="keyword">if</span> move.nexts[ch-<span class="string">&#x27;a&#x27;</span>].passCnt == <span class="number">0</span> &#123;</span><br><span class="line">    move.nexts[ch-<span class="string">&#x27;a&#x27;</span>] = <span class="literal">nil</span></span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">&#125;</span><br><span class="line">    move = move.nexts[ch-<span class="string">&#x27;a&#x27;</span>]</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">    move.end = <span class="literal">false</span></span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>整段代码下来还是有点看不懂啊呜呜</p>
+<p>11.25日<br>拖了几天<br>感谢tutu</p>
+<h4 id="分组控制"><a href="#分组控制" class="headerlink" title="分组控制"></a>分组控制</h4><p>分组控制是Web框架的基础功能之一，路由的分组，往往某一组路由需要相似的处理</p>
+<p>以&#x2F;post开头的路由匿名可访问。<br>以&#x2F;admin开头的路由需要鉴权。<br>以&#x2F;api开头的路由是 RESTful 接口，可以对接第三方平台，需要三方平台鉴权。</p>
+<p>&#x2F;post是一个分组<br>&#x2F;post&#x2F;a和&#x2F;post&#x2F;b可以是该分组下的子分组<br>作用在&#x2F;post分组上的中间件(middleware)，也都会作用在子分组，子分组还可以应用自己特有的中间件。</p>
+<p>中间件可以给框架提供无限的扩展能力<br>用在分组上的效果也更明显<br>&#x2F;admin的分组，可以应用鉴权中间件；&#x2F;分组应用日志中间件，<br>&#x2F;是默认的最顶层的分组，也就意味着给所有的路由，即整个框架增加了记录日志的能力。</p>
+<p>一个 Group 对象需要具备哪些属性呢？首先是前缀(prefix)，<br>比如&#x2F;，或者&#x2F;api；要支持分组嵌套，那么需要知道当前分组的父亲(parent)是谁；<br>中间件是应用在分组上的，那还需要存储应用在该分组上的中间件(middlewares)。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">r := gee.New()</span><br><span class="line">v1 := r.Group(<span class="string">&quot;/v1&quot;</span>)</span><br><span class="line">v1.GET(<span class="string">&quot;/&quot;</span>, <span class="function"><span class="keyword">func</span><span class="params">(c *gee.Context)</span></span> &#123;</span><br><span class="line">	c.HTML(http.StatusOK, <span class="string">&quot;&lt;h1&gt;Hello Gee&lt;/h1&gt;&quot;</span>)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>好好看看仓库中的代码 梳理思路 感觉好有意思但是看不懂哈哈哈哈</p>
+<p>11.26日 回看前三天的代码 增加一些自己的理解和修改 再继续向下学习！ </p>
+
+    </article>
+    <!-- license -->
+        <div class="license-wrapper">
+            <p>原文作者：<a href="https://Whuichenggong.github.io">赵忠赫</a>
+            <p>原文链接：<a href="https://whuichenggong.github.io/about/Goalng_Framework.html">https://whuichenggong.github.io/about/Goalng_Framework.html</a>
+            <p>发表日期：<a href="https://whuichenggong.github.io/about/Goalng_Framework.html">November 27th 2024, 8:47:04 pm</a>
+            <p>更新日期：<a href="https://whuichenggong.github.io/about/Goalng_Framework.html">November 27th 2024, 8:47:04 pm</a>
+            <p>版权声明：本文采用<a rel="license noopener" target="_blank" href="http://creativecommons.org/licenses/by-nc/4.0/">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p>
+        </div>
+    <!-- paginator -->
+    <ul class="post-paginator">
+        <li class="next">
+        </li>
+        <li class="previous">
+        </li>
+    </ul>
+    <!-- comment -->
+        <div class="post-comment">
+            <!-- 来必力 City 版安装代码 -->
+
+            
+            
+            
+            <!-- utteranc评论 -->
+
+            <!-- partial('_partial/comment/changyan') -->
+            <!--PC版-->
+
+            
+            
+            
+        </div>
+    <!-- timeliness note -->
+    <!-- idea from: https://hexo.fluid-dev.com/posts/hexo-injector/#%E6%96%87%E7%AB%A0%E6%97%B6%E6%95%88%E6%80%A7%E6%8F%90%E7%A4%BA -->
+    <!-- Mathjax -->
+</main>
+
+                <!-- profile -->
+            </div>
+            <footer class="footer footer-unloaded">
+    <!-- social  -->
+        <div class="social">
+                            <a href="mailto:3041322213@qq.com" class="iconfont-archer email" title="email" ></a>
+                <a href="//github.com/Whuichenggong" class="iconfont-archer github" target="_blank" title="github"></a>
+                <span class="iconfont-archer wechat" title="wechat">
+                    <img class="profile-qr" src="/assets/example_qr.png" />
+                </span>
+
+        </div>
+    <!-- powered by Hexo  -->
+    <div class="copyright">
+        <span id="hexo-power">Powered by <a href="https://hexo.io/" target="_blank">Hexo</a></span><span class="iconfont-archer power">&#xe635;</span><span id="theme-info">theme <a href="https://github.com/fi3ework/hexo-theme-archer" target="_blank">Archer</a></span>
+    </div>
+    <!-- website approve for Chinese user -->
+    <!-- 不蒜子  -->
+        <div class="busuanzi-container">
+                <span id="busuanzi_container_site_pv">PV: <span id="busuanzi_value_site_pv"></span> :)</span>
+        </div>
+</footer>
+
+        </div>
+        <!-- toc -->
+        <!-- sidebar -->
+        <div class="sidebar sidebar-hide">
+    <ul class="sidebar-tabs sidebar-tabs-active-0">
+        <li class="sidebar-tab-archives"><span class="iconfont-archer">&#xe67d;</span><span class="tab-name">Archive</span></li>
+        <li class="sidebar-tab-tags"><span class="iconfont-archer">&#xe61b;</span><span class="tab-name">Tag</span></li>
+        <li class="sidebar-tab-categories"><span class="iconfont-archer">&#xe666;</span><span class="tab-name">Cate</span></li>
+    </ul>
+    <div class="sidebar-content sidebar-content-show-archive">
+        <div class="sidebar-panel-archives">
+    <!-- 在 ejs 中将 archive 按照时间排序 -->
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+    <div class="total-and-search">
+        <div class="total-archive">
+        Total : 29
+        </div>
+        <!-- search  -->
+    </div>
+    <div class="post-archive">
+            <div class="archive-year"> Invalid date </div>
+            <ul class="year-list">
+        <li class="archive-post-item">
+            <span class="archive-post-date">Invalid date</span>
+            <a class="archive-post-title" href="/2024/11/08/Dance_Frame/">字节姑关于框架学习</a>
+        </li>
+                </ul>
+            <div class="archive-year"> Invalid date </div>
+            <ul class="year-list">
+        <li class="archive-post-item">
+            <span class="archive-post-date">Invalid date</span>
+            <a class="archive-post-title" href="/2024/11/13/Dance_live/">青训营直播总结</a>
+        </li>
+                </ul>
+            <div class="archive-year"> Invalid date </div>
+            <ul class="year-list">
+        <li class="archive-post-item">
+            <span class="archive-post-date">Invalid date</span>
+            <a class="archive-post-title" href="/2024/11/26/Dance_live2/">11.26日字节直播总结</a>
+        </li>
+                </ul>
+            <div class="archive-year"> 2024 </div>
+            <ul class="year-list">
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/18</span>
+            <a class="archive-post-title" href="/2024/12/18/live3/">一位老哥的分享给了我一些启发</a>
+        </li>
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/16</span>
+            <a class="archive-post-title" href="/2024/12/16/Database/">学习数据库</a>
+        </li>
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/09</span>
+            <a class="archive-post-title" href="/2024/12/09/Distributed/">分布式系统学习</a>
+        </li>
+                </ul>
+            <div class="archive-year"> Invalid date </div>
+            <ul class="year-list">
+        <li class="archive-post-item">
+            <span class="archive-post-date">Invalid date</span>
+            <a class="archive-post-title" href="/2024/11/11/Go_Advanced/">Go语言进阶</a>
+        </li>
+                </ul>
+            <div class="archive-year"> 2024 </div>
+            <ul class="year-list">
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/12</span>
+            <a class="archive-post-title" href="/2024/12/12/current/">聊聊最近</a>
+        </li>
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/07</span>
+            <a class="archive-post-title" href="/2024/12/07/confusion/">为什么别人写项目知道用什么？</a>
+        </li>
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/02</span>
+            <a class="archive-post-title" href="/2024/12/02/Go_Program/">Go语法学习</a>
+        </li>
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/16</span>
+            <a class="archive-post-title" href="/2024/11/16/Goalng_Framework/">7_days_golang学习</a>
+        </li>
+                </ul>
+            <div class="archive-year"> Invalid date </div>
+            <ul class="year-list">
+        <li class="archive-post-item">
+            <span class="archive-post-date">Invalid date</span>
+            <a class="archive-post-title" href="/2024/11/23/UDP_socket/">UDP socket的ack机制和丢包重传</a>
+        </li>
+                </ul>
+            <div class="archive-year"> 2024 </div>
+            <ul class="year-list">
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/07</span>
+            <a class="archive-post-title" href="/2024/12/07/authority/">理解鉴权，权限等名词的区别</a>
+        </li>
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/16</span>
+            <a class="archive-post-title" href="/2024/11/16/computer_operate/">操作系统学习</a>
+        </li>
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/13</span>
+            <a class="archive-post-title" href="/2024/11/13/job/">一些找工作或实习的渠道</a>
+        </li>
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/09</span>
+            <a class="archive-post-title" href="/2024/11/09/Simple_bank/">后端项目学习</a>
+        </li>
+                </ul>
+            <div class="archive-year"> Invalid date </div>
+            <ul class="year-list">
+        <li class="archive-post-item">
+            <span class="archive-post-date">Invalid date</span>
+            <a class="archive-post-title" href="/2024/11/14/computer_network/">计算机网络持续学习中~</a>
+        </li>
+                </ul>
+            <div class="archive-year"> 2024 </div>
+            <ul class="year-list">
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/09</span>
+            <a class="archive-post-title" href="/2024/11/09/data_structure/">数据结构的实现</a>
+        </li>
+                </ul>
+            <div class="archive-year"> Invalid date </div>
+            <ul class="year-list">
+        <li class="archive-post-item">
+            <span class="archive-post-date">Invalid date</span>
+            <a class="archive-post-title" href="/2024/11/04/git/">git使用总结</a>
+        </li>
+                </ul>
+            <div class="archive-year"> Invalid date </div>
+            <ul class="year-list">
+        <li class="archive-post-item">
+            <span class="archive-post-date">Invalid date</span>
+            <a class="archive-post-title" href="/2024/11/05/github/">github参与开源应该做什么</a>
+        </li>
+                </ul>
+            <div class="archive-year"> 2024 </div>
+            <ul class="year-list">
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/09</span>
+            <a class="archive-post-title" href="/2024/11/09/leet-code/">leet-code之旅</a>
+        </li>
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/06</span>
+            <a class="archive-post-title" href="/2024/11/06/github_actions/">发布博客出现的问题</a>
+        </li>
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/04</span>
+            <a class="archive-post-title" href="/2024/11/04/hello-world/">北京之旅</a>
+        </li>
+                </ul>
+            <div class="archive-year"> Invalid date </div>
+            <ul class="year-list">
+        <li class="archive-post-item">
+            <span class="archive-post-date">Invalid date</span>
+            <a class="archive-post-title" href="/2024/11/08/lasting_beauty/">美化博客</a>
+        </li>
+                </ul>
+            <div class="archive-year"> Invalid date </div>
+            <ul class="year-list">
+        <li class="archive-post-item">
+            <span class="archive-post-date">Invalid date</span>
+            <a class="archive-post-title" href="/2024/11/16/live/">20岁生日</a>
+        </li>
+                </ul>
+            <div class="archive-year"> Invalid date </div>
+            <ul class="year-list">
+        <li class="archive-post-item">
+            <span class="archive-post-date">Invalid date</span>
+            <a class="archive-post-title" href="/2024/12/15/resource/">关于我学习的一些资源和方法</a>
+        </li>
+                </ul>
+            <div class="archive-year"> Invalid date </div>
+            <ul class="year-list">
+        <li class="archive-post-item">
+            <span class="archive-post-date">Invalid date</span>
+            <a class="archive-post-title" href="/2024/12/08/postgres/">数据库学习</a>
+        </li>
+                </ul>
+            <div class="archive-year"> Invalid date </div>
+            <ul class="year-list">
+        <li class="archive-post-item">
+            <span class="archive-post-date">Invalid date</span>
+            <a class="archive-post-title" href="/2024/12/02/study_plan/">小计划</a>
+        </li>
+                </ul>
+            <div class="archive-year"> Invalid date </div>
+            <ul class="year-list">
+        <li class="archive-post-item">
+            <span class="archive-post-date">Invalid date</span>
+            <a class="archive-post-title" href="/2024/12/06/serialize/">json的序列化与反序列化</a>
+        </li>
+            </ul>
+    </div>
+</div>
+
+        <div class="sidebar-panel-tags">
+    <div class="sidebar-tags-name">
+    </div>
+    <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
+    <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">
+        缺失模块，请参考主题文档进行安装配置：https://github.com/fi3ework/hexo-theme-archer#%E5%AE%89%E8%A3%85%E4%B8%BB%E9%A2%98
+    </div> 
+    <div class="sidebar-tags-list"></div>
+</div>
+
+        <div class="sidebar-panel-categories">
+    <div class="sidebar-categories-name">
+    </div>
+    <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>
+    <div class="sidebar-categories-list"></div>
+</div>
+
+    </div>
+</div>
+
+        <!-- site-meta -->
+        <script>
+    var siteMetaRoot = "/"
+    if (siteMetaRoot === "undefined") {
+        siteMetaRoot = '/'
+    }
+    var siteMeta = {
+        url: "https://Whuichenggong.github.io",
+        root: siteMetaRoot,
+        author: "赵忠赫"
+    }
+</script>
+
+        <!-- import experimental options here -->
+        <!-- Custom Font -->
+
+        <!-- main func -->
+        <script src="/scripts/main.js"></script>
+        <!-- fancybox -->
+        <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.36/dist/fancybox/fancybox.umd.js" onload="window.Fancybox.bind('[data-fancybox]')" defer></script>
+        <!-- algolia -->
+        <!-- busuanzi -->
+            <script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
+        <!-- async load share.js -->
+        <!-- mermaid -->
+    </body>
+</html>

@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <!-- title -->
+<!-- keywords -->
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="author" content="赵忠赫">
+    <meta name="renderer" content="webkit">
+    <meta name="copyright" content="赵忠赫">
+        <meta name="keywords" content="hexo,hexo-theme,hexo-blog">
+    <meta name="description" content="">
+    <meta name="description" content="6.cs081os学习 感谢： 参考资料： https:&#x2F;&#x2F;www.geeksforgeeks.org&#x2F;pipe-system-call&#x2F; 很好的文章： https:&#x2F;&#x2F;swtch.com&#x2F;~rsc&#x2F;thread&#x2F; 同步机制：https:&#x2F;&#x2F;zybtree.github.io&#x2F;2020&#x2F;08&#x2F;12&#x2F;%E5%90%8C%E6%AD%A5%E6%9C%BA%E5%88%B6&#x2F; 参考答案： https">
+<meta property="og:type" content="website">
+<meta property="og:title" content="操作系统学习">
+<meta property="og:url" content="https://whuichenggong.github.io/about/computer_operate.html">
+<meta property="og:site_name" content="赵忠赫的个人博客">
+<meta property="og:description" content="6.cs081os学习 感谢： 参考资料： https:&#x2F;&#x2F;www.geeksforgeeks.org&#x2F;pipe-system-call&#x2F; 很好的文章： https:&#x2F;&#x2F;swtch.com&#x2F;~rsc&#x2F;thread&#x2F; 同步机制：https:&#x2F;&#x2F;zybtree.github.io&#x2F;2020&#x2F;08&#x2F;12&#x2F;%E5%90%8C%E6%AD%A5%E6%9C%BA%E5%88%B6&#x2F; 参考答案： https">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://whuichenggong.github.io/study_photo2/operater1.jpg">
+<meta property="og:image" content="https://whuichenggong.github.io/study_photo2/operater2.jpg">
+<meta property="og:image" content="https://whuichenggong.github.io/study_photo2/cpumemory.4.png">
+<meta property="article:published_time" content="2024-12-16T02:53:54.307Z">
+<meta property="article:modified_time" content="2024-12-16T02:53:54.307Z">
+<meta property="article:author" content="赵忠赫">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://whuichenggong.github.io/study_photo2/operater1.jpg">
+    <meta http-equiv="Cache-control" content="no-cache">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <link rel="icon" href="/assets/favicon.ico">
+    <title>操作系统学习 · fi3ework&#39;s Studio</title>
+    <!-- /*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
+/* This file is meant as a standalone workflow for
+- testing support for link[rel=preload]
+- enabling async CSS loading in browsers that do not support rel=preload
+- applying rel preload css once loaded, whether supported or not.
+*/ -->
+<script>
+    (function (w) {
+        'use strict'
+        // rel=preload support test
+        if (!w.loadCSS) {
+            w.loadCSS = function () {}
+        }
+        // define on the loadCSS obj
+        var rp = (loadCSS.relpreload = {})
+        // rel=preload feature support test
+        // runs once and returns a function for compat purposes
+        rp.support = (function () {
+            var ret
+            try {
+                ret = w.document.createElement('link').relList.supports('preload')
+            } catch (e) {
+                ret = false
+            }
+            return function () {
+                return ret
+            }
+        })()
+
+        // if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+        // then change that media back to its intended value on load
+        rp.bindMediaToggle = function (link) {
+            // remember existing media attr for ultimate state, or default to 'all'
+            var finalMedia = link.media || 'all'
+
+            function enableStylesheet() {
+                link.media = finalMedia
+            }
+
+            // bind load handlers to enable media
+            if (link.addEventListener) {
+                link.addEventListener('load', enableStylesheet)
+            } else if (link.attachEvent) {
+                link.attachEvent('onload', enableStylesheet)
+            }
+
+            // Set rel and non-applicable media type to start an async request
+            // note: timeout allows this to happen async to let rendering continue in IE
+            setTimeout(function () {
+                link.rel = 'stylesheet'
+                link.media = 'only x'
+            })
+            // also enable media after 3 seconds,
+            // which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+            setTimeout(enableStylesheet, 3000)
+        }
+
+        // loop through link elements in DOM
+        rp.poly = function () {
+            // double check this to prevent external calls from running
+            if (rp.support()) {
+                return
+            }
+            var links = w.document.getElementsByTagName('link')
+            for (var i = 0; i < links.length; i++) {
+                var link = links[i]
+                // qualify links to those with rel=preload and as=style attrs
+                if (
+                    link.rel === 'preload' &&
+                    link.getAttribute('as') === 'style' &&
+                    !link.getAttribute('data-loadcss')
+                ) {
+                    // prevent rerunning on link
+                    link.setAttribute('data-loadcss', true)
+                    // bind listeners to toggle media back
+                    rp.bindMediaToggle(link)
+                }
+            }
+        }
+
+        // if unsupported, run the polyfill
+        if (!rp.support()) {
+            // run once at least
+            rp.poly()
+
+            // rerun poly on an interval until onload
+            var run = w.setInterval(rp.poly, 500)
+            if (w.addEventListener) {
+                w.addEventListener('load', function () {
+                    rp.poly()
+                    w.clearInterval(run)
+                })
+            } else if (w.attachEvent) {
+                w.attachEvent('onload', function () {
+                    rp.poly()
+                    w.clearInterval(run)
+                })
+            }
+        }
+
+        // commonjs
+        if (typeof exports !== 'undefined') {
+            exports.loadCSS = loadCSS
+        } else {
+            w.loadCSS = loadCSS
+        }
+    })(typeof global !== 'undefined' ? global : this)
+</script>
+
+    <style type="text/css">
+    @font-face {
+        font-family: 'Oswald-Regular';
+        src: url("/font/Oswald-Regular.ttf");
+    }
+
+    body {
+        margin: 0;
+    }
+
+    header,
+    footer,
+    .footer-fixed-btn,
+    .sidebar,
+    .container,
+    .site-intro-meta,
+    .toc-wrapper {
+        display: none;
+    }
+
+    .site-intro {
+        position: relative;
+        z-index: 3;
+        width: 100%;
+        /* height: 50vh; */
+        overflow: hidden;
+    }
+
+    .site-intro-placeholder {
+        position: absolute;
+        z-index: -2;
+        top: 0;
+        left: 0;
+        width: calc(100% + 300px);
+        height: 100%;
+        background: repeating-linear-gradient(
+            -45deg,
+            #444 0,
+            #444 80px,
+            #333 80px,
+            #333 160px
+        );
+        background-position: center center;
+        transform: translate3d(-226px, 0, 0);
+        animation: gradient-move 2.5s ease-out 0s infinite;
+    }
+
+    @keyframes gradient-move {
+        0% {
+            transform: translate3d(-226px, 0, 0);
+        }
+        100% {
+            transform: translate3d(0, 0, 0);
+        }
+    }
+</style>
+
+    <link id="stylesheet-fancybox" rel="preload" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.36/dist/fancybox/fancybox.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link id="stylesheet-base" rel="preload" href="/css/style.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link id="stylesheet-mobile" rel="preload" href="/css/mobile.css" as="style" onload="this.onload=null;this.rel='stylesheet';this.media='screen and (max-width: 960px)'">
+    <link id="stylesheet-theme-dark" rel="preload" href="/css/dark.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" as="script">
+    <link rel="preload" href="/scripts/main.js" as="script">
+    <link rel="preload" href="/font/Oswald-Regular.ttf" as="font" crossorigin>
+    <link rel="preload" href="https://at.alicdn.com/t/font_327081_1dta1rlogw17zaor.woff" as="font" crossorigin>
+    <!-- algolia -->
+    <!-- 百度统计  -->
+    <!-- 谷歌统计  -->
+    <!-- Google tag (gtag.js) -->
+<meta name="generator" content="Hexo 7.3.0"><link rel="alternate" href="/atom.xml" title="赵忠赫的个人博客" type="application/atom+xml">
+</head>
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+    <script type="text/javascript">
+        if (typeof window.$ == undefined) {
+            console.warn('jquery load from jsdelivr failed, will load local script')
+            document.write('<script src="/lib/jquery.min.js" />')
+        }
+    </script>
+        <!-- header -->
+        <header class="header header-mobile">
+    <!-- top read progress line -->
+    <div class="header-element">
+        <div class="read-progress"></div>
+    </div>
+    <!-- sidebar menu button -->
+    <div class="header-element">
+        <div class="header-sidebar-menu">
+            <div style="padding-left: 1px;">&#xe775;</div>
+        </div>
+    </div>
+    <!-- header actions -->
+    <div class="header-actions">
+        <!-- theme mode switch button -->
+        <span class="header-theme-btn header-element">
+            <i class="fas fa-adjust"></i>
+        </span>
+        <!-- back to home page text -->
+        <span class="home-link header-element">
+            <a href="/">fi3ework's Studio.</a>
+        </span>
+    </div>
+    <!-- toggle banner -->
+    <div class="banner">
+        <div class="blog-title header-element">
+            <a href="/">fi3ework&#39;s Studio.</a>
+        </div>
+        <div class="post-title header-element">
+            <a href="#" class="post-name">操作系统学习</a>
+        </div>
+    </div>
+</header>
+
+        <!-- fixed footer -->
+        <footer class="footer-fixed">
+    <!-- donate button -->
+
+    <!-- back to top button -->
+    <div class="footer-fixed-btn footer-fixed-btn--hidden back-top">
+        <div>&#xe639;</div>
+    </div>
+</footer>
+
+        <!-- wrapper -->
+        <div class="wrapper">
+            <div class="site-intro" style="">
+    <!-- 主页  -->
+    <div class="site-intro-placeholder"></div>
+    <div class="site-intro-img" style="background-image: url(/)"></div>
+    <div class="site-intro-meta">
+        <!-- 标题  -->
+        <h1 class="intro-title">
+            <!-- 主页  -->
+        </h1>
+        <!-- 副标题 -->
+        <p class="intro-subtitle">
+            <!-- 主页副标题  -->
+        </p>
+        <!-- 文章页 meta -->
+    </div>
+</div>
+
+            <script>
+  // get user agent
+  function getBrowserVersions() {
+    var u = window.navigator.userAgent
+    return {
+      userAgent: u,
+      trident: u.indexOf('Trident') > -1, //IE内核
+      presto: u.indexOf('Presto') > -1, //opera内核
+      webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+      gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+      mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
+      ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+      android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+      iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者安卓QQ浏览器
+      iPad: u.indexOf('iPad') > -1, //是否为iPad
+      webApp: u.indexOf('Safari') == -1, //是否为web应用程序，没有头部与底部
+      weixin: u.indexOf('MicroMessenger') == -1, //是否为微信浏览器
+      uc: u.indexOf('UCBrowser') > -1, //是否为android下的UC浏览器
+    }
+  }
+  var browser = {
+    versions: getBrowserVersions(),
+  }
+  console.log('userAgent: ' + browser.versions.userAgent)
+
+  // callback
+  function fontLoaded() {
+    console.log('font loaded')
+    if (document.getElementsByClassName('site-intro-meta')) {
+      document
+        .getElementsByClassName('intro-title')[0]
+        .classList.add('intro-fade-in')
+      document
+        .getElementsByClassName('intro-subtitle')[0]
+        .classList.add('intro-fade-in')
+      var postIntros = document.getElementsByClassName('post-intros')[0]
+      if (postIntros) {
+        postIntros.classList.add('post-fade-in')
+      }
+    }
+  }
+
+  // UC不支持跨域，所以直接显示
+  function asyncCb() {
+    if (browser.versions.uc) {
+      console.log('UCBrowser')
+      fontLoaded()
+    } else {
+      WebFont.load({
+        custom: {
+          families: ['Oswald-Regular'],
+        },
+        loading: function () {
+          // 所有字体开始加载
+          // console.log('font loading');
+        },
+        active: function () {
+          // 所有字体已渲染
+          fontLoaded()
+        },
+        inactive: function () {
+          // 字体预加载失败，无效字体或浏览器不支持加载
+          console.log('inactive: timeout')
+          fontLoaded()
+        },
+        timeout: 5000, // Set the timeout to two seconds
+      })
+    }
+  }
+
+  function asyncErr() {
+    console.warn('script load from CDN failed, will load local script')
+  }
+
+  // load webfont-loader async, and add callback function
+  function async(u, cb, err) {
+    var d = document,
+      t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0]
+    o.src = u
+    if (cb) {
+      o.addEventListener(
+        'load',
+        function (e) {
+          cb(null, e)
+        },
+        false
+      )
+    }
+    if (err) {
+      o.addEventListener(
+        'error',
+        function (e) {
+          err(null, e)
+        },
+        false
+      )
+    }
+    s.parentNode.insertBefore(o, s)
+  }
+
+  var asyncLoadWithFallBack = function (arr, success, reject) {
+    var currReject = function () {
+      reject()
+      arr.shift()
+      if (arr.length) async(arr[0], success, currReject)
+    }
+
+    async(arr[0], success, currReject)
+  }
+
+  asyncLoadWithFallBack(
+    [
+      'https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js',
+      'https://cdn.bootcss.com/webfont/1.6.28/webfontloader.js',
+      "/lib/webfontloader.min.js",
+    ],
+    asyncCb,
+    asyncErr
+  )
+</script>
+
+            <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" alt="loading">
+            <div class="container container-unloaded">
+                <main class="main post-page">
+    <article class="article-entry">
+        <hr>
+<p>6.cs081os学习</p>
+<p>感谢：</p>
+<p>参考资料：</p>
+<p><a target="_blank" rel="noopener" href="https://www.geeksforgeeks.org/pipe-system-call/">https://www.geeksforgeeks.org/pipe-system-call/</a></p>
+<p>很好的文章：</p>
+<p><a target="_blank" rel="noopener" href="https://swtch.com/~rsc/thread/">https://swtch.com/~rsc/thread/</a></p>
+<p>同步机制：<a target="_blank" rel="noopener" href="https://zybtree.github.io/2020/08/12/%E5%90%8C%E6%AD%A5%E6%9C%BA%E5%88%B6/">https://zybtree.github.io/2020/08/12/%E5%90%8C%E6%AD%A5%E6%9C%BA%E5%88%B6/</a></p>
+<p>参考答案： <a target="_blank" rel="noopener" href="https://github.com/relaxcn/xv6-labs-2022-solutions/blob/main/doc/utils.md">https://github.com/relaxcn/xv6-labs-2022-solutions/blob/main/doc/utils.md</a></p>
+<p>学习链接： <a target="_blank" rel="noopener" href="https://pdos.csail.mit.edu/6.828/2021/schedule.html">https://pdos.csail.mit.edu/6.828/2021/schedule.html</a></p>
+<hr>
+<p>直接从进程与线程入手</p>
+<h4 id="进程与线程"><a href="#进程与线程" class="headerlink" title="进程与线程"></a>进程与线程</h4><p>单独的CPU变换成多个虚拟的CPU</p>
+<h5 id="进程"><a href="#进程" class="headerlink" title="进程"></a>进程</h5><p>当网页请求进入的时候 先查看 网页是否在缓存中 如果不是<br>启动一个磁盘请求用来获取网页  磁盘请求会花费很多时间 等待的过程中会有更多的请求进入<br>每个进程有它自己的虚拟的CPU 真正的CPU在进程之间来回切换<br>需要一些方法例如多个磁盘 模拟控制并发 进程就能发挥作用<br>来回切换称： 多道程序设计</p>
+<p>支持多进程的多道程序系统<br>一个核一次也只能运行一个进程</p>
+<p><img src="/study_photo2/operater1.jpg" alt="internet.jpg"></p>
+<hr>
+<h4 id="12-1日"><a href="#12-1日" class="headerlink" title="12.1日"></a>12.1日</h4><h5 id="一-进程的并发执行"><a href="#一-进程的并发执行" class="headerlink" title="一.进程的并发执行"></a>一.进程的并发执行</h5><ol>
+<li>并发</li>
+</ol>
+<ul>
+<li>进程的执行是间断的</li>
+</ul>
+<p>每个进程的生命周期期间CPU执行 由于某种原因暂停 每个进程执行是间断性的</p>
+<ul>
+<li>进程的执行速度是不可预测的</li>
+</ul>
+<p>进程调度，有其他事件的发生，每个进程上cpu执行坑你一点时间听着再接着运行</p>
+<ol start="2">
+<li>共享</li>
+</ol>
+<ul>
+<li>进程线程之间的制约性<br>在一个并发环境下多个进程或者线程之间会共享某些资源，在这些资源的使用过程中会产生进程之间的一种制约性。<br>比如当一个进程享用打印机这个资源，另外一个进程在第一个进程没有释放这个资源的前提之下就得不到这个资源，那就得等待。</li>
+</ul>
+<ol start="3">
+<li>不确定性</li>
+</ol>
+<ul>
+<li>进程执行的结果与其执行的相对速度有关</li>
+</ul>
+<p>进程执行的结果和它的相对执行速度是有关系的，因此在不同的执行顺序的情况下，进程的执行结果也是不确定的。</p>
+<h5 id="二-进程互斥"><a href="#二-进程互斥" class="headerlink" title="二.进程互斥"></a>二.进程互斥</h5><p>由于各进程要求使用共享资源(变量、文件等)， 而这些资源需要排他性使用，<br>各进程之间竞争使用这些资源，这一关系称为进程互斥。</p>
+<ul>
+<li>临界资源<br>系统中某些资源一次只允许一个进程使用，称这样的资源为临界资源或互斥资源或共享变量。<br>这些程序片段，分散在不同的进程里，它们的共同的特点是对同一个共享变量进行一些操作<br>这一段代码，和另外一个进程的这一段代码互为临界区，互为互斥区</li>
+</ul>
+<p><img src="/study_photo2/operater2.jpg" alt="internet.jpg"></p>
+<h4 id="冯诺依曼模型"><a href="#冯诺依曼模型" class="headerlink" title="冯诺依曼模型"></a>冯诺依曼模型</h4><p>计算机基本结构：运算器 控制器 存储器 输入设备 输出设备</p>
+<h5 id="内存"><a href="#内存" class="headerlink" title="内存"></a>内存</h5><p>程序和数据都是存储在内存，存储区域是线性的</p>
+<p>存储数据的基本单位是 字节 每一个字节对应一个内存地址</p>
+<p>最后一个地址为内存总字节数 -1 结构就像数序中的数据</p>
+<h5 id="中央处理器"><a href="#中央处理器" class="headerlink" title="中央处理器"></a>中央处理器</h5><p>也就是cpu：<br>32位cpu一次可以计算4个字节<br>64位cpu一次可以计算8个字节 位数也就是cpu的位宽 代表cpu一次可以计算的数据量</p>
+<p>8 位的 CPU，那么一次只能计算 1 个字节也就是0~255 范围内的数值 那么 32位也就是一次可以计算出 2的32次方这么大的数值<br>cpu内部组件：寄存器，控制单元和逻辑运算单元</p>
+<p>为什么有了内存还需要寄存器？</p>
+<p>寄存器种类（通用寄存器）（程序计数器）（指令寄存器）</p>
+<p>因为： 内存离 CPU 太远了，而寄存器就在 CPU 里，紧挨着控制单元和逻辑运算单元，自然计算时速度会很快。</p>
+<h6 id="总线"><a href="#总线" class="headerlink" title="总线"></a>总线</h6><p>总线用于cpu和内存以及其他设备之前的通信</p>
+<p>（地址总线）：指定CPU将要操作的内存地址</p>
+<p>（数据总线）：用于读写内存的数据</p>
+<p>（控制总线）： 发送和接收信号，比如中断，设备复位等信号</p>
+<p>CPU 要读写内存数据的时候：</p>
+<ul>
+<li>首先要通过「地址总线」来指定内存的地址；</li>
+<li>然后通过「控制总线」控制是读或写命令；</li>
+<li>最后通过「数据总线」来传输数据；</li>
+</ul>
+<h5 id="输入输出设备"><a href="#输入输出设备" class="headerlink" title="输入输出设备"></a>输入输出设备</h5><p>输入设备向计算机输入数据，计算机经过计算后，把数据输出给输出设备。<br>如果输入设备是键盘，按下按键时是需要和 CPU 进行交互的，这时就需要用到控制总线了。</p>
+<h5 id="线路位宽与CPU位宽"><a href="#线路位宽与CPU位宽" class="headerlink" title="线路位宽与CPU位宽"></a>线路位宽与CPU位宽</h5><p>数据是如何通过线路传输的呢<br>操作电压，低电压表示 0，高压电压则表示 1</p>
+<p>101 二进制数据，十进制则表示 5，如果只有一条线路，就意味着每次只能传递 1 bit 的数据， 那么传输 101 这个数据，就需要 3 次才能传输完成，这样的效率非常低。</p>
+<p>增加线路，数据并行传输</p>
+<p>CPU 想要操作「内存地址」就需要「地址总线」：</p>
+<p>地址总线只有 1 条，那每次只能表示 「0 或 1」这两种地址  最大数量为 2（2^1）个</p>
+<p>如果地址总线有 2 条，那么能表示 00、01、10、11 这四种地址  最大数量为 4（2^2）个</p>
+<p>CPU 操作 4G 大的内存，那么就需要 32 条地址总线，因为 2 ^ 32 &#x3D; 4G</p>
+<p>CPU位宽最好不要小于线路位宽</p>
+<h5 id="a-little-operater-systerm"><a href="#a-little-operater-systerm" class="headerlink" title="a little operater systerm"></a>a little operater systerm</h5><p>链接 ： <a target="_blank" rel="noopener" href="https://lwn.net/Articles/250967/">https://lwn.net/Articles/250967/</a></p>
+<p><img src="/study_photo2/cpumemory.4.png" alt="internet.jpg"></p>
+<p>所有 CPU（前面的示例中为两个，但可以有更多）都通过公共总线（前端总线，FSB）连接到北桥。除其他外，北桥还包含内存控制器，<br>其实现决定了计算机使用的 RAM 芯片的类型。不同类型的 RAM，例如 DRAM、Rambus 和 SDRAM，需要不同的内存控制器。</p>
+<p>要访问所有其他系统设备，北桥必须与南桥进行通信。南桥通常称为 I&#x2F;O 桥，通过各种不同的总线处理与设备的通信。如今，PCI、PCI Express、SATA 和 USB 总线最为重要，但南桥也支持 PATA、IEEE 1394、串行和并行端口。<br>较旧的系统具有连接到北桥的 AGP 插槽。这样做是出于与北桥和南桥之间的连接速度不够快相关的性能原因。然而，如今 PCI-E 插槽全部连接到南桥。</p>
+<hr>
+<h2 id="让终端显示出自己说的话"><a href="#让终端显示出自己说的话" class="headerlink" title="让终端显示出自己说的话"></a>让终端显示出自己说的话<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">cd ~</span><br><span class="line">root@xiaoxinxiaohao:~# vim .bashrc</span><br><span class="line">root@xiaoxinxiaohao:~# source ~/.bashrc</span><br><span class="line">赵忠鹤闪亮登场</span><br><span class="line">Today is: Fri Dec  6 05:12:09 PM CST 2024</span><br><span class="line">今天也要充满活力哇咔咔</span><br><span class="line"></span><br></pre></td></tr></table></figure></h2><p>听从了一些学习的建议，带着问题去读书，想学什么，去书中学，带着问题去读书</p>
+<hr>
+<p>12.16日</p>
+<h4 id="看到了b站的一个关于Go并发设计"><a href="#看到了b站的一个关于Go并发设计" class="headerlink" title="看到了b站的一个关于Go并发设计"></a>看到了b站的一个关于Go并发设计</h4><p>了解协程： 协程是一种用户级的轻量级线程。协程拥有自己的寄存器上下文和栈。协程调度切换时，将寄存器上下文和栈保存到其他地方，在切回来的时候，恢复先前保存的寄存器上下文和栈</p>
+<p>主流语言基本上都选择了多线程作为并发设施</p>
+<p>线程相关的概念就是抢占式多任务（Preemptive multitasking），而与协程相关的是协作式多任务</p>
+<p>多线程编程是比较困难的， 因为调度程序任何时候都能中断线程， 必须记住保留锁， 去保护程序中重要部分， 防止多线程在执行的过程中断 协程默认会做好全方位保护， 以防止中断</p>
+<h5 id="协程相比于多线程的优点"><a href="#协程相比于多线程的优点" class="headerlink" title="协程相比于多线程的优点"></a>协程相比于多线程的优点</h5><p>无需系统内核的上下文切换，减小开销； 因为：协程它不像线程和进程那样，需要进行系统内核上的上下文切换，协程的上下文切换是由开发人员决定的</p>
+<p>无需原子操作锁定及同步的开销，不用担心资源共享的问题</p>
+<p>单线程即可实现高并发，单核 CPU 即便支持上万的协程都不是问题，所以很适合用于高并发处理，尤其是在应用在网络爬虫中</p>
+<h5 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h5><ol>
+<li>无法使用 CPU 的多核 因为： 协程的本质是个单线程</li>
+<li>写协程就意味着你要一值写一些非阻塞的代码，使用各种异步版本的库，比如后面的异步爬虫教程中用的 aiohttp</li>
+<li><strong>协程的概念最核心的点其实就是函数或者一段程序能够被挂起（说暂停其实也没啥问题），待会儿再恢复</strong></li>
+</ol>
+
+    </article>
+    <!-- license -->
+        <div class="license-wrapper">
+            <p>原文作者：<a href="https://Whuichenggong.github.io">赵忠赫</a>
+            <p>原文链接：<a href="https://whuichenggong.github.io/about/computer_operate.html">https://whuichenggong.github.io/about/computer_operate.html</a>
+            <p>发表日期：<a href="https://whuichenggong.github.io/about/computer_operate.html">December 16th 2024, 10:53:54 am</a>
+            <p>更新日期：<a href="https://whuichenggong.github.io/about/computer_operate.html">December 16th 2024, 10:53:54 am</a>
+            <p>版权声明：本文采用<a rel="license noopener" target="_blank" href="http://creativecommons.org/licenses/by-nc/4.0/">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p>
+        </div>
+    <!-- paginator -->
+    <ul class="post-paginator">
+        <li class="next">
+        </li>
+        <li class="previous">
+        </li>
+    </ul>
+    <!-- comment -->
+        <div class="post-comment">
+            <!-- 来必力 City 版安装代码 -->
+
+            
+            
+            
+            <!-- utteranc评论 -->
+
+            <!-- partial('_partial/comment/changyan') -->
+            <!--PC版-->
+
+            
+            
+            
+        </div>
+    <!-- timeliness note -->
+    <!-- idea from: https://hexo.fluid-dev.com/posts/hexo-injector/#%E6%96%87%E7%AB%A0%E6%97%B6%E6%95%88%E6%80%A7%E6%8F%90%E7%A4%BA -->
+    <!-- Mathjax -->
+</main>
+
+                <!-- profile -->
+            </div>
+            <footer class="footer footer-unloaded">
+    <!-- social  -->
+        <div class="social">
+                            <a href="mailto:3041322213@qq.com" class="iconfont-archer email" title="email" ></a>
+                <a href="//github.com/Whuichenggong" class="iconfont-archer github" target="_blank" title="github"></a>
+                <span class="iconfont-archer wechat" title="wechat">
+                    <img class="profile-qr" src="/assets/example_qr.png" />
+                </span>
+
+        </div>
+    <!-- powered by Hexo  -->
+    <div class="copyright">
+        <span id="hexo-power">Powered by <a href="https://hexo.io/" target="_blank">Hexo</a></span><span class="iconfont-archer power">&#xe635;</span><span id="theme-info">theme <a href="https://github.com/fi3ework/hexo-theme-archer" target="_blank">Archer</a></span>
+    </div>
+    <!-- website approve for Chinese user -->
+    <!-- 不蒜子  -->
+        <div class="busuanzi-container">
+                <span id="busuanzi_container_site_pv">PV: <span id="busuanzi_value_site_pv"></span> :)</span>
+        </div>
+</footer>
+
+        </div>
+        <!-- toc -->
+        <!-- sidebar -->
+        <div class="sidebar sidebar-hide">
+    <ul class="sidebar-tabs sidebar-tabs-active-0">
+        <li class="sidebar-tab-archives"><span class="iconfont-archer">&#xe67d;</span><span class="tab-name">Archive</span></li>
+        <li class="sidebar-tab-tags"><span class="iconfont-archer">&#xe61b;</span><span class="tab-name">Tag</span></li>
+        <li class="sidebar-tab-categories"><span class="iconfont-archer">&#xe666;</span><span class="tab-name">Cate</span></li>
+    </ul>
+    <div class="sidebar-content sidebar-content-show-archive">
+        <div class="sidebar-panel-archives">
+    <!-- 在 ejs 中将 archive 按照时间排序 -->
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+    <div class="total-and-search">
+        <div class="total-archive">
+        Total : 29
+        </div>
+        <!-- search  -->
+    </div>
+    <div class="post-archive">
+            <div class="archive-year"> Invalid date </div>
+            <ul class="year-list">
+        <li class="archive-post-item">
+            <span class="archive-post-date">Invalid date</span>
+            <a class="archive-post-title" href="/2024/11/08/Dance_Frame/">字节姑关于框架学习</a>
+        </li>
+                </ul>
+            <div class="archive-year"> Invalid date </div>
+            <ul class="year-list">
+        <li class="archive-post-item">
+            <span class="archive-post-date">Invalid date</span>
+            <a class="archive-post-title" href="/2024/11/13/Dance_live/">青训营直播总结</a>
+        </li>
+                </ul>
+            <div class="archive-year"> Invalid date </div>
+            <ul class="year-list">
+        <li class="archive-post-item">
+            <span class="archive-post-date">Invalid date</span>
+            <a class="archive-post-title" href="/2024/11/26/Dance_live2/">11.26日字节直播总结</a>
+        </li>
+                </ul>
+            <div class="archive-year"> 2024 </div>
+            <ul class="year-list">
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/18</span>
+            <a class="archive-post-title" href="/2024/12/18/live3/">一位老哥的分享给了我一些启发</a>
+        </li>
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/16</span>
+            <a class="archive-post-title" href="/2024/12/16/Database/">学习数据库</a>
+        </li>
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/09</span>
+            <a class="archive-post-title" href="/2024/12/09/Distributed/">分布式系统学习</a>
+        </li>
+                </ul>
+            <div class="archive-year"> Invalid date </div>
+            <ul class="year-list">
+        <li class="archive-post-item">
+            <span class="archive-post-date">Invalid date</span>
+            <a class="archive-post-title" href="/2024/11/11/Go_Advanced/">Go语言进阶</a>
+        </li>
+                </ul>
+            <div class="archive-year"> 2024 </div>
+            <ul class="year-list">
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/12</span>
+            <a class="archive-post-title" href="/2024/12/12/current/">聊聊最近</a>
+        </li>
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/07</span>
+            <a class="archive-post-title" href="/2024/12/07/confusion/">为什么别人写项目知道用什么？</a>
+        </li>
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/02</span>
+            <a class="archive-post-title" href="/2024/12/02/Go_Program/">Go语法学习</a>
+        </li>
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/16</span>
+            <a class="archive-post-title" href="/2024/11/16/Goalng_Framework/">7_days_golang学习</a>
+        </li>
+                </ul>
+            <div class="archive-year"> Invalid date </div>
+            <ul class="year-list">
+        <li class="archive-post-item">
+            <span class="archive-post-date">Invalid date</span>
+            <a class="archive-post-title" href="/2024/11/23/UDP_socket/">UDP socket的ack机制和丢包重传</a>
+        </li>
+                </ul>
+            <div class="archive-year"> 2024 </div>
+            <ul class="year-list">
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/07</span>
+            <a class="archive-post-title" href="/2024/12/07/authority/">理解鉴权，权限等名词的区别</a>
+        </li>
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/16</span>
+            <a class="archive-post-title" href="/2024/11/16/computer_operate/">操作系统学习</a>
+        </li>
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/13</span>
+            <a class="archive-post-title" href="/2024/11/13/job/">一些找工作或实习的渠道</a>
+        </li>
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/09</span>
+            <a class="archive-post-title" href="/2024/11/09/Simple_bank/">后端项目学习</a>
+        </li>
+                </ul>
+            <div class="archive-year"> Invalid date </div>
+            <ul class="year-list">
+        <li class="archive-post-item">
+            <span class="archive-post-date">Invalid date</span>
+            <a class="archive-post-title" href="/2024/11/14/computer_network/">计算机网络持续学习中~</a>
+        </li>
+                </ul>
+            <div class="archive-year"> 2024 </div>
+            <ul class="year-list">
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/09</span>
+            <a class="archive-post-title" href="/2024/11/09/data_structure/">数据结构的实现</a>
+        </li>
+                </ul>
+            <div class="archive-year"> Invalid date </div>
+            <ul class="year-list">
+        <li class="archive-post-item">
+            <span class="archive-post-date">Invalid date</span>
+            <a class="archive-post-title" href="/2024/11/04/git/">git使用总结</a>
+        </li>
+                </ul>
+            <div class="archive-year"> Invalid date </div>
+            <ul class="year-list">
+        <li class="archive-post-item">
+            <span class="archive-post-date">Invalid date</span>
+            <a class="archive-post-title" href="/2024/11/05/github/">github参与开源应该做什么</a>
+        </li>
+                </ul>
+            <div class="archive-year"> 2024 </div>
+            <ul class="year-list">
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/09</span>
+            <a class="archive-post-title" href="/2024/11/09/leet-code/">leet-code之旅</a>
+        </li>
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/06</span>
+            <a class="archive-post-title" href="/2024/11/06/github_actions/">发布博客出现的问题</a>
+        </li>
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/04</span>
+            <a class="archive-post-title" href="/2024/11/04/hello-world/">北京之旅</a>
+        </li>
+                </ul>
+            <div class="archive-year"> Invalid date </div>
+            <ul class="year-list">
+        <li class="archive-post-item">
+            <span class="archive-post-date">Invalid date</span>
+            <a class="archive-post-title" href="/2024/11/08/lasting_beauty/">美化博客</a>
+        </li>
+                </ul>
+            <div class="archive-year"> Invalid date </div>
+            <ul class="year-list">
+        <li class="archive-post-item">
+            <span class="archive-post-date">Invalid date</span>
+            <a class="archive-post-title" href="/2024/11/16/live/">20岁生日</a>
+        </li>
+                </ul>
+            <div class="archive-year"> Invalid date </div>
+            <ul class="year-list">
+        <li class="archive-post-item">
+            <span class="archive-post-date">Invalid date</span>
+            <a class="archive-post-title" href="/2024/12/15/resource/">关于我学习的一些资源和方法</a>
+        </li>
+                </ul>
+            <div class="archive-year"> Invalid date </div>
+            <ul class="year-list">
+        <li class="archive-post-item">
+            <span class="archive-post-date">Invalid date</span>
+            <a class="archive-post-title" href="/2024/12/08/postgres/">数据库学习</a>
+        </li>
+                </ul>
+            <div class="archive-year"> Invalid date </div>
+            <ul class="year-list">
+        <li class="archive-post-item">
+            <span class="archive-post-date">Invalid date</span>
+            <a class="archive-post-title" href="/2024/12/02/study_plan/">小计划</a>
+        </li>
+                </ul>
+            <div class="archive-year"> Invalid date </div>
+            <ul class="year-list">
+        <li class="archive-post-item">
+            <span class="archive-post-date">Invalid date</span>
+            <a class="archive-post-title" href="/2024/12/06/serialize/">json的序列化与反序列化</a>
+        </li>
+            </ul>
+    </div>
+</div>
+
+        <div class="sidebar-panel-tags">
+    <div class="sidebar-tags-name">
+    </div>
+    <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
+    <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">
+        缺失模块，请参考主题文档进行安装配置：https://github.com/fi3ework/hexo-theme-archer#%E5%AE%89%E8%A3%85%E4%B8%BB%E9%A2%98
+    </div> 
+    <div class="sidebar-tags-list"></div>
+</div>
+
+        <div class="sidebar-panel-categories">
+    <div class="sidebar-categories-name">
+    </div>
+    <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>
+    <div class="sidebar-categories-list"></div>
+</div>
+
+    </div>
+</div>
+
+        <!-- site-meta -->
+        <script>
+    var siteMetaRoot = "/"
+    if (siteMetaRoot === "undefined") {
+        siteMetaRoot = '/'
+    }
+    var siteMeta = {
+        url: "https://Whuichenggong.github.io",
+        root: siteMetaRoot,
+        author: "赵忠赫"
+    }
+</script>
+
+        <!-- import experimental options here -->
+        <!-- Custom Font -->
+
+        <!-- main func -->
+        <script src="/scripts/main.js"></script>
+        <!-- fancybox -->
+        <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.36/dist/fancybox/fancybox.umd.js" onload="window.Fancybox.bind('[data-fancybox]')" defer></script>
+        <!-- algolia -->
+        <!-- busuanzi -->
+            <script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
+        <!-- async load share.js -->
+        <!-- mermaid -->
+    </body>
+</html>
