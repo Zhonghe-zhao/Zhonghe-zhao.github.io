@@ -6,7 +6,7 @@
   <link href="https://whuichenggong.github.io/atom.xml" rel="self"/>
   
   <link href="https://whuichenggong.github.io/"/>
-  <updated>2025-01-01T02:30:22.416Z</updated>
+  <updated>2025-01-02T11:42:08.516Z</updated>
   <id>https://whuichenggong.github.io/</id>
   
   <author>
@@ -15,6 +15,52 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>go中的context</title>
+    <link href="https://whuichenggong.github.io/2025/01/02/%E8%B0%83%E7%94%A8/"/>
+    <id>https://whuichenggong.github.io/2025/01/02/%E8%B0%83%E7%94%A8/</id>
+    <published>2025-01-02T09:34:59.595Z</published>
+    <updated>2025-01-02T11:42:08.516Z</updated>
+    
+    <content type="html"><![CDATA[<p>首先理解同步调用与异步调用：</p><p><strong>同步调用</strong>和<strong>异步调用</strong>是两种常见的函数调用方式，尤其在多线程、并发编程中，这两种方式对程序的执行流程和效率有着直接影响。</p><h3 id="1-同步调用（Synchronous-Call）"><a href="#1-同步调用（Synchronous-Call）" class="headerlink" title="1. 同步调用（Synchronous Call）"></a>1. <strong>同步调用（Synchronous Call）</strong></h3><p>同步调用是指函数调用时，调用者会等待被调用的函数执行完毕并返回结果之后，才能继续执行后续操作。在同步调用过程中，函数的调用者会<strong>阻塞</strong>，直到函数执行完成。</p><p><strong>特点</strong>：</p><ul><li><strong>阻塞</strong>：调用者会等待被调用的函数执行完成，才会继续执行后续代码。</li><li><strong>执行顺序</strong>：代码按顺序执行，当前任务完成后，才能继续下一个任务。</li></ul><p><strong>举个例子</strong>：</p><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="string">&quot;fmt&quot;</span></span><br><span class="line"><span class="keyword">import</span> <span class="string">&quot;time&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 模拟一个同步调用的函数</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">longTask</span><span class="params">()</span></span> &#123;</span><br><span class="line">    time.Sleep(<span class="number">2</span> * time.Second)</span><br><span class="line">    fmt.Println(<span class="string">&quot;Long task finished&quot;</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    fmt.Println(<span class="string">&quot;Start task&quot;</span>)</span><br><span class="line">    longTask()  <span class="comment">// 同步调用，调用者会等待该函数执行完</span></span><br><span class="line">    fmt.Println(<span class="string">&quot;End task&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>输出：</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Start task</span><br><span class="line">Long task finished</span><br><span class="line">End task</span><br></pre></td></tr></table></figure><p>在这个例子中，<code>longTask()</code> 函数执行时，程序会等待它执行完毕，然后才继续执行后面的 <code>fmt.Println(&quot;End task&quot;)</code>。</p><h3 id="2-异步调用（Asynchronous-Call）"><a href="#2-异步调用（Asynchronous-Call）" class="headerlink" title="2. 异步调用（Asynchronous Call）"></a>2. <strong>异步调用（Asynchronous Call）</strong></h3><p>异步调用是指调用者在调用函数时，不会等待函数执行完成，而是直接继续执行后续代码。异步调用通常会通过某种机制（比如回调函数、线程、goroutine等）来处理函数执行完成后的结果。</p><p><strong>特点</strong>：</p><ul><li><strong>非阻塞</strong>：调用者不会等待被调用的函数执行完成，而是继续执行后续操作。</li><li><strong>执行顺序</strong>：调用者继续执行，而被调用的函数可能在后台执行，执行顺序不确定。</li></ul><p><strong>举个例子（使用 Go 的 goroutine）</strong>：</p><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="string">&quot;fmt&quot;</span></span><br><span class="line"><span class="keyword">import</span> <span class="string">&quot;time&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 模拟一个异步调用的函数</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">longTask</span><span class="params">()</span></span> &#123;</span><br><span class="line">    time.Sleep(<span class="number">2</span> * time.Second)</span><br><span class="line">    fmt.Println(<span class="string">&quot;Long task finished&quot;</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    fmt.Println(<span class="string">&quot;Start task&quot;</span>)</span><br><span class="line">    <span class="keyword">go</span> longTask()  <span class="comment">// 异步调用，goroutine 不会阻塞主线程</span></span><br><span class="line">    fmt.Println(<span class="string">&quot;End task&quot;</span>)</span><br><span class="line">    time.Sleep(<span class="number">3</span> * time.Second)  <span class="comment">// 等待 goroutine 执行完毕</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>输出：</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Start task</span><br><span class="line">End task</span><br><span class="line">Long task finished</span><br></pre></td></tr></table></figure><p>在这个例子中，<code>longTask()</code> 被异步调用（通过 <code>go</code> 关键字），主线程并不会等待 <code>longTask()</code> 执行完毕，而是继续执行 <code>fmt.Println(&quot;End task&quot;)</code>。由于 <code>longTask()</code> 是在一个新的 goroutine 中执行的，所以它会在主线程打印完 <code>&quot;End task&quot;</code> 后才完成。</p><h3 id="同步调用与异步调用的区别："><a href="#同步调用与异步调用的区别：" class="headerlink" title="同步调用与异步调用的区别："></a><strong>同步调用与异步调用的区别</strong>：</h3><table><thead><tr><th><strong>特性</strong></th><th><strong>同步调用</strong></th><th><strong>异步调用</strong></th></tr></thead><tbody><tr><td><strong>执行方式</strong></td><td>当前任务需要等待被调用函数执行完毕后才能继续</td><td>当前任务不会等待，被调用函数在后台执行</td></tr><tr><td><strong>阻塞与非阻塞</strong></td><td>阻塞：调用者会等待被调用函数完成</td><td>非阻塞：调用者不会等待被调用函数完成，继续执行</td></tr><tr><td><strong>执行顺序</strong></td><td>按顺序执行，当前任务完成后，继续下一个任务</td><td>执行顺序不确定，被调用函数可能稍后执行</td></tr><tr><td><strong>适用场景</strong></td><td>适用于需要等待函数执行完成后才能继续的情况</td><td>适用于可以并行处理，调用者不需要等待结果的情况</td></tr><tr><td><strong>效率</strong></td><td>效率较低，尤其在调用高延时操作时，调用者会被阻塞</td><td>效率较高，可以并行执行多个任务，不阻塞调用者</td></tr></tbody></table><h3 id="优缺点："><a href="#优缺点：" class="headerlink" title="优缺点："></a><strong>优缺点</strong>：</h3><ul><li><p><strong>同步调用</strong>：</p><ul><li><strong>优点</strong>：简单，易于理解和调试，程序的执行顺序清晰。</li><li><strong>缺点</strong>：当操作耗时较长时，调用者需要等待，造成性能瓶颈。例如，I&#x2F;O 密集型操作（如数据库查询、网络请求等）可能导致程序停滞。</li></ul></li><li><p><strong>异步调用</strong>：</p><ul><li><strong>优点</strong>：提高并发性能，特别适合处理 I&#x2F;O 密集型操作。调用者不需要等待操作完成，可以同时执行多个任务。</li><li><strong>缺点</strong>：需要更多的设计和管理，比如回调函数、并发控制等；调试和错误处理可能比较复杂。</li></ul></li></ul><h3 id="何时选择同步和异步？"><a href="#何时选择同步和异步？" class="headerlink" title="何时选择同步和异步？"></a><strong>何时选择同步和异步？</strong></h3><ul><li><strong>同步调用</strong>：适用于需要按顺序执行任务且任务之间有依赖关系的场景。例如，计算任务需要按顺序完成，或者需要等待数据库查询结果再执行下一步操作。</li><li><strong>异步调用</strong>：适用于任务之间没有直接依赖关系，可以并行执行的场景。例如，网络请求、文件处理、并发计算等。</li></ul><h3 id="总结："><a href="#总结：" class="headerlink" title="总结："></a><strong>总结</strong>：</h3><ul><li><strong>同步调用</strong>是阻塞的，调用者需要等待被调用函数执行完成后才能继续执行后续代码。</li><li><strong>异步调用</strong>是非阻塞的，调用者不会等待被调用函数执行完成，而是继续执行后续操作，通常通过回调或并发机制处理结果。</li></ul><h2 id="并发相关能力："><a href="#并发相关能力：" class="headerlink" title="并发相关能力："></a>并发相关能力：</h2><p>创建了一个异步的协程或者线程，如果你不知道它什么时候终止，最好不要创建它！ 做到心中有数，理解并发！什么时候该用</p><p>线程： 是cpu需要执行的任务</p><p>并发执行，看似在一起做实行，如果是一个cpu核心那么：实则是一个人在两个任务之间快速的切换！（本质还是一个人做两件事，只不过两件事都分别分配一点时间）</p><p>两个核心执行两个线程 就相当于并行执行两个任务，时间将会被大大缩短</p><p>但是实际情况还是会非常复杂：</p><p>锁机制：</p><p>即使有两个cpu可以工作，但是他们需要持有锁的那个才可以工作！这也就导致了实际的工作还是并发执行！</p><p>高性能程序尽量避免使用锁</p><p>context之间形成多叉树的结构！</p><p>父ctx派生 多个子ctx</p><p>感知生命周期  </p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;p&gt;首先理解同步调用与异步调用：&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;同步调用&lt;/strong&gt;和&lt;strong&gt;异步调用&lt;/strong&gt;是两种常见的函数调用方式，尤其在多线程、并发编程中，这两种方式对程序的执行流程和效率有着直接影响。&lt;/p&gt;
+&lt;h3 id=&quot;1-同步调用（Syn</summary>
+      
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>软技能</title>
+    <link href="https://whuichenggong.github.io/2025/01/02/%E8%BD%AF%E6%8A%80%E8%83%BD/"/>
+    <id>https://whuichenggong.github.io/2025/01/02/%E8%BD%AF%E6%8A%80%E8%83%BD/</id>
+    <published>2025-01-02T03:55:16.442Z</published>
+    <updated>2025-01-02T04:34:21.613Z</updated>
+    
+    <content type="html"><![CDATA[<p>书中的前言： 引用的几句名言！</p><p>“现在的困难可能会成为未来的趋势”</p><p>“站在对方的角度，在说服对方的时候，为他准备好解决问题的方案”</p><p>“不浪费任何一次危机，任何危机都是组织结构重新组合的重大契机”</p><p>“作为听者，你能理解表达能力较弱的一方的言说，作为言说者，你能让理解力较弱的一方明白你的意思”</p><hr><p>组合型思维： 我这里强，需要你那里强，互相配合，达到双赢，</p><p>多想：</p><p>你能为别人做什么，你能为圈子带来什么。为什么小的时候看什么都新奇，到那时长大后变得更加麻木了呢？对周围事物，没有了其他想法<br>是不是思维被固定住了呢？ 保持孩童般的惊奇！</p><p>主动创造不平凡：</p><p>有些人就是不甘于平凡！才会造就出一些令世人震惊的事物。</p><p>做事情的两种方法：</p><ol><li>做减法：<br>拿出一段时间，排除各种琐事的干扰，降低认知负荷，集中能量，完全自主就干这一件事</li><li>做加法<br>主动给事情增加难度，你觉得没意思，可以去悬崖边看书哈哈哈，真的可以，但是要注意安全呢</li></ol><p>但是，世界上有很多事情根本不需要去做，还有些事情是不能去做的！，被别人认可的事情就是一定是好的吗？可能你在你只是在一些无意义的事做了循环<br>无用功</p><p>所以，如何判断哪些事需要做，哪些是不能做！这也是一个人的能力</p><p>有效的反馈系统： 一件事该不该做，通常是需要总结之前做事的结果，做一件事后产生的预期结果之后<br>分析做成的原因， 运气？or 实力？自己心里要清楚<br>没有达到预期的事情，花时间想问题出在了哪里？调整自己的行为</p><p>培养同理心：培养理解他人的能力，站在对方的角度思考问题，</p><p>”辛辛苦苦发明一样东西，却发现世界并不需要他“：  创新和实际需求之间的鸿沟</p><p>保持敬畏心：</p><p>（愿意去学习、去探索，而不是自以为是或过于自信。承认自然界的复杂性和不确定性，推动自己不断探索。）愿意通过反思和努力去改进</p><p>技能是无限的，我们的时间和精力是有限的，造成结果就是，我们对一切事物只能做到一知半解，很多技能也掌握的二把刀水平，对于自己力所不能及的事情，不要去做<br>力所能及的事情，做起来也要留三分（可以在完成的基础上保持精力和资源的余地，为未来的工作或挑战做好准备。）</p><p>剥离情感（但不等同于没有同理心）：</p><p>很多事，自己的情感卷进去就不好了，同理心要求我们摒弃以自我为中心的想法，剥离情感是让我们不要被情感牵着鼻子走，保持客观公正的判断力！</p><p>改变模式而不是放弃机遇：</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;p&gt;书中的前言： 引用的几句名言！&lt;/p&gt;
+&lt;p&gt;“现在的困难可能会成为未来的趋势”&lt;/p&gt;
+&lt;p&gt;“站在对方的角度，在说服对方的时候，为他准备好解决问题的方案”&lt;/p&gt;
+&lt;p&gt;“不浪费任何一次危机，任何危机都是组织结构重新组合的重大契机”&lt;/p&gt;
+&lt;p&gt;“作为听者，你能理解表</summary>
+      
+    
+    
+    
+    
+  </entry>
   
   <entry>
     <title>新年新气象</title>
@@ -397,50 +443,6 @@
       
     <summary type="html">&lt;p&gt;参考连接： &lt;a href=&quot;https://juejin.cn/post/7263378772040122429&quot;&gt;https://juejin.cn/post/7263378772040122429&lt;/a&gt;&lt;/p&gt;
 &lt;h1 id=&quot;Go语言实现UDP-socket的ac</summary>
-      
-    
-    
-    
-    
-  </entry>
-  
-  <entry>
-    <title>操作系统学习</title>
-    <link href="https://whuichenggong.github.io/2024/11/16/computer_operate/"/>
-    <id>https://whuichenggong.github.io/2024/11/16/computer_operate/</id>
-    <published>2024-11-16T13:26:55.040Z</published>
-    <updated>2024-12-16T02:53:54.307Z</updated>
-    
-    <content type="html"><![CDATA[<hr><p>6.cs081os学习</p><p>感谢：</p><p>参考资料：</p><p><a href="https://www.geeksforgeeks.org/pipe-system-call/">https://www.geeksforgeeks.org/pipe-system-call/</a></p><p>很好的文章：</p><p><a href="https://swtch.com/~rsc/thread/">https://swtch.com/~rsc/thread/</a></p><p>同步机制：<a href="https://zybtree.github.io/2020/08/12/%E5%90%8C%E6%AD%A5%E6%9C%BA%E5%88%B6/">https://zybtree.github.io/2020/08/12/%E5%90%8C%E6%AD%A5%E6%9C%BA%E5%88%B6/</a></p><p>参考答案： <a href="https://github.com/relaxcn/xv6-labs-2022-solutions/blob/main/doc/utils.md">https://github.com/relaxcn/xv6-labs-2022-solutions/blob/main/doc/utils.md</a></p><p>学习链接： <a href="https://pdos.csail.mit.edu/6.828/2021/schedule.html">https://pdos.csail.mit.edu/6.828/2021/schedule.html</a></p><hr><p>直接从进程与线程入手</p><h4 id="进程与线程"><a href="#进程与线程" class="headerlink" title="进程与线程"></a>进程与线程</h4><p>单独的CPU变换成多个虚拟的CPU</p><h5 id="进程"><a href="#进程" class="headerlink" title="进程"></a>进程</h5><p>当网页请求进入的时候 先查看 网页是否在缓存中 如果不是<br>启动一个磁盘请求用来获取网页  磁盘请求会花费很多时间 等待的过程中会有更多的请求进入<br>每个进程有它自己的虚拟的CPU 真正的CPU在进程之间来回切换<br>需要一些方法例如多个磁盘 模拟控制并发 进程就能发挥作用<br>来回切换称： 多道程序设计</p><p>支持多进程的多道程序系统<br>一个核一次也只能运行一个进程</p><p><img src="/study_photo2/operater1.jpg" alt="internet.jpg"></p><hr><h4 id="12-1日"><a href="#12-1日" class="headerlink" title="12.1日"></a>12.1日</h4><h5 id="一-进程的并发执行"><a href="#一-进程的并发执行" class="headerlink" title="一.进程的并发执行"></a>一.进程的并发执行</h5><ol><li>并发</li></ol><ul><li>进程的执行是间断的</li></ul><p>每个进程的生命周期期间CPU执行 由于某种原因暂停 每个进程执行是间断性的</p><ul><li>进程的执行速度是不可预测的</li></ul><p>进程调度，有其他事件的发生，每个进程上cpu执行坑你一点时间听着再接着运行</p><ol start="2"><li>共享</li></ol><ul><li>进程线程之间的制约性<br>在一个并发环境下多个进程或者线程之间会共享某些资源，在这些资源的使用过程中会产生进程之间的一种制约性。<br>比如当一个进程享用打印机这个资源，另外一个进程在第一个进程没有释放这个资源的前提之下就得不到这个资源，那就得等待。</li></ul><ol start="3"><li>不确定性</li></ol><ul><li>进程执行的结果与其执行的相对速度有关</li></ul><p>进程执行的结果和它的相对执行速度是有关系的，因此在不同的执行顺序的情况下，进程的执行结果也是不确定的。</p><h5 id="二-进程互斥"><a href="#二-进程互斥" class="headerlink" title="二.进程互斥"></a>二.进程互斥</h5><p>由于各进程要求使用共享资源(变量、文件等)， 而这些资源需要排他性使用，<br>各进程之间竞争使用这些资源，这一关系称为进程互斥。</p><ul><li>临界资源<br>系统中某些资源一次只允许一个进程使用，称这样的资源为临界资源或互斥资源或共享变量。<br>这些程序片段，分散在不同的进程里，它们的共同的特点是对同一个共享变量进行一些操作<br>这一段代码，和另外一个进程的这一段代码互为临界区，互为互斥区</li></ul><p><img src="/study_photo2/operater2.jpg" alt="internet.jpg"></p><h4 id="冯诺依曼模型"><a href="#冯诺依曼模型" class="headerlink" title="冯诺依曼模型"></a>冯诺依曼模型</h4><p>计算机基本结构：运算器 控制器 存储器 输入设备 输出设备</p><h5 id="内存"><a href="#内存" class="headerlink" title="内存"></a>内存</h5><p>程序和数据都是存储在内存，存储区域是线性的</p><p>存储数据的基本单位是 字节 每一个字节对应一个内存地址</p><p>最后一个地址为内存总字节数 -1 结构就像数序中的数据</p><h5 id="中央处理器"><a href="#中央处理器" class="headerlink" title="中央处理器"></a>中央处理器</h5><p>也就是cpu：<br>32位cpu一次可以计算4个字节<br>64位cpu一次可以计算8个字节 位数也就是cpu的位宽 代表cpu一次可以计算的数据量</p><p>8 位的 CPU，那么一次只能计算 1 个字节也就是0~255 范围内的数值 那么 32位也就是一次可以计算出 2的32次方这么大的数值<br>cpu内部组件：寄存器，控制单元和逻辑运算单元</p><p>为什么有了内存还需要寄存器？</p><p>寄存器种类（通用寄存器）（程序计数器）（指令寄存器）</p><p>因为： 内存离 CPU 太远了，而寄存器就在 CPU 里，紧挨着控制单元和逻辑运算单元，自然计算时速度会很快。</p><h6 id="总线"><a href="#总线" class="headerlink" title="总线"></a>总线</h6><p>总线用于cpu和内存以及其他设备之前的通信</p><p>（地址总线）：指定CPU将要操作的内存地址</p><p>（数据总线）：用于读写内存的数据</p><p>（控制总线）： 发送和接收信号，比如中断，设备复位等信号</p><p>CPU 要读写内存数据的时候：</p><ul><li>首先要通过「地址总线」来指定内存的地址；</li><li>然后通过「控制总线」控制是读或写命令；</li><li>最后通过「数据总线」来传输数据；</li></ul><h5 id="输入输出设备"><a href="#输入输出设备" class="headerlink" title="输入输出设备"></a>输入输出设备</h5><p>输入设备向计算机输入数据，计算机经过计算后，把数据输出给输出设备。<br>如果输入设备是键盘，按下按键时是需要和 CPU 进行交互的，这时就需要用到控制总线了。</p><h5 id="线路位宽与CPU位宽"><a href="#线路位宽与CPU位宽" class="headerlink" title="线路位宽与CPU位宽"></a>线路位宽与CPU位宽</h5><p>数据是如何通过线路传输的呢<br>操作电压，低电压表示 0，高压电压则表示 1</p><p>101 二进制数据，十进制则表示 5，如果只有一条线路，就意味着每次只能传递 1 bit 的数据， 那么传输 101 这个数据，就需要 3 次才能传输完成，这样的效率非常低。</p><p>增加线路，数据并行传输</p><p>CPU 想要操作「内存地址」就需要「地址总线」：</p><p>地址总线只有 1 条，那每次只能表示 「0 或 1」这两种地址  最大数量为 2（2^1）个</p><p>如果地址总线有 2 条，那么能表示 00、01、10、11 这四种地址  最大数量为 4（2^2）个</p><p>CPU 操作 4G 大的内存，那么就需要 32 条地址总线，因为 2 ^ 32 &#x3D; 4G</p><p>CPU位宽最好不要小于线路位宽</p><h5 id="a-little-operater-systerm"><a href="#a-little-operater-systerm" class="headerlink" title="a little operater systerm"></a>a little operater systerm</h5><p>链接 ： <a href="https://lwn.net/Articles/250967/">https://lwn.net/Articles/250967/</a></p><p><img src="/study_photo2/cpumemory.4.png" alt="internet.jpg"></p><p>所有 CPU（前面的示例中为两个，但可以有更多）都通过公共总线（前端总线，FSB）连接到北桥。除其他外，北桥还包含内存控制器，<br>其实现决定了计算机使用的 RAM 芯片的类型。不同类型的 RAM，例如 DRAM、Rambus 和 SDRAM，需要不同的内存控制器。</p><p>要访问所有其他系统设备，北桥必须与南桥进行通信。南桥通常称为 I&#x2F;O 桥，通过各种不同的总线处理与设备的通信。如今，PCI、PCI Express、SATA 和 USB 总线最为重要，但南桥也支持 PATA、IEEE 1394、串行和并行端口。<br>较旧的系统具有连接到北桥的 AGP 插槽。这样做是出于与北桥和南桥之间的连接速度不够快相关的性能原因。然而，如今 PCI-E 插槽全部连接到南桥。</p><hr><h2 id="让终端显示出自己说的话"><a href="#让终端显示出自己说的话" class="headerlink" title="让终端显示出自己说的话"></a>让终端显示出自己说的话<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">cd ~</span><br><span class="line">root@xiaoxinxiaohao:~# vim .bashrc</span><br><span class="line">root@xiaoxinxiaohao:~# source ~/.bashrc</span><br><span class="line">赵忠鹤闪亮登场</span><br><span class="line">Today is: Fri Dec  6 05:12:09 PM CST 2024</span><br><span class="line">今天也要充满活力哇咔咔</span><br><span class="line"></span><br></pre></td></tr></table></figure></h2><p>听从了一些学习的建议，带着问题去读书，想学什么，去书中学，带着问题去读书</p><hr><p>12.16日</p><h4 id="看到了b站的一个关于Go并发设计"><a href="#看到了b站的一个关于Go并发设计" class="headerlink" title="看到了b站的一个关于Go并发设计"></a>看到了b站的一个关于Go并发设计</h4><p>了解协程： 协程是一种用户级的轻量级线程。协程拥有自己的寄存器上下文和栈。协程调度切换时，将寄存器上下文和栈保存到其他地方，在切回来的时候，恢复先前保存的寄存器上下文和栈</p><p>主流语言基本上都选择了多线程作为并发设施</p><p>线程相关的概念就是抢占式多任务（Preemptive multitasking），而与协程相关的是协作式多任务</p><p>多线程编程是比较困难的， 因为调度程序任何时候都能中断线程， 必须记住保留锁， 去保护程序中重要部分， 防止多线程在执行的过程中断 协程默认会做好全方位保护， 以防止中断</p><h5 id="协程相比于多线程的优点"><a href="#协程相比于多线程的优点" class="headerlink" title="协程相比于多线程的优点"></a>协程相比于多线程的优点</h5><p>无需系统内核的上下文切换，减小开销； 因为：协程它不像线程和进程那样，需要进行系统内核上的上下文切换，协程的上下文切换是由开发人员决定的</p><p>无需原子操作锁定及同步的开销，不用担心资源共享的问题</p><p>单线程即可实现高并发，单核 CPU 即便支持上万的协程都不是问题，所以很适合用于高并发处理，尤其是在应用在网络爬虫中</p><h5 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h5><ol><li>无法使用 CPU 的多核 因为： 协程的本质是个单线程</li><li>写协程就意味着你要一值写一些非阻塞的代码，使用各种异步版本的库，比如后面的异步爬虫教程中用的 aiohttp</li><li><strong>协程的概念最核心的点其实就是函数或者一段程序能够被挂起（说暂停其实也没啥问题），待会儿再恢复</strong></li></ol>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;hr&gt;
-&lt;p&gt;6.cs081os学习&lt;/p&gt;
-&lt;p&gt;感谢：&lt;/p&gt;
-&lt;p&gt;参考资料：&lt;/p&gt;
-&lt;p&gt;&lt;a href=&quot;https://www.geeksforgeeks.org/pipe-system-call/&quot;&gt;https://www.geeksforgeeks.org/p</summary>
-      
-    
-    
-    
-    
-  </entry>
-  
-  <entry>
-    <title>20岁生日</title>
-    <link href="https://whuichenggong.github.io/2024/11/16/live/"/>
-    <id>https://whuichenggong.github.io/2024/11/16/live/</id>
-    <published>2024-11-16T12:06:31.864Z</published>
-    <updated>2024-11-16T12:24:16.923Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="生活的意义就是在于享受每一天，有开心，有难过，有惊喜！-享受它，生活就是这样！"><a href="#生活的意义就是在于享受每一天，有开心，有难过，有惊喜！-享受它，生活就是这样！" class="headerlink" title="生活的意义就是在于享受每一天，有开心，有难过，有惊喜！ 享受它，生活就是这样！"></a>生活的意义就是在于享受每一天，有开心，有难过，有惊喜！ 享受它，生活就是这样！</h2><p>有了博客可以让时间更具象化，留住每一刻，想看的时候翻一翻 感受真的不一样！</p><p>本来不想过生日的，但还是被寝室的兄弟们发现了哈哈哈哈好开心呢上大学的两年都收到了寝室5个兄弟给我送的蛋糕<br>感谢你们啦，尽管离开了家还是有人陪你过生日，非常开心，还是你们陪我走完大学四年<br>上高中的时候也没怎么正经过过生日，到了大学是你们让我的今天变得过呢更有意义，尽管在生活中有磕碰，但那是难以避免的！希望你们每个人以后路越来越好</p><p>也是收到家里人的好多红包啊哈哈啊哈好开心！ 感谢家人时刻牵挂着我！</p><h3 id="2023年的今天"><a href="#2023年的今天" class="headerlink" title="2023年的今天"></a>2023年的今天</h3><p><img src="/live/birsday.jpg" alt="生日"></p><h3 id="2024年的今天"><a href="#2024年的今天" class="headerlink" title="2024年的今天"></a>2024年的今天</h3><p><img src="/live/cake.jpg" alt="蛋糕"></p><hr><p>每年的生日许愿都是很广泛的 我姐说那是没有意义的哈哈哈一定要为自己许个愿望在新的一年实现它！</p><h3 id="小彩蛋"><a href="#小彩蛋" class="headerlink" title="小彩蛋"></a>小彩蛋</h3><div style="position: relative; width: 100%; height: 0; padding-bottom: 75%;"><iframe src="/live/birsday.mp4" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"> </iframe></div><pre><code>11.16日</code></pre>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;h2 id=&quot;生活的意义就是在于享受每一天，有开心，有难过，有惊喜！-享受它，生活就是这样！&quot;&gt;&lt;a href=&quot;#生活的意义就是在于享受每一天，有开心，有难过，有惊喜！-享受它，生活就是这样！&quot; class=&quot;headerlink&quot; title=&quot;生活的意义就是在于享受每一天</summary>
       
     
     
