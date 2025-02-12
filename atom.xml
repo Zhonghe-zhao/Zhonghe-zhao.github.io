@@ -6,7 +6,7 @@
   <link href="https://whuichenggong.github.io/atom.xml" rel="self"/>
   
   <link href="https://whuichenggong.github.io/"/>
-  <updated>2025-01-30T02:22:25.636Z</updated>
+  <updated>2025-02-12T10:39:25.548Z</updated>
   <id>https://whuichenggong.github.io/</id>
   
   <author>
@@ -15,6 +15,27 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title></title>
+    <link href="https://whuichenggong.github.io/2025/02/12/%E6%98%AF%E7%8B%97%E8%BF%87%E5%BA%A6%E4%BE%9D%E8%B5%96ai/"/>
+    <id>https://whuichenggong.github.io/2025/02/12/%E6%98%AF%E7%8B%97%E8%BF%87%E5%BA%A6%E4%BE%9D%E8%B5%96ai/</id>
+    <published>2025-02-12T10:04:53.120Z</published>
+    <updated>2025-02-12T10:39:25.548Z</updated>
+    
+    <content type="html"><![CDATA[<hr><h2 id="title：-在这个时代，你是否过度依赖ai"><a href="#title：-在这个时代，你是否过度依赖ai" class="headerlink" title="title： 在这个时代，你是否过度依赖ai"></a>title： 在这个时代，你是否过度依赖ai</h2><p>越来越觉得做任何事都离开不了ai，任何报错只需要复制粘贴，原本看文档可以解决的错误，让ai可能很长时间，都无法解决，那种来回粘贴的感觉<br>让我停止了思考，不想动脑，我好像成为了ai和代码之间的桥梁，ai让我在编码中也变得懒惰，那种空虚是真的！</p><p>这种急性子，渴望答案快速出来的懒惰，必须要改了！</p><ol><li>自己看懂错误出在哪里</li><li>查阅文档，试着自己解决</li><li>做事之前，自己构思</li></ol>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;hr&gt;
+&lt;h2 id=&quot;title：-在这个时代，你是否过度依赖ai&quot;&gt;&lt;a href=&quot;#title：-在这个时代，你是否过度依赖ai&quot; class=&quot;headerlink&quot; title=&quot;title： 在这个时代，你是否过度依赖ai&quot;&gt;&lt;/a&gt;title： 在这个时代，你是</summary>
+      
+    
+    
+    
+    
+  </entry>
   
   <entry>
     <title>系统思考</title>
@@ -459,28 +480,6 @@
     
     
     <category term="额外学习" scheme="https://whuichenggong.github.io/tags/%E9%A2%9D%E5%A4%96%E5%AD%A6%E4%B9%A0/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>数据库学习</title>
-    <link href="https://whuichenggong.github.io/2024/12/08/postgres/"/>
-    <id>https://whuichenggong.github.io/2024/12/08/postgres/</id>
-    <published>2024-12-08T10:47:54.793Z</published>
-    <updated>2025-01-21T07:11:18.627Z</updated>
-    
-    <content type="html"><![CDATA[<p>学习文档：</p><p><a href="https://www.rockdata.net/zh-cn/tutorial/toc/">https://www.rockdata.net/zh-cn/tutorial/toc/</a></p><p>WHERE 语句如何使用</p><p><a href="https://www.rockdata.net/zh-cn/tutorial/dml-where/%E3%80%81">https://www.rockdata.net/zh-cn/tutorial/dml-where/、</a></p><p>总结来说： 放入condition，返回结果只会返回符合condition条件的， 搭配 AND OR IN LIKE等使用</p>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;p&gt;学习文档：&lt;/p&gt;
-&lt;p&gt;&lt;a href=&quot;https://www.rockdata.net/zh-cn/tutorial/toc/&quot;&gt;https://www.rockdata.net/zh-cn/tutorial/toc/&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;WHERE 语句如何使用&lt;</summary>
-      
-    
-    
-    
     
   </entry>
   
