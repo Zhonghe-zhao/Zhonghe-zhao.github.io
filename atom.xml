@@ -6,7 +6,7 @@
   <link href="https://whuichenggong.github.io/atom.xml" rel="self"/>
   
   <link href="https://whuichenggong.github.io/"/>
-  <updated>2025-02-12T10:39:25.548Z</updated>
+  <updated>2025-03-31T13:38:36.899Z</updated>
   <id>https://whuichenggong.github.io/</id>
   
   <author>
@@ -17,19 +17,40 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
-    <title></title>
+    <title>总结一下最近</title>
+    <link href="https://whuichenggong.github.io/2025/03/31/%E6%80%BB%E7%BB%93%E4%B8%80%E4%B8%8B%E6%9C%80%E8%BF%91/"/>
+    <id>https://whuichenggong.github.io/2025/03/31/%E6%80%BB%E7%BB%93%E4%B8%80%E4%B8%8B%E6%9C%80%E8%BF%91/</id>
+    <published>2025-03-31T13:24:00.757Z</published>
+    <updated>2025-03-31T13:38:36.899Z</updated>
+    
+    <content type="html"><![CDATA[<p>好久没有更新博客了，因为一些重要的笔记都移动到Obsidian上面写了，很方便 ，谈谈新的一年对于技术的追求</p><p>在大二上学期以及在大一的时候都觉得计算机基础是非常重要的，因为一些声音吧，也沉迷于如何快速做项目啊，背八股文啊，越来越觉得空虚<br>没有得到什么，在大一的时候天真的以为只要学会一门语言就可以很强哈哈哈哈， 到现在再<br>看 语言真的只是一门工具，在想学习什么的时候，顺带学一下就可以研究自己更喜欢的领域，在本学期，我的思想发生了重大的转变，其实本来<br>也是，我觉得要想学习计算机，你如果不去理解计算机那么算的上什么学习计算机呢？数据结构为什么重要？世界本来就是一个巨大的存储系统，<br>如何存储数据？如何快速的存储数据是那么的重要! 我们用的数据库，操作系统，不全都是数据结构和算法的功劳吗？学习计算机的乐趣对于我来说<br>为什么跨越千里可以和对方聊天，每天坐在电脑前，为什么电脑可以这么工作，这就是一个黑盒，需要我们慢慢去挖掘，就是挖掘他们背后的黑盒，真的使我感到开心<br>就像文杰老哥说的一样 在这个ai的时候上层应用的逻辑显得没有那么重要。</p><p>在学习中一定要结合实际，才能深刻的理解这些知识，也就是所谓的八股文，发自内心的去理解，现在才理解什么是带着问题去读书去看，那种带入疑问去阅读，最终<br>疑问被解决的感觉是很爽的！</p><p>也希望自己能够坚持自己吧！</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;p&gt;好久没有更新博客了，因为一些重要的笔记都移动到Obsidian上面写了，很方便 ，谈谈新的一年对于技术的追求&lt;/p&gt;
+&lt;p&gt;在大二上学期以及在大一的时候都觉得计算机基础是非常重要的，因为一些声音吧，也沉迷于如何快速做项目啊，背八股文啊，越来越觉得空虚&lt;br&gt;没有得到什么，在</summary>
+      
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>在这个时代，你是否过度依赖ai</title>
     <link href="https://whuichenggong.github.io/2025/02/12/%E6%98%AF%E7%8B%97%E8%BF%87%E5%BA%A6%E4%BE%9D%E8%B5%96ai/"/>
     <id>https://whuichenggong.github.io/2025/02/12/%E6%98%AF%E7%8B%97%E8%BF%87%E5%BA%A6%E4%BE%9D%E8%B5%96ai/</id>
     <published>2025-02-12T10:04:53.120Z</published>
-    <updated>2025-02-12T10:39:25.548Z</updated>
+    <updated>2025-03-31T13:23:02.053Z</updated>
     
-    <content type="html"><![CDATA[<hr><h2 id="title：-在这个时代，你是否过度依赖ai"><a href="#title：-在这个时代，你是否过度依赖ai" class="headerlink" title="title： 在这个时代，你是否过度依赖ai"></a>title： 在这个时代，你是否过度依赖ai</h2><p>越来越觉得做任何事都离开不了ai，任何报错只需要复制粘贴，原本看文档可以解决的错误，让ai可能很长时间，都无法解决，那种来回粘贴的感觉<br>让我停止了思考，不想动脑，我好像成为了ai和代码之间的桥梁，ai让我在编码中也变得懒惰，那种空虚是真的！</p><p>这种急性子，渴望答案快速出来的懒惰，必须要改了！</p><ol><li>自己看懂错误出在哪里</li><li>查阅文档，试着自己解决</li><li>做事之前，自己构思</li></ol>]]></content>
+    <content type="html"><![CDATA[<p>越来越觉得做任何事都离开不了ai，任何报错只需要复制粘贴，原本看文档可以解决的错误，让ai可能很长时间，都无法解决，那种来回粘贴的感觉<br>让我停止了思考，不想动脑，我好像成为了ai和代码之间的桥梁，ai让我在编码中也变得懒惰，那种空虚是真的！</p><p>这种急性子，渴望答案快速出来的懒惰，必须要改了！</p><ol><li>自己看懂错误出在哪里</li><li>查阅文档，试着自己解决</li><li>做事之前，自己构思</li></ol>]]></content>
     
     
       
       
-    <summary type="html">&lt;hr&gt;
-&lt;h2 id=&quot;title：-在这个时代，你是否过度依赖ai&quot;&gt;&lt;a href=&quot;#title：-在这个时代，你是否过度依赖ai&quot; class=&quot;headerlink&quot; title=&quot;title： 在这个时代，你是否过度依赖ai&quot;&gt;&lt;/a&gt;title： 在这个时代，你是</summary>
+    <summary type="html">&lt;p&gt;越来越觉得做任何事都离开不了ai，任何报错只需要复制粘贴，原本看文档可以解决的错误，让ai可能很长时间，都无法解决，那种来回粘贴的感觉&lt;br&gt;让我停止了思考，不想动脑，我好像成为了ai和代码之间的桥梁，ai让我在编码中也变得懒惰，那种空虚是真的！&lt;/p&gt;
+&lt;p&gt;这种急性子，</summary>
       
     
     
@@ -457,29 +478,6 @@
     
     
     <category term="日常" scheme="https://whuichenggong.github.io/tags/%E6%97%A5%E5%B8%B8/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>分布式系统学习</title>
-    <link href="https://whuichenggong.github.io/2024/12/09/Distributed/"/>
-    <id>https://whuichenggong.github.io/2024/12/09/Distributed/</id>
-    <published>2024-12-09T12:53:55.062Z</published>
-    <updated>2025-01-21T07:07:10.648Z</updated>
-    
-    <content type="html"><![CDATA[<p><code>go build -buildmode=plugin ../mrapps/wc.go</code><br>这个指令是什么意思 :</p><p>这个命令的作用是编译 ..&#x2F;mrapps&#x2F;wc.go 文件，并将其生成一个 Go 插件文件。生成的插件文件通常是一个 .so（共享库文件）文件，它可以在运行时被其他 Go 程序通过 plugin 包加载和调用。</p><p>例如：</p><p>你可以在主程序中使用 plugin 包动态加载 wc.so 插件，并调用插件中的函数。</p><p><code>go run mrsequential.go wc.so pg*.txt：</code></p><p>go run：用于编译并运行 Go 程序。它会在内存中临时编译指定的 Go 文件，并立即执行。</p><p>mrsequential.go：这是要执行的 Go 源文件，Go 编译器会先编译这个文件并运行它。这个文件应该包含 main 函数，通常是程序的入口点。</p><p>wc.so：这是一个 Go 插件文件（共享库）。它通常是通过 go build -buildmode&#x3D;plugin 命令生成的。该文件包含 Go 代码，可能定义了一个插件接口，在运行时可以被主程序（mrsequential.go）动态加载和调用。wc.so 可能提供某些功能，mrsequential.go 将加载并使用这些功能。</p><p>pg*.txt：这是一个通配符表达式，表示所有以 pg 开头，后面跟任意字符，且以 .txt 结尾的文件。例如，pg1.txt, pg42.txt, pgfile.txt 都会被匹配并作为参数传递给程序。</p><p><code>more mr-out-0</code> 将会输出很多文本 这是因为：</p><p>mrsequential.go 将其输出保留在文件 mr-out-0 中。输入来自名为 pg-xxx.txt 的文本文件</p>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;p&gt;&lt;code&gt;go build -buildmode=plugin ../mrapps/wc.go&lt;/code&gt;&lt;br&gt;这个指令是什么意思 :&lt;/p&gt;
-&lt;p&gt;这个命令的作用是编译 ..&amp;#x2F;mrapps&amp;#x2F;wc.go 文件，并将其生成一个 Go 插件文件。生成的</summary>
-      
-    
-    
-    
-    
-    <category term="额外学习" scheme="https://whuichenggong.github.io/tags/%E9%A2%9D%E5%A4%96%E5%AD%A6%E4%B9%A0/"/>
     
   </entry>
   
