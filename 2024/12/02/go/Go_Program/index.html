@@ -1,0 +1,461 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>Go语法学习 | Zhonghe_Zhao</title><meta name="author" content="赵忠赫"><meta name="copyright" content="赵忠赫"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="12345678910111213whatAmI :&#x3D; func(i interface&#123;&#125;) &#123;    switch t :&#x3D; i.(type) &#123;    case bool:        fmt.Println(&quot;I&#x27;m a bool&quot;)    case int:        fmt.Println(&quot;I&amp;#x">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Go语法学习">
+<meta property="og:url" content="https://whuichenggong.github.io/2024/12/02/go/Go_Program/index.html">
+<meta property="og:site_name" content="Zhonghe_Zhao">
+<meta property="og:description" content="12345678910111213whatAmI :&#x3D; func(i interface&#123;&#125;) &#123;    switch t :&#x3D; i.(type) &#123;    case bool:        fmt.Println(&quot;I&#x27;m a bool&quot;)    case int:        fmt.Println(&quot;I&amp;#x">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://whuichenggong.github.io/picture/bizhi/4.png">
+<meta property="article:published_time" content="2024-12-02T06:10:19.416Z">
+<meta property="article:modified_time" content="2025-05-11T07:12:06.544Z">
+<meta property="article:author" content="赵忠赫">
+<meta property="article:tag" content="Go语法">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://whuichenggong.github.io/picture/bizhi/4.png"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://whuichenggong.github.io/2024/12/02/go/Go_Program/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><meta/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.css" media="print" onload="this.media='all'"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          const hour = new Date().getHours()
+          const isNight = hour <= 6 || hour >= 18
+          if (theme === undefined) isNight ? activateDarkMode() : activateLightMode()
+          else theme === 'light' ? activateLightMode() : activateDarkMode()
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"简"},
+  noticeOutdate: {"limitDay":365,"position":"top","messagePrev":"It has been","messageNext":"days since the last update, the content of the article may be outdated."},
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":230,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: true,
+    post: true
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: {"chs_to_cht":"已切换为繁体中文","cht_to_chs":"已切换为简体中文","day_to_night":"已切换为深色模式","night_to_day":"已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#1f1f1f","position":"top-right"},
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: true,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Go语法学习',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2025-05-11 15:12:06',
+  isShuoshuo: false
+}</script><meta name="generator" content="Hexo 7.3.0"><link rel="alternate" href="/atom.xml" title="Zhonghe_Zhao" type="application/atom+xml">
+</head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><script>(()=>{
+  const $loadingBox = document.getElementById('loading-box')
+  const $body = document.body
+  const preloader = {
+    endLoading: () => {
+      $body.style.overflow = ''
+      $loadingBox.classList.add('loaded')
+    },
+    initLoading: () => {
+      $body.style.overflow = 'hidden'
+      $loadingBox.classList.remove('loaded')
+    }
+  }
+
+  preloader.initLoading()
+  window.addEventListener('load', preloader.endLoading)
+
+  if (false) {
+    btf.addGlobalFn('pjaxSend', preloader.initLoading, 'preloader_init')
+    btf.addGlobalFn('pjaxComplete', preloader.endLoading, 'preloader_end')
+  }
+})()</script><div id="web_bg" style="background: [object Object];"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/head.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">41</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">2</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">12</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/Music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></div><div class="menus_item"><a class="site-page" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片库</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/picture/bizhi/4.png);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><img class="site-icon" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/head.jpg" alt="Logo"><span class="site-name">Zhonghe_Zhao</span></a><a class="nav-page-title" href="/"><span class="site-name">Go语法学习</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/Music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></div><div class="menus_item"><a class="site-page" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片库</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">Go语法学习</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2024-12-02T06:10:19.416Z" title="发表于 2024-12-02 14:10:19">2024-12-02</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-05-11T07:12:06.544Z" title="更新于 2025-05-11 15:12:06">2025-05-11</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/go/">go</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">总字数:</span><span class="word-count">3.5k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>13分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">whatAmI := <span class="function"><span class="keyword">func</span><span class="params">(i <span class="keyword">interface</span>&#123;&#125;)</span></span> &#123;</span><br><span class="line">    <span class="keyword">switch</span> t := i.(<span class="keyword">type</span>) &#123;</span><br><span class="line">    <span class="keyword">case</span> <span class="type">bool</span>:</span><br><span class="line">        fmt.Println(<span class="string">&quot;I&#x27;m a bool&quot;</span>)</span><br><span class="line">    <span class="keyword">case</span> <span class="type">int</span>:</span><br><span class="line">        fmt.Println(<span class="string">&quot;I&#x27;m an int&quot;</span>)</span><br><span class="line">    <span class="keyword">default</span>:</span><br><span class="line">        fmt.Printf(<span class="string">&quot;Don&#x27;t know type %T\n&quot;</span>, t)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">whatAmI(<span class="literal">true</span>)</span><br><span class="line">whatAmI(<span class="number">1</span>)</span><br><span class="line">whatAmI(<span class="string">&quot;hey&quot;</span>)</span><br></pre></td></tr></table></figure>
+<p>这是一个函数whatAmI，它接受一个interface{}类型的参数。interface{}是 Go 语言中的一种空接口，可以存储任何类型的值。<br>这个switch语句实际上是一个类型switch，它检查接口变量i的具体类型，而不是它的值。根据i的类型，switch将执行不同的case分支。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// If you specify the index with `:`, the elements in</span></span><br><span class="line">	<span class="comment">// between will be zeroed.</span></span><br><span class="line">	b = [...]<span class="type">int</span>&#123;<span class="number">100</span>, <span class="number">3</span>: <span class="number">400</span>, <span class="number">500</span>&#125;</span><br><span class="line">	fmt.Println(<span class="string">&quot;idx:&quot;</span>, b)</span><br></pre></td></tr></table></figure>
+
+<p>3: 400 指定了下标为 3 的位置的值是 400。<br>这意味着索引 1 和 2 的值将被初始化为 0（因为:操作符指定了一个新的下标，并初始化之前未指定的下标对应的元素为 0）。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> s []<span class="type">string</span></span><br><span class="line">	fmt.Println(<span class="string">&quot;uninit:&quot;</span>, s, s == <span class="literal">nil</span>, <span class="built_in">len</span>(s) == <span class="number">0</span>)</span><br></pre></td></tr></table></figure>
+<p>uninit: [] true true</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">twoD := <span class="built_in">make</span>([][]<span class="type">int</span>, <span class="number">3</span>)</span><br><span class="line">	<span class="keyword">for</span> i := <span class="number">0</span>; i &lt; <span class="number">3</span>; i++ &#123;</span><br><span class="line">		innerLen := i + <span class="number">1</span></span><br><span class="line">		twoD[i] = <span class="built_in">make</span>([]<span class="type">int</span>, innerLen)</span><br><span class="line">		<span class="keyword">for</span> j := <span class="number">0</span>; j &lt; innerLen; j++ &#123;</span><br><span class="line">			twoD[i][j] = i + j</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	fmt.Println(<span class="string">&quot;2d: &quot;</span>, twoD)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>2d:  [[0] [1 2] [2 3 4]]</p>
+<p>12.3日</p>
+<p>map操作：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">   m[<span class="string">&quot;k1&quot;</span>] = <span class="number">7</span></span><br><span class="line">m[<span class="string">&quot;k2&quot;</span>] = <span class="number">13</span></span><br><span class="line">fmt.Println(<span class="string">&quot;map:&quot;</span>, m)</span><br><span class="line">fmt.Println(<span class="string">&quot;len:&quot;</span>, <span class="built_in">len</span>(m))</span><br><span class="line"><span class="comment">//clear(m)</span></span><br><span class="line">val, prs := m[<span class="string">&quot;k2&quot;</span>] <span class="comment">//k2的值， 一个是判断k2是否存在于m中的bool值</span></span><br><span class="line">fmt.Println(<span class="string">&quot;val：&quot;</span>, val, <span class="string">&quot;prs:&quot;</span>, prs)</span><br><span class="line">n := <span class="keyword">map</span>[<span class="type">string</span>]<span class="type">int</span>&#123;<span class="string">&quot;foo&quot;</span>: <span class="number">1</span>, <span class="string">&quot;bar&quot;</span>: <span class="number">2</span>&#125;</span><br><span class="line">fmt.Println(<span class="string">&quot;&quot;</span>, n)</span><br><span class="line"><span class="keyword">if</span> maps.Equal(n, n2) &#123;</span><br><span class="line">	fmt.Println(<span class="string">&quot;n == n2&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>使用变长参数函数（variadic function），即可以接收任意数量参数的函数。<br>这里的 … 标记表示 nums 参数是可变长的，可以接收零个或多个 int 类型的参数</p>
+<p>nums 被当作切片使用，可以进行切片相关的操作，例如使用 len(nums) 获取长度，或者用 range 遍历切片元素。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">sum</span><span class="params">(nums ...<span class="type">int</span>)</span></span> &#123;</span><br><span class="line">	fmt.Print(nums, <span class="string">&quot; &quot;</span>)</span><br><span class="line">	total := <span class="number">0</span></span><br><span class="line">	<span class="comment">// Within the function, the type of `nums` is</span></span><br><span class="line">	<span class="comment">// equivalent to `[]int`. We can call `len(nums)`,</span></span><br><span class="line">	<span class="comment">// iterate over it with `range`, etc.</span></span><br><span class="line">	<span class="keyword">for</span> _, num := <span class="keyword">range</span> nums &#123;</span><br><span class="line">		total += num</span><br><span class="line">	&#125;</span><br><span class="line">	fmt.Println(total)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Variadic functions can be called in the usual way</span></span><br><span class="line">	<span class="comment">// with individual arguments.</span></span><br><span class="line">	sum(<span class="number">1</span>)</span><br><span class="line">	sum(<span class="number">1</span>, <span class="number">2</span>)</span><br><span class="line">	sum(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>)</span><br><span class="line"></span><br><span class="line">	<span class="comment">// If you already have multiple args in a slice,</span></span><br><span class="line">	<span class="comment">// apply them to a variadic function using</span></span><br><span class="line">	<span class="comment">// `func(slice...)` like this.</span></span><br><span class="line">	</span><br><span class="line">	<span class="comment">//第二种调用nums的方法使用 nums 切片，通过 sum(nums...) 的方式将切片中的每个元素作为单独的参数传递给 sum 函数。</span></span><br><span class="line">	nums := []<span class="type">int</span>&#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>&#125;</span><br><span class="line">	sum(nums...)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>错误示范</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">allArticles</span><span class="params">(w http.ResponseWriter, r *http.Request)</span></span> &#123;</span><br><span class="line">	articles := Articles&#123;</span><br><span class="line">		Title:   <span class="string">&quot;Test Title&quot;</span>,</span><br><span class="line">		Desc:    <span class="string">&quot;Test Descrption&quot;</span>,</span><br><span class="line">		Content: <span class="string">&quot;hello world&quot;</span>,</span><br><span class="line">	&#125;,</span><br><span class="line"></span><br><span class="line">fmt.Println(<span class="string">&quot;endpoint hit: allArticles&quot;</span>)</span><br><span class="line">	json.NewEncoder(w).Encode(articles)</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>这里的问题是 Articles 类型实际上是一个切片（[]Article），而你试图将一个单独的 Article 结构体实例赋值给 articles 变量。根据 Go 语言的语法，Articles 类型需要的是一个 Article 类型的切片。</p>
+<p>要解决这个问题，你需要将 Article 实例放入一个切片中。可以将你的代码修改为：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">articles := Articles&#123;</span><br><span class="line">&#123;</span><br><span class="line">Title:   <span class="string">&quot;Test Title&quot;</span>,</span><br><span class="line">Desc:    <span class="string">&quot;Test Descrption&quot;</span>,</span><br><span class="line">Content: <span class="string">&quot;hello world&quot;</span>,</span><br><span class="line">&#125;,</span><br><span class="line">&#125;</span><br><span class="line">CopyInsert</span><br><span class="line">这里的修改是把 Article 结构体实例用 &#123;&#125; 包围起来，表示这是一个切片中的一个元素。</span><br><span class="line"></span><br><span class="line">最终的 allArticles 函数应如下所示：</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>第二种方法：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 创建Article的实例</span></span><br><span class="line">    newArticle := Article&#123;</span><br><span class="line">        Title:   <span class="string">&quot;Test Title&quot;</span>,</span><br><span class="line">        Desc:    <span class="string">&quot;Test Description&quot;</span>,</span><br><span class="line">        Content: <span class="string">&quot;hello world&quot;</span>,</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 创建Articles切片并添加上面的实例</span></span><br><span class="line">    articles := Articles&#123;newArticle&#125;</span><br></pre></td></tr></table></figure>
+<hr>
+<p>go fmt </p>
+<p>包的导入者将使用名称来引用其内容，因此包中的导出名称可以使用该事实来避免重复。 （不要使用 import . 表示法，它可以简化必须在正在测试的包外部运行的测试，但应该避免。）<br>例如，bufio 包中的缓冲读取器类型称为 Reader，而不是 BufReader，因为用户将其视为 bufio.Reader，这是一个清晰、简洁的名称。此外，由于导入的实体始终使用其包名称进行寻址，<br>因此 bufio.Reader 不会与 io.Reader 冲突。类似地，<br>创建ring.Ring新实例的函数（Go中构造函数的定义）通常被称为NewRing，但由于Ring是包导出的唯一类型，并且由于包被称为ring，所以它是称为“New”，包的客户端将其视为“ring.New”。使用包结构来帮助您选择好的名称。</p>
+<p>另一个简短的例子是once.Do; Once.Do(setup) 读起来很好，<br>并且不会通过编写 Once.DoOrWaitUntilDone(setup) 来改进。长名称不会自动使内容更具可读性。有用的文档注释通常比超长的名称更有价值。</p>
+<h2 id="闭包"><a href="#闭包" class="headerlink" title="闭包"></a>闭包</h2><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">intSeq</span><span class="params">()</span></span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> <span class="type">int</span> &#123;</span><br><span class="line">    i := <span class="number">0</span> <span class="comment">// i 是一个局部变量，用于 intSeq 函数。</span></span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> <span class="type">int</span> &#123; <span class="comment">// 返回一个匿名函数，这个函数可以访问 intSeq 函数的局部变量 i。</span></span><br><span class="line">        i++    <span class="comment">// 每次调用这个匿名函数时，i 的值都会增加。</span></span><br><span class="line">        <span class="keyword">return</span> i <span class="comment">// 返回增加后的 i 的值。</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>返回结果 ：<br>1<br>2<br>3<br>1</p>
+<p>这是因为闭包允许匿名函数捕获并记住 i 变量的状态。<br>这就是闭包的 “魔力” 所在，即使外部函数已经返回，内部函数仍然能够访问和修改外部函数的变量。</p>
+<p>stack :&#x3D; []rune{} 与 make :&#x3D; []string{} 的区别：<br>stack :&#x3D; []rune{}：这段代码创建了一个 rune 类型的切片（空切片）。rune 是 Go 中专门用来表示单个字符的类型，适用于你处理字符（尤其是 Unicode 字符）时，能够确保每个元素是一个完整的 Unicode 字符。</p>
+<p>make :&#x3D; []string{}：这段代码创建了一个 string 类型的切片。每个元素是一个字符串，字符串通常用于表示一系列字符构成的文本数据。</p>
+<hr>
+<p>在 Go 程序中，通过 <code>os.Args</code> 可以访问命令行参数，而 <code>go run main.go file1.txt file2.txt</code> 的执行过程如下：</p>
+<hr>
+<p>为什么·go语言 &gt; go run main.go file1.txt file2.txt 在这里执行之后可以读取到文件1 2</p>
+<h3 id="1-命令行参数的解析"><a href="#1-命令行参数的解析" class="headerlink" title="1. 命令行参数的解析"></a><strong>1. 命令行参数的解析</strong></h3><ul>
+<li><p><strong>命令：</strong> <code>go run main.go file1.txt file2.txt</code></p>
+<ul>
+<li><code>go run</code> 会编译并执行 <code>main.go</code>。</li>
+<li>命令行中，<code>main.go</code> 后面的 <code>file1.txt</code> 和 <code>file2.txt</code> 被传递给程序作为命令行参数。</li>
+</ul>
+</li>
+<li><p>在程序中，<code>os.Args</code> 是一个字符串切片（<code>[]string</code>），包含了命令行中的参数：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">os.Args[<span class="number">0</span>] <span class="comment">// 包含程序的名字，如 &quot;main.go&quot;</span></span><br><span class="line">os.Args[<span class="number">1</span>] <span class="comment">// 第一个参数 &quot;file1.txt&quot;</span></span><br><span class="line">os.Args[<span class="number">2</span>] <span class="comment">// 第二个参数 &quot;file2.txt&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>例子：</strong><br>假如命令为：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">go run main.go file1.txt file2.txt</span><br></pre></td></tr></table></figure>
+<p>则：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fmt.Println(os.Args) </span><br></pre></td></tr></table></figure>
+<p>输出：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[main file1.txt file2.txt]</span><br></pre></td></tr></table></figure></li>
+</ul>
+<hr>
+<h3 id="2-打开文件进行读取"><a href="#2-打开文件进行读取" class="headerlink" title="2. 打开文件进行读取"></a><strong>2. 打开文件进行读取</strong></h3><p>你的代码解析命令行参数后，会尝试打开这些文件：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">files := os.Args[<span class="number">1</span>:] <span class="comment">// 获取命令行参数列表（除程序本身外的部分）</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>files</code> 现在是一个切片：<code>[&quot;file1.txt&quot;, &quot;file2.txt&quot;]</code>。</li>
+</ul>
+<p>然后通过循环处理每个文件：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> _, arg := <span class="keyword">range</span> files &#123;</span><br><span class="line">    f, err := os.Open(arg) <span class="comment">// 打开文件</span></span><br><span class="line">    <span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">        fmt.Fprintf(os.Stderr, <span class="string">&quot;dup2: %v\n&quot;</span>, err) <span class="comment">// 错误处理</span></span><br><span class="line">        <span class="keyword">continue</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">defer</span> f.Close() <span class="comment">// 确保文件被正确关闭</span></span><br><span class="line">    countLines(f, counts)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这段代码中：</p>
+<ol>
+<li><p>**<code>os.Open(arg)</code>**：</p>
+<ul>
+<li>打开文件（如 <code>file1.txt</code>），返回一个文件指针 <code>*os.File</code>。</li>
+<li>如果文件打开失败（文件不存在或权限问题），返回错误并跳过。</li>
+</ul>
+</li>
+<li><p>**<code>countLines(f, counts)</code>**：</p>
+<ul>
+<li>将文件指针传递给 <code>countLines</code>，扫描文件的内容并统计每行的出现次数。</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h3 id="3-执行结果的输出"><a href="#3-执行结果的输出" class="headerlink" title="3. 执行结果的输出"></a><strong>3. 执行结果的输出</strong></h3><p>统计完成后，程序会输出所有出现次数大于 1 的行：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> line, n := <span class="keyword">range</span> counts &#123;</span><br><span class="line">    <span class="keyword">if</span> n &gt; <span class="number">1</span> &#123;</span><br><span class="line">        fmt.Printf(<span class="string">&quot;%d\t%s\n&quot;</span>, n, line)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这会将文件中所有重复的行及其出现次数打印到控制台。</p>
+<hr>
+<h3 id="4-为什么能够读取多个文件"><a href="#4-为什么能够读取多个文件" class="headerlink" title="4. 为什么能够读取多个文件"></a><strong>4. 为什么能够读取多个文件</strong></h3><p>这是因为你的代码通过 <code>for _, arg := files</code> 遍历了 <code>os.Args[1:]</code> 中的所有文件，并依次处理它们。程序对每个文件重复以下流程：</p>
+<ol>
+<li>打开文件。</li>
+<li>按行扫描内容，统计出现次数。</li>
+<li>将结果合并到 <code>counts</code> 映射中。</li>
+</ol>
+<p>这样，即使你提供多个文件，程序依然可以逐个读取并处理它们。</p>
+<hr>
+<h3 id="运行流程示例"><a href="#运行流程示例" class="headerlink" title="运行流程示例"></a><strong>运行流程示例</strong></h3><p>假设有以下文件内容：</p>
+<h4 id="file1-txt"><a href="#file1-txt" class="headerlink" title="file1.txt:"></a><code>file1.txt</code>:</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">hello</span><br><span class="line">world</span><br><span class="line">hello</span><br></pre></td></tr></table></figure>
+
+<h4 id="file2-txt"><a href="#file2-txt" class="headerlink" title="file2.txt:"></a><code>file2.txt</code>:</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">world</span><br><span class="line">hello</span><br><span class="line">go</span><br></pre></td></tr></table></figure>
+
+<p>执行命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">go run main.go file1.txt file2.txt</span><br></pre></td></tr></table></figure>
+
+<p>程序会：</p>
+<ol>
+<li>读取 <code>file1.txt</code>：<ul>
+<li>统计结果：<code>&#123;&quot;hello&quot;: 2, &quot;world&quot;: 1&#125;</code>。</li>
+</ul>
+</li>
+<li>读取 <code>file2.txt</code>，继续更新 <code>counts</code>：<ul>
+<li>最终统计结果：<code>&#123;&quot;hello&quot;: 3, &quot;world&quot;: 2, &quot;go&quot;: 1&#125;</code>。</li>
+</ul>
+</li>
+<li>打印重复行：<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">3   hello</span><br><span class="line">2   world</span><br></pre></td></tr></table></figure></li>
+</ol>
+<hr>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a><strong>总结</strong></h3><p>你可以读取多个文件是因为程序通过 <code>os.Args</code> 获取了命令行中的文件名列表，并通过循环逐个打开和读取文件的内容。这种设计使得你的程序能够动态处理任意数量的文件，而无需修改代码。</p>
+<hr>
+<h3 id="12-14-日-更考完4级"><a href="#12-14-日-更考完4级" class="headerlink" title="12.14 日 更考完4级"></a>12.14 日 更考完4级</h3><h4 id="一-Errors"><a href="#一-Errors" class="headerlink" title="一.Errors"></a>一.Errors</h4><ol>
+<li>“errors” 包  使用给定的错误消息构造一个基本错误值。</li>
+</ol>
+<p>errors.New(“can’t work with 42”)</p>
+<p>nil 表示没有错误</p>
+<ol start="2">
+<li>哨兵错误是一个预先声明的变量，用于表示特定的错误情况。</li>
+</ol>
+<p>var ErrOutOfTea &#x3D; fmt.Errorf(“no more tea available”)<br>var ErrPower &#x3D; fmt.Errorf(“can’t boil water”)</p>
+<ol start="3">
+<li>更高级别的错误来包装错误以添加上下文</li>
+</ol>
+<p>最简单的方法是使用 fmt.Errorf 中的 %w 动词。包装错误创建一个逻辑链（A 包装 B，B 包装 C 等），可以使用 error.Is 和 error.As 等函数进行查询。</p>
+<p>return fmt.Errorf(“making tea: %w”, ErrPower)</p>
+<ol start="4">
+<li>if 行中使用内联错误检查</li>
+</ol>
+<p>if r, e :&#x3D; f(i); e !&#x3D; nil {<br>fmt.Println(“f failed:”, e)<br>} else {<br>fmt.Println(“f worked:”, r)<br>}</p>
+<ol start="5">
+<li>error.Is 检查给定错误（或其链中的任何错误）是否与特定错误值匹配。</li>
+</ol>
+<p>if errors.Is(err, ErrOutOfTea) {<br>fmt.Println(“We should buy new tea!”)<br>} else if errors.Is(err, ErrPower) {<br>fmt.Println(“Now it is dark.”)<br>} else {<br>fmt.Printf(“unknown error: %s\n”, err)<br>}</p>
+<p>将err和我们自定义的哨兵错误或者特定错误做对比</p>
+<p>二.自定义错误</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> argError <span class="keyword">struct</span> &#123;</span><br><span class="line">    arg     <span class="type">int</span></span><br><span class="line">    message <span class="type">string</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(e *argError)</span></span> Error() <span class="type">string</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> fmt.Sprintf(<span class="string">&quot;%d - %s&quot;</span>, e.arg, e.message)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>Error 方法并没有直接调用，但 &amp;argError{arg, “can’t work with it”} 被返回为 error 类型时，Error 方法已经在幕后实现了对错误消息的封装。</p>
+<p>error.As 是errors.Is 的更高级版本。它检查给定错误（或其链中的任何错误）是否与特定错误类型匹配，并转换为该类型的值，返回 true。如果没有匹配，则返回 false。</p>
+<h4 id="Goroutines"><a href="#Goroutines" class="headerlink" title="Goroutines"></a>Goroutines</h4><p>轻量级的执行线程</p>
+<p>go f(s)。这个新的 goroutine 将与调用的 goroutine 同时执行。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">f</span><span class="params">(from <span class="type">string</span>)</span></span> &#123;</span><br><span class="line">    <span class="keyword">for</span> i := <span class="number">0</span>; i &lt; <span class="number">3</span>; i++ &#123;</span><br><span class="line">        fmt.Println(from, <span class="string">&quot;:&quot;</span>, i)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">go</span> f(<span class="string">&quot;goroutine&quot;</span>)</span><br><span class="line">  </span><br></pre></td></tr></table></figure>
+
+<p>启动一个 goroutine 来进行匿名函数调用。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">(msg <span class="type">string</span>)</span></span> &#123;</span><br><span class="line">        fmt.Println(msg)</span><br><span class="line">    &#125;(<span class="string">&quot;going&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>goroutine 是由 Go 运行时同时运行的。</p>
+<h4 id="通道"><a href="#通道" class="headerlink" title="通道"></a>通道</h4><p>通道是连接并发 goroutine 的管道。您可以将值从一个 Goroutine 发送到通道，并将这些值接收到另一个 Goroutine。</p>
+<p>messages :&#x3D; make(chan string)</p>
+<p>通道 &lt;- 语法将值发送到通道</p>
+<p>go func() { messages &lt;- “ping” }()</p>
+<p>msg :&#x3D; &lt;-messages</p>
+<p>&lt;-channel 语法从通道接收值。在这里，我们将收到上面发送的“ping”消息并将其打印出来。</p>
+<p>发送和接收会阻塞，直到发送者和接收者都准备好为止。此属性允许我们在程序结束时等待“ping”消息，而无需使用任何其他同步。</p>
+<p>通道缓冲：</p>
+<p>messages :&#x3D; make(chan string, 2) 字符串通道，最多缓冲 2 个值 因此我们可以将这些值发送到通道中，而无需相应的并发接收。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"> messages := <span class="built_in">make</span>(<span class="keyword">chan</span> <span class="type">string</span>, <span class="number">2</span>)</span><br><span class="line"></span><br><span class="line">messages &lt;- <span class="string">&quot;buffered&quot;</span></span><br><span class="line">messages &lt;- <span class="string">&quot;channel&quot;</span></span><br><span class="line"></span><br><span class="line"> fmt.Println(&lt;-messages)</span><br><span class="line"> fmt.Println(&lt;-messages)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+
+<h4 id="断言和switch用法"><a href="#断言和switch用法" class="headerlink" title="断言和switch用法:"></a>断言和switch用法:</h4><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> t <span class="keyword">interface</span>&#123;&#125;</span><br><span class="line">t = functionOfSomeType()</span><br><span class="line"><span class="keyword">switch</span> t := t.(<span class="keyword">type</span>) &#123;</span><br><span class="line"><span class="keyword">default</span>:</span><br><span class="line">    fmt.Printf(<span class="string">&quot;unexpected type %T\n&quot;</span>, t)     <span class="comment">// %T prints whatever type t has</span></span><br><span class="line"><span class="keyword">case</span> <span class="type">bool</span>:</span><br><span class="line">    fmt.Printf(<span class="string">&quot;boolean %t\n&quot;</span>, t)             <span class="comment">// t has type bool</span></span><br><span class="line"><span class="keyword">case</span> <span class="type">int</span>:</span><br><span class="line">    fmt.Printf(<span class="string">&quot;integer %d\n&quot;</span>, t)             <span class="comment">// t has type int</span></span><br><span class="line"><span class="keyword">case</span> *<span class="type">bool</span>:</span><br><span class="line">    fmt.Printf(<span class="string">&quot;pointer to boolean %t\n&quot;</span>, *t) <span class="comment">// t has type *bool</span></span><br><span class="line"><span class="keyword">case</span> *<span class="type">int</span>:</span><br><span class="line">    fmt.Printf(<span class="string">&quot;pointer to integer %d\n&quot;</span>, *t) <span class="comment">// t has type *int</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>类型断言用于从接口类型值中提取其底层的具体类型。如果断言成功，程序可以安全地将该接口值转换为目标类型并使用。</p>
+<p>value, ok :&#x3D; x.(T)</p>
+<p>x 是一个接口类型的变量。<br>T 是目标类型（可以是具体类型或其他接口类型）。<br>如果 x 的动态类型是 T：<br>value 是 x 转换为 T 后的值。<br>ok 为 true。<br>如果 x 的动态类型不是 T：<br>value 是 T 的零值。<br>ok 为 false，表示断言失败。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> x <span class="keyword">interface</span>&#123;&#125; = <span class="number">42</span> <span class="comment">// 空接口存储了一个 int 值</span></span><br><span class="line"></span><br><span class="line">value, ok := x.(<span class="type">int</span>) <span class="comment">// 断言 x 是 int 类型</span></span><br><span class="line"><span class="keyword">if</span> ok &#123;</span><br><span class="line">    fmt.Printf(<span class="string">&quot;x is an int, value: %d\n&quot;</span>, value)</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    fmt.Println(<span class="string">&quot;x is not an int&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>空interface<br>空interface(interface{})不包含任何的method，正因为如此，所有的类型都实现了空interface。空interface对于描述起不到任何的作用(因为它不包含任何的method），但是空interface在我们需要存储任意类型的数值的时候相当有用，因为它可以存储任意类型的数值。它有点类似于C语言的void*类型。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 定义a为空接口</span></span><br><span class="line"><span class="keyword">var</span> a <span class="keyword">interface</span>&#123;&#125;</span><br><span class="line"><span class="keyword">var</span> i <span class="type">int</span> = <span class="number">5</span></span><br><span class="line">s := <span class="string">&quot;Hello world&quot;</span></span><br><span class="line"><span class="comment">// a可以存储任意类型的数值</span></span><br><span class="line">a = i</span><br><span class="line">a = s</span><br></pre></td></tr></table></figure>
+<p>一个函数把interface{}作为参数，那么他可以接受任意类型的值作为参数，如果一个函数返回interface{},那么也就可以返回任意类型的值。是不是很有用啊！</p>
+<p>Go并发</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://Whuichenggong.github.io">赵忠赫</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://whuichenggong.github.io/2024/12/02/go/Go_Program/">https://whuichenggong.github.io/2024/12/02/go/Go_Program/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://Whuichenggong.github.io" target="_blank">Zhonghe_Zhao</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Go%E8%AF%AD%E6%B3%95/">Go语法</a></div><div class="post-share"><div class="social-share" data-image="/picture/bizhi/4.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2024/12/06/go/serialize/" title="json的序列化与反序列化"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/picture/bizhi/4.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">json的序列化与反序列化</div></div><div class="info-2"><div class="info-item-1">序列化：将 Go 中的结构体、切片、map 等数据结构转换为 JSON 格式的字符串。 作用：方便数据在网络传输、文件保存等情境中使用。 反序列化：将 JSON 格式的字符串转换为 Go 的数据结构。 作用：方便从 JSON 中提取数据并在程序中使用。 JSON{“”： “”，“”： “”，“”： “”} Go中 使用 Marshal Unmarshal 进行序列化和反序列化 123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657package mainimport (    &quot;encoding/json&quot;    &quot;fmt&quot;)type Person struct &#123;    Name string `json:&quot;name&quot;`    Age  int    `json:&quot;age&quot;`&#125;func main() &#123;    p...</div></div></div></a><a class="pagination-related" href="/2024/12/02/%E6%8A%80%E6%9C%AF%E5%88%86%E4%BA%AB/study_plan/" title="小计划"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/picture/bizhi/1.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">小计划</div></div><div class="info-2"><div class="info-item-1">兄弟，你的想法很清晰，我非常理解你想深入学习、夯实基础，而不是走捷径的决心。我们可以针对你的目标和现状制定一个更加实践导向的计划，同时保持学习过程有趣且充实。以下是我的建议和方案：  总体目标 短期（2025年3月前）：增强银行项目的实用性和技术深度，掌握后端开发的核心技能，为实习做好准备。 中长期（未来两年）：夯实计算机基础，深入理解系统设计、分布式系统及核心算法，逐步具备独立设计和开发复杂项目的能力。   学习模块规划1. 项目深度增强（每周一个主题，贯穿整个学习计划）目标：将现有银行项目提升到更贴近实际业务需求的水平，增加亮点功能。  Week 1: 数据一致性与事务  学习事务隔离级别（ACID），在项目中实现更加复杂的转账操作（如跨账户冻结和解冻）。 使用 SQLC 或 GORM，优化数据库操作。   Week 2: 引入 Redis  学习 Redis 基础知识，理解其在缓存和分布式锁中的应用。 在项目中实现： 用户信息缓存，优化频繁查询。 基于 Redis 的幂等性控制（防止转账操作重复）。     Week 3: RESTful API 和 JWT...</div></div></div></a></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/head.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">赵忠赫</div><div class="author-info-description">时间一直在陪伴你</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">41</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">2</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">12</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Whuichenggong"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/Whuichenggong" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:zhaozhonghe40@gmail.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">让时间的痕迹留下更多！</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%97%AD%E5%8C%85"><span class="toc-number">1.</span> <span class="toc-text">闭包</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%8F%82%E6%95%B0%E7%9A%84%E8%A7%A3%E6%9E%90"><span class="toc-number">1.1.</span> <span class="toc-text">1. 命令行参数的解析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E8%BF%9B%E8%A1%8C%E8%AF%BB%E5%8F%96"><span class="toc-number">1.2.</span> <span class="toc-text">2. 打开文件进行读取</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E6%89%A7%E8%A1%8C%E7%BB%93%E6%9E%9C%E7%9A%84%E8%BE%93%E5%87%BA"><span class="toc-number">1.3.</span> <span class="toc-text">3. 执行结果的输出</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E4%B8%BA%E4%BB%80%E4%B9%88%E8%83%BD%E5%A4%9F%E8%AF%BB%E5%8F%96%E5%A4%9A%E4%B8%AA%E6%96%87%E4%BB%B6"><span class="toc-number">1.4.</span> <span class="toc-text">4. 为什么能够读取多个文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%90%E8%A1%8C%E6%B5%81%E7%A8%8B%E7%A4%BA%E4%BE%8B"><span class="toc-number">1.5.</span> <span class="toc-text">运行流程示例</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#file1-txt"><span class="toc-number">1.5.1.</span> <span class="toc-text">file1.txt:</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#file2-txt"><span class="toc-number">1.5.2.</span> <span class="toc-text">file2.txt:</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">1.6.</span> <span class="toc-text">总结</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#12-14-%E6%97%A5-%E6%9B%B4%E8%80%83%E5%AE%8C4%E7%BA%A7"><span class="toc-number">1.7.</span> <span class="toc-text">12.14 日 更考完4级</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%80-Errors"><span class="toc-number">1.7.1.</span> <span class="toc-text">一.Errors</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Goroutines"><span class="toc-number">1.7.2.</span> <span class="toc-text">Goroutines</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%80%9A%E9%81%93"><span class="toc-number">1.7.3.</span> <span class="toc-text">通道</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%96%AD%E8%A8%80%E5%92%8Cswitch%E7%94%A8%E6%B3%95"><span class="toc-number">1.7.4.</span> <span class="toc-text">断言和switch用法:</span></a></li></ol></li></ol></li></ol></div></div></div></div></main><footer id="footer" style="background-image: url(/picture/bizhi/4.png);"><div id="footer-wrap"><div class="copyright">&copy;2024 - 2025 By 赵忠赫</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="chat-btn" type="button" title="聊天"><i class="fas fa-message"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.js"></script><script>(() => {
+  const panguFn = () => {
+    if (typeof pangu === 'object') pangu.autoSpacingPage()
+    else {
+      btf.getScript('https://cdn.jsdelivr.net/npm/pangu/dist/browser/pangu.min.js')
+        .then(() => {
+          pangu.autoSpacingPage()
+        })
+    }
+  }
+
+  const panguInit = () => {
+    if (false){
+      GLOBAL_CONFIG_SITE.isPost && panguFn()
+    } else {
+      panguFn()
+    }
+  }
+
+  btf.addGlobalFn('pjaxComplete', panguInit, 'pangu')
+  document.addEventListener('DOMContentLoaded', panguInit)
+})()</script><div class="js-pjax"><script>(() => {
+  const runMermaid = ele => {
+    window.loadMermaid = true
+    const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+
+    ele.forEach((item, index) => {
+      const mermaidSrc = item.firstElementChild
+      const mermaidThemeConfig = `%%{init:{ 'theme':'${theme}'}}%%\n`
+      const mermaidID = `mermaid-${index}`
+      const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+
+      const renderFn = mermaid.render(mermaidID, mermaidDefinition)
+      const renderMermaid = svg => {
+        mermaidSrc.insertAdjacentHTML('afterend', svg)
+      }
+
+      // mermaid v9 and v10 compatibility
+      typeof renderFn === 'string' ? renderMermaid(renderFn) : renderFn.then(({ svg }) => renderMermaid(svg))
+    })
+  }
+
+  const codeToMermaid = () => {
+    const codeMermaidEle = document.querySelectorAll('pre > code.mermaid')
+    if (codeMermaidEle.length === 0) return
+
+    codeMermaidEle.forEach(ele => {
+      const preEle = document.createElement('pre')
+      preEle.className = 'mermaid-src'
+      preEle.hidden = true
+      preEle.textContent = ele.textContent
+      const newEle = document.createElement('div')
+      newEle.className = 'mermaid-wrap'
+      newEle.appendChild(preEle)
+      ele.parentNode.replaceWith(newEle)
+    })
+  }
+
+  const loadMermaid = () => {
+    if (true) codeToMermaid()
+    const $mermaid = document.querySelectorAll('#article-container .mermaid-wrap')
+    if ($mermaid.length === 0) return
+
+    const runMermaidFn = () => runMermaid($mermaid)
+    btf.addGlobalFn('themeChange', runMermaidFn, 'mermaid')
+    window.loadMermaid ? runMermaidFn() : btf.getScript('https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js').then(runMermaidFn)
+  }
+
+  btf.addGlobalFn('encrypt', loadMermaid, 'mermaid')
+  window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+})()</script></div><canvas class="fireworks" mobile="false"></canvas><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/fireworks.min.js"></script><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-nest.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script id="click-show-text" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/click-show-text.min.js" data-mobile="ture" data-text="自由,技术,开发" data-fontsize="15px" data-random="true" async="async"></script><script>(() => {
+  const isChatBtn = true
+  const isChatHideShow = false
+
+  if (isChatBtn) {
+    const close = () => {
+      Chatra('minimizeWidget')
+      Chatra('hide')
+    }
+
+    const open = () => {
+      Chatra('openChat', true)
+      Chatra('show')
+    }
+
+    window.ChatraSetup = { startHidden: true }
+  
+    window.chatBtnFn = () => {
+      document.getElementById('chatra').classList.contains('chatra--expanded') ? close() : open()
+    }
+  } else if (isChatHideShow) {
+    window.chatBtn = {
+      hide: () => Chatra('hide'),
+      show: () => Chatra('show')
+    }
+  }
+
+  (function(d, w, c) {
+    w.ChatraID = ''
+    var s = d.createElement('script')
+    w[c] = w[c] || function() {
+      (w[c].q = w[c].q || []).push(arguments)
+    }
+    s.async = true
+    s.src = 'https://call.chatra.io/chatra.js'
+    if (d.head) d.head.appendChild(s)
+  })(document, window, 'Chatra')
+})()</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
