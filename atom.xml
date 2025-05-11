@@ -351,27 +351,6 @@
   </entry>
   
   <entry>
-    <title>beijing_photo</title>
-    <link href="https://whuichenggong.github.io/2024/12/29/picture/beijing-photo/index/"/>
-    <id>https://whuichenggong.github.io/2024/12/29/picture/beijing-photo/index/</id>
-    <published>2024-12-29T06:12:44.000Z</published>
-    <updated>2024-12-29T06:14:09.735Z</updated>
-    
-    <content type="html"><![CDATA[<div class="gallery-container" data-type="data" data-button="true">      <div class="gallery-items">[{"url":"/beijing_photo/beijing4.jpg","alt":""},{"url":"/beijing_photo/beijing5.jpg","alt":""},{"url":"/beijing_photo/beijing6.jpg","alt":""},{"url":"/beijing_photo/beijing7.jpg","alt":""},{"url":"/beijing_photo/beijing8.jpg","alt":""},{"url":"/beijing_photo/beijing9.jpg","alt":""},{"url":"/beijing_photo/beijing11.jpg","alt":""},{"url":"/beijing_photo/beijing12.jpg","alt":""},{"url":"/beijing_photo/beijing13.jpg","alt":""},{"url":"/beijing_photo/beijing14.jpg","alt":""},{"url":"/beijing_photo/beijing15.jpg","alt":""},{"url":"/beijing_photo/beijing16.jpg","alt":""},{"url":"/beijing_photo/beijing17.jpg","alt":""},{"url":"/beijing_photo/beijing18.jpg","alt":""}]</div>    </div>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;div class=&quot;gallery-container&quot; data-type=&quot;data&quot; data-button=&quot;true&quot;&gt;
-      &lt;div class=&quot;gallery-items&quot;&gt;[{&quot;url&quot;:&quot;/beijing_photo/beijing4.jpg&quot;,&quot;</summary>
-      
-    
-    
-    
-    
-  </entry>
-  
-  <entry>
     <title>你的灯还亮着吗</title>
     <link href="https://whuichenggong.github.io/2024/12/28/%E4%B9%A6%E5%90%8E%E5%BF%83%E5%BE%97/%E7%9C%8B%E4%BA%86%E4%B8%80%E6%9C%AC%E4%B9%A6/"/>
     <id>https://whuichenggong.github.io/2024/12/28/%E4%B9%A6%E5%90%8E%E5%BF%83%E5%BE%97/%E7%9C%8B%E4%BA%86%E4%B8%80%E6%9C%AC%E4%B9%A6/</id>
@@ -490,6 +469,29 @@
     
     
     <category term="生活" scheme="https://whuichenggong.github.io/categories/%E7%94%9F%E6%B4%BB/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>分布式系统学习</title>
+    <link href="https://whuichenggong.github.io/2024/12/09/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/Distributed/"/>
+    <id>https://whuichenggong.github.io/2024/12/09/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/Distributed/</id>
+    <published>2024-12-09T12:53:55.062Z</published>
+    <updated>2025-05-11T07:15:29.909Z</updated>
+    
+    <content type="html"><![CDATA[<p><code>go build -buildmode=plugin ../mrapps/wc.go</code><br>这个指令是什么意思 :</p><p>这个命令的作用是编译 ..&#x2F;mrapps&#x2F;wc.go 文件，并将其生成一个 Go 插件文件。生成的插件文件通常是一个 .so（共享库文件）文件，它可以在运行时被其他 Go 程序通过 plugin 包加载和调用。</p><p>例如：</p><p>你可以在主程序中使用 plugin 包动态加载 wc.so 插件，并调用插件中的函数。</p><p><code>go run mrsequential.go wc.so pg*.txt：</code></p><p>go run：用于编译并运行 Go 程序。它会在内存中临时编译指定的 Go 文件，并立即执行。</p><p>mrsequential.go：这是要执行的 Go 源文件，Go 编译器会先编译这个文件并运行它。这个文件应该包含 main 函数，通常是程序的入口点。</p><p>wc.so：这是一个 Go 插件文件（共享库）。它通常是通过 go build -buildmode&#x3D;plugin 命令生成的。该文件包含 Go 代码，可能定义了一个插件接口，在运行时可以被主程序（mrsequential.go）动态加载和调用。wc.so 可能提供某些功能，mrsequential.go 将加载并使用这些功能。</p><p>pg*.txt：这是一个通配符表达式，表示所有以 pg 开头，后面跟任意字符，且以 .txt 结尾的文件。例如，pg1.txt, pg42.txt, pgfile.txt 都会被匹配并作为参数传递给程序。</p><p><code>more mr-out-0</code> 将会输出很多文本 这是因为：</p><p>mrsequential.go 将其输出保留在文件 mr-out-0 中。输入来自名为 pg-xxx.txt 的文本文件</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;p&gt;&lt;code&gt;go build -buildmode=plugin ../mrapps/wc.go&lt;/code&gt;&lt;br&gt;这个指令是什么意思 :&lt;/p&gt;
+&lt;p&gt;这个命令的作用是编译 ..&amp;#x2F;mrapps&amp;#x2F;wc.go 文件，并将其生成一个 Go 插件文件。生成的</summary>
+      
+    
+    
+    
+    <category term="计算机系统" scheme="https://whuichenggong.github.io/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/"/>
     
     
   </entry>
