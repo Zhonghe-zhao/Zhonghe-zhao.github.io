@@ -6,7 +6,7 @@
   <link href="https://whuichenggong.github.io/atom.xml" rel="self"/>
   
   <link href="https://whuichenggong.github.io/"/>
-  <updated>2025-05-11T07:12:22.734Z</updated>
+  <updated>2025-05-18T12:01:02.503Z</updated>
   <id>https://whuichenggong.github.io/</id>
   
   <author>
@@ -15,6 +15,28 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>EasyDarwin使用</title>
+    <link href="https://whuichenggong.github.io/2025/05/18/%E9%A1%B9%E7%9B%AE/EasyDarwin/"/>
+    <id>https://whuichenggong.github.io/2025/05/18/%E9%A1%B9%E7%9B%AE/EasyDarwin/</id>
+    <published>2025-05-18T11:57:17.919Z</published>
+    <updated>2025-05-18T12:01:02.503Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="Building-on-Windows"><a href="#Building-on-Windows" class="headerlink" title="Building on Windows"></a>Building on Windows</h1><h2 id="make-build-windows"><a href="#make-build-windows" class="headerlink" title="make build&#x2F;windows"></a>make build&#x2F;windows</h2><p>首先make build&#x2F;windows出现错误</p><p><img src="/../../picture/EasyDarwin/Pasted%20image%2020250518170245.png" alt="Pasted image 20250518170245.png"><img src="/study_photo/39.png" alt="image-20241104201754858"></p><p>项目中提供了一个 <code>GetBuildTime()</code> 函数，会解析 <code>buildTimeAt</code> 为时间戳，作为构建时间展示。</p><p>在这过程中，我遇到两个问题：</p><ol><li><p><strong>Git 解析失败</strong>：由于 Git 命令没有添加 <code>--</code> 分隔，出现了 <code>ambiguous argument &#39;Try&#39;</code> 的错误，后通过添加 <code>--</code> 或使用 <code>symbolic-ref</code> 修复。</p></li><li><p><strong>构建时报 undefined 错误</strong>：main 函数调用了 <code>GetBuildTime()</code>，但该函数定义未包含在同一构建包中，修复方式是将定义放入相同的 <code>main</code> 包下，并确保 Makefile 构建时包含相关源码文件。</p></li></ol><p>查找报错位置 main.go 的第52行！ 结合内容</p><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">-ldflags=<span class="string">&quot;-s -w \  </span></span><br><span class="line"><span class="string">    -X main.buildVersion=$(VERSION) \  </span></span><br><span class="line"><span class="string">    -X main.gitBranch=$(BRANCH_NAME) \  </span></span><br><span class="line"><span class="string">    -X main.gitHash=$(HASH_AND_DATE) \  </span></span><br><span class="line"><span class="string">    -X main.buildTimeAt=$(shell date +%s) \  </span></span><br><span class="line"><span class="string">    -X main.release=true \  </span></span><br><span class="line"><span class="string">    &quot;</span> -o=$(dir)/EasyDarwin.exe ./cmd/server</span><br></pre></td></tr></table></figure><p>使用命令 <code>go list -f &#39;&#123;&#123;.GoFiles&#125;&#125;&#39; ./cmd/server [main.go service.go wire.go]</code>发现<code>buildtime.go</code>并没有被编译  !!!</p><p>查看 文件发现</p><p><code>import &quot;C&quot;</code></p><p>CGO 模式!  我进行了注释处理！</p><p>编译成功！</p><p><img src="/../../picture/EasyDarwin/Pasted%20image%2020250518185803.png" alt="Pasted image 20250518185803.png">![[Pasted image 20250518185803.png]]</p><h2 id="Getting-Started-Guide"><a href="#Getting-Started-Guide" class="headerlink" title="Getting Started Guide"></a>Getting Started Guide</h2><p><img src="/img.png" alt="img.png">![[Pasted image 20250518190201.png]]</p><p>安装 FFmpeg 打开EasyDarwin</p><p><img src="/../../picture/EasyDarwin/Pasted%20image%2020250518192950.png" alt="Pasted image 20250518192950.png">![[Pasted image 20250518192950.png]]</p><h2 id="创建推流"><a href="#创建推流" class="headerlink" title="创建推流"></a>创建推流</h2><p>安装测试视频</p><p><code>D:\vedio&gt; curl -o oceans.mp4 http://vjs.zencdn.net/v/oceans.mp4</code></p><p>在<code> D:\vedio&gt;</code>下</p><p>使用命令</p><p>&#96;ffmpeg -re -i .&#x2F;oceans.mp4 -c copy -f flv -y rtmp:&#x2F;&#x2F;localhost:21935&#x2F;live&#x2F;stream_1?sign&#x3D;ulSFVQGoTU</p><p><img src="/img_1.png" alt="img_1.png">![[Pasted image 20250518193850.png]]</p><p><img src="/../../picture/EasyDarwin/Pasted%20image%2020250518194415.png" alt="Pasted image 20250518194415.png">![[Pasted image 20250518194415.png]]</p><p>推流成功</p><h2 id="拉流"><a href="#拉流" class="headerlink" title="拉流"></a>拉流</h2><p><img src="/img_2.png" alt="img_2.png">![[Pasted image 20250518194859.png]]</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h1 id=&quot;Building-on-Windows&quot;&gt;&lt;a href=&quot;#Building-on-Windows&quot; class=&quot;headerlink&quot; title=&quot;Building on Windows&quot;&gt;&lt;/a&gt;Building on Windows&lt;/h1&gt;&lt;h2 i</summary>
+      
+    
+    
+    
+    <category term="backend" scheme="https://whuichenggong.github.io/categories/backend/"/>
+    
+    
+  </entry>
   
   <entry>
     <title>函数指针数组</title>
@@ -469,29 +491,6 @@
     
     
     <category term="生活" scheme="https://whuichenggong.github.io/categories/%E7%94%9F%E6%B4%BB/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>分布式系统学习</title>
-    <link href="https://whuichenggong.github.io/2024/12/09/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/Distributed/"/>
-    <id>https://whuichenggong.github.io/2024/12/09/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/Distributed/</id>
-    <published>2024-12-09T12:53:55.062Z</published>
-    <updated>2025-05-11T07:15:29.909Z</updated>
-    
-    <content type="html"><![CDATA[<p><code>go build -buildmode=plugin ../mrapps/wc.go</code><br>这个指令是什么意思 :</p><p>这个命令的作用是编译 ..&#x2F;mrapps&#x2F;wc.go 文件，并将其生成一个 Go 插件文件。生成的插件文件通常是一个 .so（共享库文件）文件，它可以在运行时被其他 Go 程序通过 plugin 包加载和调用。</p><p>例如：</p><p>你可以在主程序中使用 plugin 包动态加载 wc.so 插件，并调用插件中的函数。</p><p><code>go run mrsequential.go wc.so pg*.txt：</code></p><p>go run：用于编译并运行 Go 程序。它会在内存中临时编译指定的 Go 文件，并立即执行。</p><p>mrsequential.go：这是要执行的 Go 源文件，Go 编译器会先编译这个文件并运行它。这个文件应该包含 main 函数，通常是程序的入口点。</p><p>wc.so：这是一个 Go 插件文件（共享库）。它通常是通过 go build -buildmode&#x3D;plugin 命令生成的。该文件包含 Go 代码，可能定义了一个插件接口，在运行时可以被主程序（mrsequential.go）动态加载和调用。wc.so 可能提供某些功能，mrsequential.go 将加载并使用这些功能。</p><p>pg*.txt：这是一个通配符表达式，表示所有以 pg 开头，后面跟任意字符，且以 .txt 结尾的文件。例如，pg1.txt, pg42.txt, pgfile.txt 都会被匹配并作为参数传递给程序。</p><p><code>more mr-out-0</code> 将会输出很多文本 这是因为：</p><p>mrsequential.go 将其输出保留在文件 mr-out-0 中。输入来自名为 pg-xxx.txt 的文本文件</p>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;p&gt;&lt;code&gt;go build -buildmode=plugin ../mrapps/wc.go&lt;/code&gt;&lt;br&gt;这个指令是什么意思 :&lt;/p&gt;
-&lt;p&gt;这个命令的作用是编译 ..&amp;#x2F;mrapps&amp;#x2F;wc.go 文件，并将其生成一个 Go 插件文件。生成的</summary>
-      
-    
-    
-    
-    <category term="计算机系统" scheme="https://whuichenggong.github.io/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/"/>
     
     
   </entry>
